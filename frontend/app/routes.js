@@ -8,6 +8,10 @@ function routesConfig($routeProvider) {
       templateUrl: _urlPrefixes.TEMPLATES + "components/game/game.html",
       label: "Games"
     })
+    .when("/users", {
+      templateUrl: _urlPrefixes.TEMPLATES + "components/users/users.html",
+      label: "Users"
+    })
     .otherwise({
       templateUrl: _urlPrefixes.TEMPLATES + "404.html"
     });

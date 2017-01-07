@@ -1,48 +1,58 @@
 {% load staticfiles %}
 <!DOCTYPE html>  
-<html ng-app="myApp">  
+<html>  
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Site</title>
-    
-    <script src="{% static 'dist/js/bundle.js' %}"></script>
-    
-    <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Taternet</title>
 
-    <base href="/">  
+    <script src="{% static 'dist/js/bundle.js' %}"></script>
+
+    <link href="{% static 'bower_components/angular-material/angular-material.min.css' %}" rel="stylesheet">
+    <link href="{% static '/bower_components/angular-data-table/release/datatable.css' %}" rel="stylesheet">
+    <link href="{% static '/bower_components/angular-data-table/release/material.css' %}" rel="stylesheet">
   </head>
-  <!--Start Bootstrap Style fix-->
-  <style>.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }</style>
-  <!--End Bootstrap style fix-->
-  <div ng-controller="NavController as ctrl">  
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
-  </div> <!-- End navigation  -->
-  <body>
-     <div ng-view></div>  
+  <body ng-app="myApp" layout="row" class="ng-scope" ng-cloak>
+    <md-sidenav 
+      layout="column"
+      class="site-sidenav md-sidenav-left"
+      md-component-id="left-menu"
+      md-is-locked-open="true"
+      md-whiteframe="4">
+      <div ng-include src="'frontend/app/components/navigation/navigation.html'"></div>
+    </md-sidenav>
+    <!--<md-sidenav 
+      layout="column"
+      class="site-sidenav md-sidenav-left"
+      md-component-id="left-menu"
+      md-is-locked-open="true"
+      md-whiteframe="4"> 
+
+      <md-toolbar layout="column">
+        <a href="#!/dashboard" layout="row" layout-align="center center">
+        <img src="{% static 'assets/img/famoustate-login-img.png' %}" alt="Famous Tate">
+        </a>
+        <span flex></span>
+      </md-toolbar>
+      <md-content layout-padding="" layout="column" layout-align="start start">
+        <md-button>Corporate Reports</md-button>
+        <md-button>Store Reports</md-button>
+        <md-button>Warehouse Reports</md-button>
+        <md-button>Vendor Reports</md-button>
+        <md-button>My Sales</md-button>
+        <md-button>Warehouse</md-button>
+        <md-button>Accounting</md-button>
+        <md-button>Taternet Admin</md-button>
+        <md-button>Show Users</md-button>
+      </md-content>
+
+    </md-sidenav>-->
+
+    <md-content flex layout="column" tabindex="-1" role="main" class="md-whiteframe-z2">
+    <ng-view>
+      View Content
+    </ng-view>
+    </md-content>
   </body>
 </html>  

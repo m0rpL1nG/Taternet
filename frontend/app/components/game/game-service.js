@@ -1,28 +1,56 @@
-function GameService($resource) {  
-  /**
-   * @name GameService
-   *
-   * @description
-   * A service providing game data.
-   */
+angular
+  .module('Game')
+  .factory('gamedataservice', gamedataservice);
 
-  var that = this;
+gamedataservice.$inject = ['$http'];
 
-  /**
-   * A resource for retrieving game data.
-   */
-  that.GameResource = $resource(_urlPrefixes.API + "games/:game_id/");
+function gamedataservice($http) {
+    return {
+        getGames: getGames,
+        getGame: getGame,
+        addGame: addGame
+    };
 
-  /**
-   * A convenience method for retrieving Game objects.
-   * Retrieval is done via a GET request to the ../games/ endpoint.
-   * @param {object} params - the query string object used for a GET request to ../games/ endpoint
-   * @returns {object} $promise - a promise containing game-related data
-   */
-  that.getGames = function(params) {
-    return that.GameResource.query(params).$promise;
-  };
+    function getGames() {
+        return $http.get(_urlPrefixes.API + "games/")
+            .then(getGamesComplete)
+            .catch(getGamesFailed);
+
+        function getGamesComplete(response) {
+            return response.data;
+        }
+
+        function getGamesFailed(error) {
+            // logger.error('XHR Failed for getAvengers.' + error.data);
+        }
+    }
+
+    function getGame() {
+        return $http.get(_urlPrefixes.API + "games/:game_id/")
+            .then(getGameComplete)
+            .catch(getGameFailed);
+
+        function getGameComplete(response) {
+            return response.data;
+        }
+
+        function getGameFailed(error) {
+            // logger.error('XHR Failed for getAvengers.' + error.data);
+        }
+    }
+
+    function addGame(newGameObj) {
+        console.log("newGameObj", newGameObj)
+        return $http.post(_urlPrefixes.API + "games/", newGameObj)
+            .then(getGameComplete)
+            .catch(getGameFailed);
+
+        function getGameComplete(response) {
+            return response.data;
+        }
+
+        function getGameFailed(error) {
+            // logger.error('XHR Failed for getAvengers.' + error.data);
+        }
+    }
 }
-
-angular.module("Game")  
-  .service("GameService", ["$resource", GameService]);

@@ -1,26 +1,19 @@
-<!--<div ng-controller="NavController as ctrl">  -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
-<!--</div>  -->
+<div ng-controller="NavController as ctrl">
+    <md-toolbar layout="column">
+    <a href="/" layout="row" layout-align="center center">
+    <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
+    </a>
+    <span flex></span>
+    </md-toolbar>
+    <md-content layout-padding="" layout="column" layout-align="start start">
+    <md-button>Corporate Reports</md-button>
+    <md-button>Store Reports</md-button>
+    <md-button>Warehouse Reports</md-button>
+    <md-button>Vendor Reports</md-button>
+    <md-button>My Sales</md-button>
+    <md-button>Warehouse</md-button>
+    <md-button>Accounting</md-button>
+    <md-button>Taternet Admin</md-button>
+    <md-button ng-click="ctrl.navigate('users')">Show Users</md-button>
+    </md-content>
+</div>

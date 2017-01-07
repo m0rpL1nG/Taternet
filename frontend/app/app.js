@@ -1,10 +1,13 @@
 /* Libs */
 require("../bower_components/angular/angular");  
+
+require("../bower_components/angular-aria/angular-aria");
+require("../bower_components/angular-animate/angular-animate");
+require("../bower_components/angular-material/angular-material");
+
 require("../bower_components/angular-route/angular-route");   
 require("../bower_components/angular-resource/angular-resource");
-require("../bower_components/angular-animate/angular-animate");
-require("../bower_components/angular-touch/angular-touch");
-require("../bower_components/angular-bootstrap/index");
+require("../bower_components/angular-data-table/release/dataTable");
 
 /* Globals */
 _ = require("../bower_components/lodash");  
@@ -17,6 +20,7 @@ _urlPrefixes = {
 require("./components/navigation/navigation");
 require("./components/home/home");
 require("./components/game/game");
+require("./components/users/users");
 
 
 
@@ -25,11 +29,11 @@ angular.module("myApp", [
     "Navigation",
     "Home",
     "Game",
+    "Users",
+    "ngMaterial",
     "ngResource",
     "ngRoute",
-    "ngAnimate",
-    "ngTouch",
-    "ui.bootstrap"
+    "data-table",
 ]);
 
 /* Config Vars */
