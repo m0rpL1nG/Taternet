@@ -1,7 +1,31 @@
 <div ng-controller="UsersController as ctrl">  
-  <md-toolbar layout="row" class="md-whiteframe-z1 md-default-theme">
-    <h5 layout-padding >Angular Data Table</h5>
-  </md-toolbar>
+  <section flex layout="column">
+
+    <md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar">
+      <div class="md-toolbar-tools">
+        <md-button 
+          hide 
+          show-sm 
+          class="md-icon-button" 
+          aria-label="menu" 
+          ng-click="main.toggleSideNav()">
+          <md-icon><i class="material-icons">menu</i></md-icon>
+        </md-button>
+        <h2><span>Dashboard</span></h2>
+        <span flex></span> <!-- flex span takes up middle space? -->
+        <h2>{{ username || "Temp User" }}</h2>
+        <md-menu>
+          <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
+             <md-icon><i class="material-icons">more_vert</i></md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item><md-button ng-click="logout()">logout</md-button></md-menu-item>
+            <md-menu-item><md-button>Place Holder</md-button></md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </div>
+    </md-toolbar>
+  </section>
 
   <md-content layout-padding flex="" id="content" class="md-default-theme">
     <h2>Scrolling</h2>

@@ -1,19 +1,45 @@
-<div ng-controller="NavController as ctrl">
-    <md-toolbar layout="column">
-    <a href="/" layout="row" layout-align="center center">
-    <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
-    </a>
-    <span flex></span>
-    </md-toolbar>
-    <md-content layout-padding="" layout="column" layout-align="start start">
-    <md-button>Corporate Reports</md-button>
-    <md-button>Store Reports</md-button>
-    <md-button>Warehouse Reports</md-button>
-    <md-button>Vendor Reports</md-button>
-    <md-button>My Sales</md-button>
-    <md-button>Warehouse</md-button>
-    <md-button>Accounting</md-button>
-    <md-button>Taternet Admin</md-button>
-    <md-button ng-click="ctrl.navigate('users')">Show Users</md-button>
-    </md-content>
+
+<div layout="column" ng-controller="NavController as ctrl" ng-cloak>
+    <md-sidenav
+        flex
+        class="site-sidenav md-sidenav-left"
+        md-component-id="left-menu"
+        md-is-locked-open="$mdMedia('gt-sm')"
+        md-whiteframe="4">
+
+        <md-toolbar class="md-hue-2" layout="row" layout-align="center">
+            <a href="/">
+                <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
+            </a>
+        </md-toolbar>
+        <!--<md-divider></md-divider>-->
+        <md-toolbar flex layout="column" class="md-hue-2">
+        <md-list>
+            <md-list-item ng-click="null">
+                <span>Corporate Reports</span>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <span>Store Reports</span>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <span>Warehouse Reports</span>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <span>Vendor Reports</span>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <span>My Sales Reports</span>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <span>Accounting</span>
+            </md-list-item>
+            <md-list-item ng-click="ctrl.navigate('games')">
+                <span>Taternet Admin</span>
+            </md-list-item>
+            <md-list-item ng-click="ctrl.navigate('users')">
+                <span>Show Users</span>
+            </md-list-item>
+        </md-list>
+        </md-toolbar>
+    </md-sidenav>
 </div>

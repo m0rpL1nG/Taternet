@@ -18,6 +18,7 @@ _urlPrefixes = {
 
 /* Components */
 require("./components/navigation/navigation");
+require("./shared/main/main");
 require("./components/home/home");
 require("./components/game/game");
 require("./components/users/users");
@@ -26,6 +27,7 @@ require("./components/users/users");
 
 /* App Dependencies */
 angular.module("myApp", [
+    "Main",
     "Navigation",
     "Home",
     "Game",
@@ -37,7 +39,8 @@ angular.module("myApp", [
 ]);
 
 /* Config Vars */
-var routesConfig = require("./routes");  
+var routesConfig = require("./routes");
 
 /* App Config */
 angular.module("myApp").config(routesConfig); 
+require("./materialTheme")

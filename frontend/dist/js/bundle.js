@@ -64,6 +64,7 @@
 
 	/* Components */
 	__webpack_require__(10);
+	__webpack_require__(22);
 	__webpack_require__(12);
 	__webpack_require__(14);
 	__webpack_require__(17);
@@ -72,6 +73,7 @@
 
 	/* App Dependencies */
 	angular.module("myApp", [
+	    "Main",
 	    "Navigation",
 	    "Home",
 	    "Game",
@@ -83,10 +85,11 @@
 	]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(20);  
+	var routesConfig = __webpack_require__(20);
 
 	/* App Config */
 	angular.module("myApp").config(routesConfig); 
+	__webpack_require__(21)
 
 /***/ },
 /* 1 */
@@ -92594,6 +92597,104 @@
 	routesConfig.$inject = ["$routeProvider"];
 
 	module.exports = routesConfig;  
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	angular
+	    .module('myApp')
+	    .config(config);
+
+	function config($mdThemingProvider) {
+	    $mdThemingProvider.theme('default')
+	    .primaryPalette('blue-grey', {
+	        'default': '500', // by default use shade 500 from the pink palette for primary intentions
+	        'hue-1': '700', // use shade 700 for the <code>md-hue-1</code> class
+	        'hue-2': '800', // use shade 800 for the <code>md-hue-2</code> class
+	        'hue-3': 'A200' // use shade A200 for the <code>md-hue-3</code> class
+	    })
+	    .accentPalette('light-blue', {
+	      'default': '700' // use shade 200 for default, and keep all other shades the same
+	    });
+	}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	angular.module("Main", []);
+
+	__webpack_require__(23);   
+	__webpack_require__(24);
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	angular
+	    .module('Main')
+	    .factory('dataservice', dataservice);
+
+	dataservice.$inject = ['$http'];
+
+	function dataservice($http) {
+	    return {
+	        getUsers: getUsers
+	    };
+
+	    function getUsers() {
+	        return $http.get('https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json')
+	            .then(getUsersComplete)
+	            .catch(getUsersFailed);
+
+	        function getUsersComplete(response) {
+	            return response.data;
+	        }
+
+	        function getUsersFailed(error) {
+	            // logger.error('XHR Failed for getAvengers.' + error.data);
+	        }
+	    }
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	angular.module("Main")
+	    .controller("MainController", MainController);
+
+	MainController.$inject=['dataservice', '$mdSidenav']
+
+	function MainController(dataservice, $mdSidenav) {  
+	    var vm = this;
+
+	    vm.reg_errors = {};
+	    vm.animals = {};
+	    vm.username = '';
+	    vm.toggleSideNav = toggleSideNav;
+	    vm.logout = logout;
+
+	    // if($localStorage.currentUser){
+	    //     $scope.username = $localStorage.currentUser.username
+	    //     $scope.tokenDate = jwtHelper.getTokenExpirationDate($localStorage.currentUser.token)
+	    // } else {
+	    //     $scope.username = "none";
+	    // }
+	    
+	    function toggleSideNav() {
+	        console.log('toggleSidenav');
+	        $mdSidenav('left-menu').toggle();
+	    };
+
+	    function logout(){
+	        dataservice.logout()
+	        $location.path("/");
+	    }
+
+
+	}
 
 /***/ }
 /******/ ]);

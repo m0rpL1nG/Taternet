@@ -13,46 +13,19 @@
     <link href="{% static '/bower_components/angular-data-table/release/datatable.css' %}" rel="stylesheet">
     <link href="{% static '/bower_components/angular-data-table/release/material.css' %}" rel="stylesheet">
   </head>
-  <body ng-app="myApp" layout="row" class="ng-scope" ng-cloak>
-    <md-sidenav 
-      layout="column"
-      class="site-sidenav md-sidenav-left"
-      md-component-id="left-menu"
-      md-is-locked-open="true"
-      md-whiteframe="4">
-      <div ng-include src="'frontend/app/components/navigation/navigation.html'"></div>
-    </md-sidenav>
-    <!--<md-sidenav 
-      layout="column"
-      class="site-sidenav md-sidenav-left"
-      md-component-id="left-menu"
-      md-is-locked-open="true"
-      md-whiteframe="4"> 
+  <body
+    ng-app="myApp" 
+    layout="row" 
+    class="ng-scope" 
+    ng-cloak 
+    ng-controller="MainController as main">
+      <!--Include Main navigation-->
+      <div layout="row" ng-include src="'frontend/app/components/navigation/navigation.html'"></div>
 
-      <md-toolbar layout="column">
-        <a href="#!/dashboard" layout="row" layout-align="center center">
-        <img src="{% static 'assets/img/famoustate-login-img.png' %}" alt="Famous Tate">
-        </a>
-        <span flex></span>
-      </md-toolbar>
-      <md-content layout-padding="" layout="column" layout-align="start start">
-        <md-button>Corporate Reports</md-button>
-        <md-button>Store Reports</md-button>
-        <md-button>Warehouse Reports</md-button>
-        <md-button>Vendor Reports</md-button>
-        <md-button>My Sales</md-button>
-        <md-button>Warehouse</md-button>
-        <md-button>Accounting</md-button>
-        <md-button>Taternet Admin</md-button>
-        <md-button>Show Users</md-button>
+      <md-content flex layout="row" tabindex="-1" role="main">
+        <ng-view flex>
+          View content
+        </ng-view>
       </md-content>
-
-    </md-sidenav>-->
-
-    <md-content flex layout="column" tabindex="-1" role="main" class="md-whiteframe-z2">
-    <ng-view>
-      View Content
-    </ng-view>
-    </md-content>
   </body>
 </html>  
