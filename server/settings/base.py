@@ -10,7 +10,19 @@ print ROOT
 ENV.read_env('{}/dev.env'.format(ROOT))
 
 DATABASES = {  
-    'default': ENV.db()
+    'default': ENV.db(),
+    'whirlwind': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'FamousTate',
+        'USER': 'sa',
+        'PASSWORD': '7777777',
+        'HOST': 'SQLSANDBOX',
+        'PORT': '1433',
+
+        'OPTIONS': {
+            'driver': 'FreeTDS',
+        },
+    },
 }
 
 SECRET_KEY = ENV('SECRET_KEY')  
