@@ -64,10 +64,10 @@
 
 	/* Components */
 	__webpack_require__(10);
-	__webpack_require__(22);
 	__webpack_require__(12);
-	__webpack_require__(14);
+	__webpack_require__(15);
 	__webpack_require__(17);
+	__webpack_require__(20);
 
 
 
@@ -85,11 +85,11 @@
 	]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(20);
+	var routesConfig = __webpack_require__(23);
 
 	/* App Config */
 	angular.module("myApp").config(routesConfig); 
-	__webpack_require__(21)
+	__webpack_require__(24)
 
 /***/ },
 /* 1 */
@@ -92318,12 +92318,89 @@
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	angular.module("Home", []);
+	angular.module("Main", []);
 
-	__webpack_require__(13);  
+	__webpack_require__(13);   
+	__webpack_require__(14);
 
 /***/ },
 /* 13 */
+/***/ function(module, exports) {
+
+	angular
+	    .module('Main')
+	    .factory('dataservice', dataservice);
+
+	dataservice.$inject = ['$http'];
+
+	function dataservice($http) {
+	    return {
+	        getUsers: getUsers
+	    };
+
+	    function getUsers() {
+	        return $http.get('https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json')
+	            .then(getUsersComplete)
+	            .catch(getUsersFailed);
+
+	        function getUsersComplete(response) {
+	            return response.data;
+	        }
+
+	        function getUsersFailed(error) {
+	            // logger.error('XHR Failed for getAvengers.' + error.data);
+	        }
+	    }
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	angular.module("Main")
+	    .controller("MainController", MainController);
+
+	MainController.$inject=['dataservice', '$mdSidenav']
+
+	function MainController(dataservice, $mdSidenav) {  
+	    var vm = this;
+
+	    vm.reg_errors = {};
+	    vm.animals = {};
+	    vm.username = '';
+	    vm.toggleSideNav = toggleSideNav;
+	    vm.logout = logout;
+
+	    // if($localStorage.currentUser){
+	    //     $scope.username = $localStorage.currentUser.username
+	    //     $scope.tokenDate = jwtHelper.getTokenExpirationDate($localStorage.currentUser.token)
+	    // } else {
+	    //     $scope.username = "none";
+	    // }
+	    
+	    function toggleSideNav() {
+	        console.log('toggleSidenav');
+	        $mdSidenav('left-menu').toggle();
+	    };
+
+	    function logout(){
+	        dataservice.logout()
+	        $location.path("/");
+	    }
+
+
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	angular.module("Home", []);
+
+	__webpack_require__(16);  
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	function HomeController() {  
@@ -92338,16 +92415,16 @@
 	    ]);
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Game", []);
 
-	__webpack_require__(15);  
-	__webpack_require__(16);  
+	__webpack_require__(18);  
+	__webpack_require__(19);  
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	angular.module("Game")
@@ -92425,7 +92502,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	angular
@@ -92486,16 +92563,16 @@
 	}
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Users", []);
 
-	__webpack_require__(18);   
-	__webpack_require__(19);
+	__webpack_require__(21);   
+	__webpack_require__(22);
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports) {
 
 	angular
@@ -92525,7 +92602,7 @@
 	}
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports) {
 
 	angular.module("Users")
@@ -92572,7 +92649,7 @@
 	}
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports) {
 
 	function routesConfig($routeProvider) {  
@@ -92599,7 +92676,7 @@
 	module.exports = routesConfig;  
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	angular
@@ -92617,83 +92694,6 @@
 	    .accentPalette('light-blue', {
 	      'default': '700' // use shade 200 for default, and keep all other shades the same
 	    });
-	}
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	angular.module("Main", []);
-
-	__webpack_require__(23);   
-	__webpack_require__(24);
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	angular
-	    .module('Main')
-	    .factory('dataservice', dataservice);
-
-	dataservice.$inject = ['$http'];
-
-	function dataservice($http) {
-	    return {
-	        getUsers: getUsers
-	    };
-
-	    function getUsers() {
-	        return $http.get('https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json')
-	            .then(getUsersComplete)
-	            .catch(getUsersFailed);
-
-	        function getUsersComplete(response) {
-	            return response.data;
-	        }
-
-	        function getUsersFailed(error) {
-	            // logger.error('XHR Failed for getAvengers.' + error.data);
-	        }
-	    }
-	}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	angular.module("Main")
-	    .controller("MainController", MainController);
-
-	MainController.$inject=['dataservice', '$mdSidenav']
-
-	function MainController(dataservice, $mdSidenav) {  
-	    var vm = this;
-
-	    vm.reg_errors = {};
-	    vm.animals = {};
-	    vm.username = '';
-	    vm.toggleSideNav = toggleSideNav;
-	    vm.logout = logout;
-
-	    // if($localStorage.currentUser){
-	    //     $scope.username = $localStorage.currentUser.username
-	    //     $scope.tokenDate = jwtHelper.getTokenExpirationDate($localStorage.currentUser.token)
-	    // } else {
-	    //     $scope.username = "none";
-	    // }
-	    
-	    function toggleSideNav() {
-	        console.log('toggleSidenav');
-	        $mdSidenav('left-menu').toggle();
-	    };
-
-	    function logout(){
-	        dataservice.logout()
-	        $location.path("/");
-	    }
-
-
 	}
 
 /***/ }

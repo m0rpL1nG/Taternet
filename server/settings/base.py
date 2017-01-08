@@ -3,13 +3,13 @@ import environ
 
 ROOT = environ.Path(__file__) - 2
 PROJECT_ROOT = environ.Path(__file__) - 3
-ENV = environ.Env(DEBUG=(bool, False),)  
-CURRENT_ENV = 'dev' # 'dev' is the default environment
-print ROOT
-# read the .env file associated with the settings that're loaded
-ENV.read_env('{}/dev.env'.format(ROOT))
+ENV = environ.Env(DEBUG=(bool, False),)
+CURRENT_ENV = 'dev' # 'dev' is the default Environment
+ENV.read_env('{}/{}.env'.format(ROOT, CURRENT_ENV))
+SECRET_KEY = ENV('SECRET_KEY')
+DEBUG = ENV('DEBUG')
 
-DATABASES = {  
+DATABASES = {
     'default': ENV.db(),
     'whirlwind': {
         'ENGINE': 'sql_server.pyodbc',
@@ -25,9 +25,6 @@ DATABASES = {
     },
 }
 
-SECRET_KEY = ENV('SECRET_KEY')  
-DEBUG = ENV('DEBUG')  
-
 # Application definition
 INSTALLED_APPS = [
     # Django Components
@@ -40,6 +37,7 @@ INSTALLED_APPS = [
 
     # Site Apps
     'server.apps.games',
+    'server.apps.whirlwind.users',
 
     # Django Packages
     'rest_framework',
@@ -47,16 +45,16 @@ INSTALLED_APPS = [
 
 ROOT_URLCONF = 'server.urls'
 
-STATIC_URL = '/frontend/'  
-STATICFILES_FINDERS = [  
+STATIC_URL = '/frontend/'
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-STATICFILES_DIRS = [  
+STATICFILES_DIRS = [
     '{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))
 ]
 
-TEMPLATES = [  
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))],
