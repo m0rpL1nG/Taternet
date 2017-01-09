@@ -4,6 +4,6 @@ from .serializers import UserSerializer
 
 
 class UserApiView(viewsets.ModelViewSet):
-    queryset = EmpEmployees.objects.all()
+    queryset = EmpEmployees.objects.using('whirlwind').all()
     serializer_class = UserSerializer
 

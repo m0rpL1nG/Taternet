@@ -9,6 +9,9 @@ ENV.read_env('{}/{}.env'.format(ROOT, CURRENT_ENV))
 SECRET_KEY = ENV('SECRET_KEY')
 DEBUG = ENV('DEBUG')
 
+ALLOWED_HOSTS = ['*']
+print ALLOWED_HOSTS
+
 DATABASES = {
     'default': ENV.db(),
     'whirlwind': {
@@ -20,7 +23,7 @@ DATABASES = {
         'PORT': '1433',
 
         'OPTIONS': {
-            'driver': 'FreeTDS',
+            'driver': 'ODBC Driver 13 for SQL Server',
         },
     },
 }
