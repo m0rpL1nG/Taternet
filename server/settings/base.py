@@ -1,4 +1,5 @@
 
+import datetime
 import environ
 
 ROOT = environ.Path(__file__) - 2
@@ -10,7 +11,6 @@ SECRET_KEY = ENV('SECRET_KEY')
 DEBUG = ENV('DEBUG')
 
 ALLOWED_HOSTS = ['*']
-print ALLOWED_HOSTS
 
 DATABASES = {
     'default': ENV.db(),
@@ -46,16 +46,17 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-ROOT_URLCONF = 'server.urls'
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 
-STATIC_URL = '/frontend/'
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-STATICFILES_DIRS = [
-    '{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))
-]
+ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
     {
@@ -72,3 +73,50 @@ TEMPLATES = [
         },
     },
 ]
+
+WSGI_APPLICATION = 'server.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+# Django Rest Framework JWT auth
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800), #30 minutes until exp.
+
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.10/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STATIC_URL = '/frontend/'
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    ]
+STATICFILES_DIRS = [
+    '{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))
+    ]

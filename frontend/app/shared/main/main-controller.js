@@ -1,31 +1,33 @@
 angular.module("Main")
     .controller("MainController", MainController);
 
-MainController.$inject=['dataservice', '$mdSidenav']
+MainController.$inject=['MainDataService', '$mdSidenav']
 
-function MainController(dataservice, $mdSidenav) {  
+function MainController(MainDataService, $mdSidenav) {  
     var vm = this;
 
-    vm.reg_errors = {};
-    vm.animals = {};
-    vm.username = '';
     vm.toggleSideNav = toggleSideNav;
+    vm.login = login;
     vm.logout = logout;
 
-    // if($localStorage.currentUser){
-    //     $scope.username = $localStorage.currentUser.username
-    //     $scope.tokenDate = jwtHelper.getTokenExpirationDate($localStorage.currentUser.token)
-    // } else {
-    //     $scope.username = "none";
-    // }
+    vm.userObj = {};
     
     function toggleSideNav() {
         console.log('toggleSidenav');
         $mdSidenav('left-menu').toggle();
     };
 
+    function login(userObj) {
+        console.log("UserObj at controller")
+        MainDataService.Login(userObj)
+        .then(function(response) {
+            console.log(response) 
+            return vm.data;
+        });
+    }
+
     function logout(){
-        dataservice.logout()
+        MainDataService.logout()
         $location.path("/");
     }
 

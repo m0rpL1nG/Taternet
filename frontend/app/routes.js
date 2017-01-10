@@ -4,6 +4,10 @@ function routesConfig($routeProvider) {
       templateUrl: _urlPrefixes.TEMPLATES + "components/home/home.html",
       label: "Home"
     })
+    .when("/login", {
+      templateUrl: _urlPrefixes.TEMPLATES + "shared/main/login.html",
+      label: "Login"
+    })
     .when("/games", {
       templateUrl: _urlPrefixes.TEMPLATES + "components/game/game.html",
       label: "Games"

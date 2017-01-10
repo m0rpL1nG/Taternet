@@ -10,7 +10,11 @@ function dataservice($http) {
     };
 
     function getUsers() {
-        return $http.get('https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json')
+        return $http({
+            url: 'https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json',
+            skipAuthorization: true,
+            method: 'GET'
+            })
             .then(getUsersComplete)
             .catch(getUsersFailed);
 

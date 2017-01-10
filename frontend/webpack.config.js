@@ -22,10 +22,15 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: "css-loader" },
             //{ test: /\.html$/, loader: "mustache-loader" },
-            { test: /\.json$/, loader: "json-loader" }
+            { test: /\.json$/, loader: "json-loader" },
             ]
         },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js'],
+        alias: {
+          'angular': './dist/js/bundle.js',
+      }
+
+
     }
 };
