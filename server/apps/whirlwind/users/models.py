@@ -223,3 +223,4 @@ class EmpEmployees(models.Model):
     class Meta:
         managed = False
         db_table = 'EMP Employees'
+        app_label = 'whirlwind'

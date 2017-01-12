@@ -13,7 +13,10 @@ DEBUG = ENV('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 DATABASES = {
-    'default': ENV.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '{}{}'.format(PROJECT_ROOT, 'db.sqlite3'),
+    },
     'whirlwind': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'FamousTate',
@@ -28,6 +31,11 @@ DATABASES = {
     },
 }
 
+DATABASE_ROUTERS = [
+    #'server.settings.routers.auth.AuthRouter',
+    'server.settings.routers.whirlwindDB.WhirlwindRouter',
+]
+
 # Application definition
 INSTALLED_APPS = [
     # Django Components
@@ -41,9 +49,11 @@ INSTALLED_APPS = [
     # Site Apps
     'server.apps.games',
     'server.apps.whirlwind.users',
+    'server.apps.whirlwind.inventory',
 
     # Django Packages
     'rest_framework',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -81,9 +91,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
 }
 
