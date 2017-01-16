@@ -25,6 +25,7 @@ require("./components/navigation/navigation");
 require("./components/home/home");
 require("./components/game/game");
 require("./components/users/users");
+require("./components/transfers/transfers");
 
 
 /* App Dependencies */
@@ -34,6 +35,7 @@ angular.module("myApp", [
     "Home",
     "Game",
     "Users",
+    "Transfers",
     "angular-jwt",
     "ngMaterial",
     "ngResource",

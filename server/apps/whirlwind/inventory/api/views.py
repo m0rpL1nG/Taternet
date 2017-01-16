@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from ..models import InvTransferRequest, InvModelSerial, Inventory
-from .serializers import XferSerializer, InventorySerializer
+from .serializers import TransferSerializer, InventorySerializer
 
 
-class XferViewset(viewsets.ModelViewSet):
-    serializer_class = XferSerializer
+class TransferViewset(viewsets.ModelViewSet):
+    serializer_class = TransferSerializer
     queryset = InvTransferRequest.objects.all()
 
 # class InventoryViewset(viewsets.ModelViewSet):

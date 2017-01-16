@@ -1,0 +1,19 @@
+<div layout="column" ng-controller="TransfersController as ctrl">  
+  <md-content flex layout-padding>
+    <p>List of Transfers</p>
+    <section>
+        <md-progress-linear class="md-warn" md-mode="buffer" value="{{ctrl.determinateValue}}"
+                      md-buffer-value="{{ctrl.determinateValue2}}"
+                      ng-disabled="!ctrl.transfers[1]"></md-progress-linear>
+      <dtable
+        options="ctrl.options"
+        rows="ctrl.transfers"
+        class="material"
+        selected="ctrl.selected"
+        on-row-click="ctrl.onRowClick(row)"
+        on-select="ctrl.onSelect(rows)">
+      </dtable>
+    </section>
+  </md-content>
+  
+</div>  

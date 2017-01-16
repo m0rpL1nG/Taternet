@@ -71,6 +71,7 @@
 	__webpack_require__(17);
 	__webpack_require__(19);
 	__webpack_require__(22);
+	__webpack_require__(25);
 
 
 	/* App Dependencies */
@@ -80,6 +81,7 @@
 	    "Home",
 	    "Game",
 	    "Users",
+	    "Transfers",
 	    "angular-jwt",
 	    "ngMaterial",
 	    "ngResource",
@@ -89,12 +91,12 @@
 	]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(25);
+	var routesConfig = __webpack_require__(28);
 
 	/* App Config */
 	angular.module("myApp").config(routesConfig); 
-	__webpack_require__(26)
-	__webpack_require__(27)
+	__webpack_require__(29)
+	__webpack_require__(30)
 	// angular
 	//   .module('myApp')
 	//   .config(function Config($httpProvider, jwtOptionsProvider) {
@@ -92470,6 +92472,7 @@
 	    vm.navigate = navigate;
 
 	    function navigate(place) {
+	        console.log(place)
 	        $location.path(`/${place}`)
 	    }
 
@@ -92738,6 +92741,169 @@
 
 /***/ },
 /* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	angular.module("Transfers", []);
+
+	__webpack_require__(26);  
+	__webpack_require__(27);  
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	angular.module("Transfers")
+	    .controller("TransfersController", TransfersController);
+
+	TransfersController.$inject=['transferdataservice']
+
+	function TransfersController(transferdataservice) {  
+
+	    var vm = this;
+
+	    vm.options = {
+	        rowHeight: 50,
+	        headerHeight: 50,
+	        footerHeight: false,
+	        scrollbarV: false,
+	        checkboxSelection: true,
+	        selectable: true,
+	        multiSelect: true,
+	        columns: [{
+	        name: "Model Number",
+	        prop: "inv_transfer_mdl_ser_id.inv_ser_model_number",
+	        width: 300,
+	        isCheckboxColumn: true,
+	        headerCheckbox: true
+	        }, {
+	        name: "Serial Number",
+	        prop: "inv_transfer_mdl_ser_id.inv_ser_serial_number",
+	        width: 300,
+	        }, {
+	        name: "Current Location",
+	        prop: "inv_transfer_mdl_ser_id.inv_ser_item_location",
+	        width: 300,
+	        }, {
+	        name: "Destination Location",
+	        prop: "inv_transfer_to_location",
+	        width: 300,
+	        }
+	        ]
+	    };
+	    vm.transfers = [];
+	    // vm.game = {};
+	    vm.selected = [];
+	    vm.determinateValue = 30;
+	    vm.determinateValue2 = 30;
+
+	    // vm.addGame = addGame;
+	    vm.onSelect = onSelect;
+	    vm.onRowClick = onRowClick;
+
+	    function onSelect(row) {
+	        console.log('ROW SELECTED!', row);
+	    }
+	    
+	    function onRowClick(row) {
+	        console.log('ROW CLICKED', row);
+	    }
+
+	    activate();
+
+	    function activate() {
+	        return getTransfers().then(function() {
+	            console.log('Activated Transfer recall')
+	            // logger.info('Activated Users View');
+	        });
+	    }
+
+	    function getTransfers() {
+	        console.log('transfer request begun')
+	        return transferdataservice.getTransfers()
+	            .then(function(data) {
+	                console.log("Transfers: ", data);
+	                vm.transfers = data;
+	            return vm.transfers;
+	            });
+	    }
+
+	    // function addGame(game) {
+	    //     console.log(game);
+	    //     return gamedataservice.addGame(game)
+	    //         .then(function(data) {
+	    //             console.log(data)
+	    //             // vm.data = data;
+	    //             getGames();
+	    //         return vm.data;
+	    //         });
+	    // }
+
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	angular
+	  .module('Transfers')
+	  .factory('transferdataservice', transferdataservice);
+
+	transferdataservice.$inject = ['$http'];
+
+	function transferdataservice($http) {
+	    return {
+	        getTransfers: getTransfers,
+	        // getGame: getGame,
+	        // addGame: addGame
+	    };
+
+	    function getTransfers() {
+	        console.log('At service before request')
+	        return $http.get(_urlPrefixes.API + "transfers/")
+	            .then(getTransfersComplete)
+	            .catch(getTransfersFailed);
+
+	        function getTransfersComplete(response) {
+	            return response.data;
+	        }
+
+	        function getTransfersFailed(error) {
+	            // logger.error('XHR Failed for getAvengers.' + error.data);
+	        }
+	    }
+
+	    // function getGame() {
+	    //     return $http.get(_urlPrefixes.API + "games/:game_id/")
+	    //         .then(getGameComplete)
+	    //         .catch(getGameFailed);
+
+	    //     function getGameComplete(response) {
+	    //         return response.data;
+	    //     }
+
+	    //     function getGameFailed(error) {
+	    //         // logger.error('XHR Failed for getAvengers.' + error.data);
+	    //     }
+	    // }
+
+	    // function addGame(newGameObj) {
+	    //     console.log("newGameObj", newGameObj)
+	    //     return $http.post(_urlPrefixes.API + "games/", newGameObj)
+	    //         .then(getGameComplete)
+	    //         .catch(getGameFailed);
+
+	    //     function getGameComplete(response) {
+	    //         return response.data;
+	    //     }
+
+	    //     function getGameFailed(error) {
+	    //         // logger.error('XHR Failed for getAvengers.' + error.data);
+	    //     }
+	    // }
+	}
+
+/***/ },
+/* 28 */
 /***/ function(module, exports) {
 
 	function routesConfig($routeProvider) {  
@@ -92758,6 +92924,10 @@
 	      templateUrl: _urlPrefixes.TEMPLATES + "components/users/users.html",
 	      label: "Users"
 	    })
+	    .when("/transfers", {
+	      templateUrl: _urlPrefixes.TEMPLATES + "components/transfers/transfers.html",
+	      label: "Users"
+	    })
 	    .otherwise({
 	      templateUrl: _urlPrefixes.TEMPLATES + "404.html"
 	    });
@@ -92768,7 +92938,7 @@
 	module.exports = routesConfig;  
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports) {
 
 	angular
@@ -92789,7 +92959,7 @@
 	}
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports) {
 
 	// angular

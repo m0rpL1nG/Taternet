@@ -21,7 +21,7 @@ class InventorySerializer(serializers.ModelSerializer):
         ]
 
 
-class XferSerializer(serializers.ModelSerializer):
+class TransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvTransferRequest
         depth = 1
