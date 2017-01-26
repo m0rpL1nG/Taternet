@@ -1,11 +1,11 @@
 from rest_framework import viewsets
-from ..models import InvTransferRequest, InvModelSerial, Inventory
+from ..models import TransferRequest, Inventory
 from .serializers import TransferSerializer, InventorySerializer
 
 
 class TransferViewset(viewsets.ModelViewSet):
     serializer_class = TransferSerializer
-    queryset = InvTransferRequest.objects.all()
+    queryset = TransferRequest.objects.all()
 
 # class InventoryViewset(viewsets.ModelViewSet):
 #     serializer_class = InventorySerializer

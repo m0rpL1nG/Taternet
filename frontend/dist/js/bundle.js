@@ -56,22 +56,23 @@
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9)
-
+	__webpack_require__(10)
+	__webpack_require__(11)
 
 	/* Globals */
-	_ = __webpack_require__(10);  
+	_ = __webpack_require__(12);  
 	_urlPrefixes = {  
 	  API: "api/v1/",
 	  TEMPLATES: "frontend/app/"
 	};
 
 	/* Components */
-	__webpack_require__(12);
-	__webpack_require__(15);
+	__webpack_require__(14);
 	__webpack_require__(17);
 	__webpack_require__(19);
-	__webpack_require__(22);
-	__webpack_require__(25);
+	__webpack_require__(21);
+	__webpack_require__(24);
+	__webpack_require__(27);
 
 
 	/* App Dependencies */
@@ -88,15 +89,17 @@
 	    "ngRoute",
 	    "data-table",
 	    "LocalStorageModule",
+	    "ngPrint",
+	    "ngBarcode",
 	]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(28);
+	var routesConfig = __webpack_require__(30);
 
 	/* App Config */
 	angular.module("myApp").config(routesConfig); 
-	__webpack_require__(29)
-	__webpack_require__(30)
+	__webpack_require__(31)
+	__webpack_require__(32)
 	// angular
 	//   .module('myApp')
 	//   .config(function Config($httpProvider, jwtOptionsProvider) {
@@ -75225,6 +75228,57 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	(function (angular) {
+	    'use strict';
+
+	    var mod = angular.module('ngPrint', []);
+
+	    function printDirective() {
+	        var printSection = document.getElementById("printSection");
+	 
+	        function printElement(elem) {
+	            // clones the element you want to print
+	            var domClone = elem.cloneNode(true);
+	            if (!printSection) {
+	                printSection = document.createElement("div");
+	                printSection.id = "printSection";
+	                document.body.appendChild(printSection);
+	            } else {
+	                printSection.innerHTML = "";
+	            }
+	            printSection.appendChild(domClone);
+	        }
+	 
+	        function link(scope, element, attrs) {
+	            element.on("click", function () {
+	                var elemToPrint = document.getElementById(attrs.printElementId);
+	                if (elemToPrint) {
+	                    printElement(elemToPrint);
+	                    window.print();
+	                }
+	            });
+	        }
+	 
+	        return {
+	            link: link,
+	            restrict: "A"
+	        };
+	    }
+	 
+
+	    mod.directive('ngPrint', [printDirective]);
+	}(window.angular));
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	!function(){"use strict";function b(){var b={bindToController:!0,controller:e,controllerAs:"barcodeCtrl",restrict:"AEC",template:'<img width="100%" height="100%;" ng-if="barcodeCtrl.input" ng-src="{{barcodeCtrl.base64Barcode()}}" />',scope:{input:"@ngBarcodeInput",code:"@ngBarcodeCode",colorBarcode:"@ngBarcodeColor",colorBackground:"@ngBarcodeBackground"}};return b}function e(){function b(){l.code39.BMP={};for(var b in l.code39.plain){var e=l.code39.plain[b];l.code39.BMP[b]="";for(var w=0;9>w;w++){switch(e.charAt(w)){case"B":l.code39.BMP[b]+="\x00\x00\x00\x00\x00\x00\x00\x00\x00";break;case"b":l.code39.BMP[b]+="\x00\x00\x00";break;case"W":l.code39.BMP[b]+="";break;case"w":l.code39.BMP[b]+=""}l.code39.BMP[b]+=""}}return a()}function e(b){var e=!1;return b.length%2!=0||isNaN(parseInt(b))||(e=!0),e}function a(){var b="",a=i.code,w=i.input.toUpperCase(),n=c(i.colorBarcode,1),o=c(i.colorBackground,2),B=[n,o];switch(a){case"code39":for(var t="*"+w.trim()+"*",d=0;d<t.length;d++)b+=l.code39.BMP[t.charAt(d)];break;case"i25":var a=w.trim();if(!e(a))throw"Invalid input format";b=l.I25.plain.START,a.length%2==1&&(a="0"+a);for(var d=0;d<a.length;d+=2)for(var p=l.I25.plain[a.charAt(d)],x=l.I25.plain[a.charAt(d+1)].replace(/b/g,"w").replace(/B/g,"W"),W=0;5>W;W++)b+=p.charAt(W)+x.charAt(W);b+=l.I25.plain.END,b=b.replace(/w/g,""),b=b.replace(/W/g,""),b=b.replace(/b/g,"\x00\x00\x00"),b=b.replace(/B/g,"\x00\x00\x00\x00\x00\x00\x00\x00\x00");break;default:throw"Code "+a+" not implemented"}return r([b],B)}function w(b){var e="",a=0;do{var n=b.charCodeAt(a++),r=b.charCodeAt(a++),o=b.charCodeAt(a++),c=n>>2,B=(3&n)<<4|r>>4,i=(15&r)<<2|o>>6,l=63&o;isNaN(r)?i=l=64:isNaN(o)&&(l=64),e=e+w.keyStr.charAt(c)+w.keyStr.charAt(B)+w.keyStr.charAt(i)+w.keyStr.charAt(l)}while(a<b.length);return e}function n(b,e){if(0>b||0>e)throw"Negative numbers not allowed.";for(var a=1,w="",n=0;e>n;n++){if(0==b)o=0;else{var r=256*a,o=b%r;b-=o,o/=a,a=r}w+=String.fromCharCode(o)}if(0!=b)throw"Overflow, number too big for string length";return w}function r(b,e){var a="BMxxxx\x00\x00\x00\x00yyyy",r=b.length,o=r&&b[0].length,c=n(r,4),B=n(o,4),i=n(40,4),l=8,t=n(l,2),d=i+B+c+"\x00"+t+"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";if(24!=l){for(var p=[],x=0,W=0,h=0,u=0;256>u;u++)u<e.length&&(x=e[u][0],W=e[u][1],h=e[u][2]),p[u]=String.fromCharCode(h,W,x,0);p=p.join("")}var f;f=o%4==1?"\x00\x00\x00":o%4==2?"\x00\x00":o%4==3?"\x00":"";for(var g=[],s=0;r>s;s++)g[s]=b[r-s-1]+f;var v=a+d+p+g.join("");return v=v.replace(/yyyy/,n(a.length+d.length+p.length,4)),v=v.replace(/xxxx/,n(v.length,4)),"data:image/bmp;base64,"+w(v)}function o(b){var e=null,a=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;b=b.replace(a,function(b,e,a,w){return e+e+a+a+w+w});var w=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(b);return e=w?[parseInt(w[1],16),parseInt(w[2],16),parseInt(w[3],16)]:[0,0,0]}function c(b,e){return b?B(b)?JSON.parse(b):o(b):1===e?[0,0,0]:[255,255,255]}function B(b){try{return JSON.parse(b)}catch(e){return!1}}var i=this,l={};l.code39={},l.code39.plain={},l.code39.plain[0]="bwbWBwBwb",l.code39.plain[1]="BwbWbwbwB",l.code39.plain[2]="bwBWbwbwB",l.code39.plain[3]="BwBWbwbwb",l.code39.plain[4]="bwbWBwbwB",l.code39.plain[5]="BwbWBwbwb",l.code39.plain[6]="bwBWBwbwb",l.code39.plain[7]="bwbWbwBwB",l.code39.plain[8]="BwbWbwBwb",l.code39.plain[9]="bwBWbwBwb",l.code39.plain.A="BwbwbWbwB",l.code39.plain.B="bwBwbWbwB",l.code39.plain.C="BwBwbWbwb",l.code39.plain.D="bwbwBWbwB",l.code39.plain.E="BwbwBWbwb",l.code39.plain.F="bwBwBWbwb",l.code39.plain.G="bwbwbWBwB",l.code39.plain.H="BwbwbWBwb",l.code39.plain.I="bwBwbWBwb",l.code39.plain.J="bwbwBWBwb",l.code39.plain.K="BwbwbwbWB",l.code39.plain.L="bwBwbwbWB",l.code39.plain.M="BwBwbwbWb",l.code39.plain.N="bwbwBwbWB",l.code39.plain.O="BwbwBwbWb",l.code39.plain.P="bwBwBwbWb",l.code39.plain.Q="bwbwbwBWB",l.code39.plain.R="BwbwbwBWb",l.code39.plain.S="bwBwbwBWb",l.code39.plain.T="bwbwBwBWb",l.code39.plain.U="BWbwbwbwB",l.code39.plain.V="bWBwbwbwB",l.code39.plain.W="BWBwbwbwb",l.code39.plain.X="bWbwBwbwB",l.code39.plain.Y="BWbwBwbwb",l.code39.plain.Z="bWBwBwbwb",l.code39.plain["-"]="bWbwbwBwB",l.code39.plain["."]="BWbwbwBwb",l.code39.plain[" "]="bWBwbwBwb",l.code39.plain["*"]="bWbwBwBwb",l.code39.plain.$="bWbWbWbwb",l.code39.plain["/"]="bWbWbwbWb",l.code39.plain["+"]="bWbwbWbWb",l.code39.plain["%"]="bwbWbWbWb",l.I25={},l.I25.plain={},l.I25.plain.START="wwwwwwwwwwbwbw",l.I25.plain.END="Bwbwwwwwwwwww",l.I25.plain[0]="bbBBb",l.I25.plain[1]="BbbbB",l.I25.plain[2]="bBbbB",l.I25.plain[3]="BBbbb",l.I25.plain[4]="bbBbB",l.I25.plain[5]="BbBbb",l.I25.plain[6]="bBBbb",l.I25.plain[7]="bbbBB",l.I25.plain[8]="BbbBb",l.I25.plain[9]="bBbBb",w.keyStr="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",i.base64Barcode=b}angular.module("ngBarcode",[]).directive("ngBarcode",b)}();
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -92312,10 +92366,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(13)(module)))
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -92331,16 +92385,16 @@
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Main", []);
 
-	__webpack_require__(13);   
-	__webpack_require__(14);
+	__webpack_require__(15);   
+	__webpack_require__(16);
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	angular
@@ -92411,7 +92465,7 @@
 	}
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	angular.module("Main")
@@ -92451,15 +92505,15 @@
 	}
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Navigation", []);
 
-	__webpack_require__(16);  
+	__webpack_require__(18);  
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	angular.module("Navigation")
@@ -92479,15 +92533,15 @@
 	}
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Home", []);
 
-	__webpack_require__(18);  
+	__webpack_require__(20);  
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	function HomeController() {  
@@ -92502,16 +92556,16 @@
 	    ]);
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Game", []);
 
-	__webpack_require__(20);  
-	__webpack_require__(21);  
+	__webpack_require__(22);  
+	__webpack_require__(23);  
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	angular.module("Game")
@@ -92589,7 +92643,7 @@
 	}
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 	angular
@@ -92650,16 +92704,16 @@
 	}
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Users", []);
 
-	__webpack_require__(23);   
-	__webpack_require__(24);
+	__webpack_require__(25);   
+	__webpack_require__(26);
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	angular
@@ -92693,7 +92747,7 @@
 	}
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports) {
 
 	angular.module("Users")
@@ -92740,27 +92794,34 @@
 	}
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	angular.module("Transfers", []);
 
-	__webpack_require__(26);  
-	__webpack_require__(27);  
+	__webpack_require__(28);  
+	__webpack_require__(29);  
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports) {
 
 	angular.module("Transfers")
 	    .controller("TransfersController", TransfersController);
 
-	TransfersController.$inject=['transferdataservice']
+	TransfersController.$inject=['transferdataservice', '$filter', 'filterFilter']
 
-	function TransfersController(transferdataservice) {  
+	function TransfersController(transferdataservice, $filter, filterFilter) {  
 
 	    var vm = this;
+	    
+	    //Page variables and functions
+	    vm.filterTransfers = filterTransfers;
+	    vm.transfers = undefined;
+	    vm.inLocationFilter = null;
+	    vm.toLocationFilter = null;
 
+	    //Data Table Setup
 	    vm.options = {
 	        rowHeight: 50,
 	        headerHeight: 50,
@@ -92770,49 +92831,53 @@
 	        selectable: true,
 	        multiSelect: true,
 	        columns: [{
-	        name: "Model Number",
-	        prop: "inv_transfer_mdl_ser_id.inv_ser_model_number",
-	        width: 300,
-	        isCheckboxColumn: true,
-	        headerCheckbox: true
-	        }, {
-	        name: "Serial Number",
-	        prop: "inv_transfer_mdl_ser_id.inv_ser_serial_number",
-	        width: 300,
-	        }, {
-	        name: "Current Location",
-	        prop: "inv_transfer_mdl_ser_id.inv_ser_item_location",
-	        width: 300,
-	        }, {
-	        name: "Destination Location",
-	        prop: "inv_transfer_to_location",
-	        width: 300,
-	        }
-	        ]
+	            name: "Model Number",
+	            prop: "inventory_id.model_number",
+	            width: 300,
+	            isCheckboxColumn: true,
+	            headerCheckbox: true
+	            }, {
+	            name: "Serial Number",
+	            prop: "inventory_id.serial_number",
+	            width: 200,
+	            }, {
+	            name: "Current Location",
+	            prop: "inventory_id.location",
+	            width: 100,
+	            }, {
+	            name: "Destination Location",
+	            prop: "to_location",
+	            width: 100,
+	            }, {
+	            name: "Notes",
+	            // prop: "notes",
+	            width: 300,
+	            cellRenderer: function(scope, ele) {
+	                var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
+	                 return `<md-input-container md-no-float style="margin: 0px; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
+	                }
+	            }
+	            ]
 	    };
-	    vm.transfers = [];
-	    // vm.game = {};
 	    vm.selected = [];
-	    vm.determinateValue = 30;
-	    vm.determinateValue2 = 30;
-
-	    // vm.addGame = addGame;
 	    vm.onSelect = onSelect;
 	    vm.onRowClick = onRowClick;
 
-	    function onSelect(row) {
-	        console.log('ROW SELECTED!', row);
-	    }
+	    //Barcode Setup
+	    vm.barcodeBackground = [255, 255, 255]
+	    vm.barcodeColor = { r: 0, g: 0, b: 0 };
+	    vm.locations = ['0000', '0005', '0006', '0007', '0010', '0012']    
 	    
-	    function onRowClick(row) {
-	        console.log('ROW CLICKED', row);
-	    }
+	    //Print Setup
+	    vm.printDiv = printDiv;
 
+	    
+	    //// functions
 	    activate();
 
 	    function activate() {
 	        return getTransfers().then(function() {
-	            console.log('Activated Transfer recall')
+	            // console.log('Activated Transfer recall')
 	            // logger.info('Activated Users View');
 	        });
 	    }
@@ -92821,27 +92886,41 @@
 	        console.log('transfer request begun')
 	        return transferdataservice.getTransfers()
 	            .then(function(data) {
-	                console.log("Transfers: ", data);
+	                // console.log("Transfers: ", data);
 	                vm.transfers = data;
+	                vm.dataStore = data;
+	                // console.log("filtered", vm.transfersFilter)
 	            return vm.transfers;
 	            });
 	    }
 
-	    // function addGame(game) {
-	    //     console.log(game);
-	    //     return gamedataservice.addGame(game)
-	    //         .then(function(data) {
-	    //             console.log(data)
-	    //             // vm.data = data;
-	    //             getGames();
-	    //         return vm.data;
-	    //         });
-	    // }
+	    function filterTransfers(){
+	        console.log("changed")
+	        vm.transfers = filterFilter(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter })
+	    //    vm.transfers = $filter('filter')(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter });
+	    } 
+	    
+	    function onSelect(row) {
+	        console.log('ROW SELECTED!', row);
+	    }
+	    
+	    function onRowClick(row) {
+	        console.log('ROW CLICKED', row);
+	    }
+
+	    function printDiv (divName) {
+	        var printContents = document.getElementById(divName).innerHTML;
+	        var popupWin = window.open('', '_blank', 'width=800,height=600');
+	        popupWin.document.open()
+	        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/bower_components/angular-data-table/release/style-old.css" /></head><body>' + printContents + '</body></html>');
+	        popupWin.document.close();
+	    } 
+
 
 	}
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports) {
 
 	angular
@@ -92903,7 +92982,7 @@
 	}
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports) {
 
 	function routesConfig($routeProvider) {  
@@ -92938,7 +93017,7 @@
 	module.exports = routesConfig;  
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports) {
 
 	angular
@@ -92959,7 +93038,7 @@
 	}
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports) {
 
 	// angular

@@ -2,9 +2,27 @@
   <md-content flex layout-padding>
     <p>List of Transfers</p>
     <section>
-        <md-progress-linear class="md-warn" md-mode="buffer" value="{{ctrl.determinateValue}}"
-                      md-buffer-value="{{ctrl.determinateValue2}}"
-                      ng-disabled="!ctrl.transfers[1]"></md-progress-linear>
+        <md-input-container>
+          <label>Product Location</label>
+          <md-select ng-model="ctrl.inLocationFilter" ng-change="ctrl.filterTransfers()">
+            <md-option><em>None</em></md-option>
+            <md-option ng-repeat="location in ctrl.locations" ng-value="location">
+              {{location}}
+            </md-option>
+          </md-select>
+         </md-input-container>
+         <md-input-container>
+            <label>Product Destination</label>
+          <md-select ng-model="ctrl.toLocationFilter" ng-change="ctrl.filterTransfers()">
+            <md-option><em>None</em></md-option>
+            <md-option ng-repeat="location in ctrl.locations" ng-value="location">
+              {{location}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      <md-button ng-print print-element-id="printSection" class="md-primary">Print</md-button>
+      <md-button ng-click="ctrl.printDiv('printSection')" class="md-primary">Print2</md-button>
+      <!--<p id="printThisElement">Only print this</p>-->
       <dtable
         options="ctrl.options"
         rows="ctrl.transfers"
@@ -15,5 +33,300 @@
       </dtable>
     </section>
   </md-content>
+  
+  <!--NOT DISPLAYED ** TEMPLATE FOR PRINTING-->
+  <div id="printSection">
+    <section class="page" ng-repeat="data in ctrl.transfers">
+              <div class="row" id="header">
+                  <div class="form-group" id="header-date">
+                      <div class="underline">
+                          <h1>Test</h1>
+                      </div>
+                      <span class="line-label">date recieved in depot</span>
+                  </div>
+                  <div class="form-group" id="logo">
+                      <img src="frontend/assets/img/famousTateLogo.png" alt="">
+                  </div>
+              </div>
+              <div class="row top-section" id="top">
+                  <div class="form-group topLeft">
+                      <div class="row main-checkbox-group">
+                          <div class="checkbox main-checkbox"></div>
+                          <span class="checkbox-label main-checkbox-label">
+                              STOCK
+                          </span>
+                      </div>
+                      <div class="row main-checkbox-group">
+                          <div class="checkbox main-checkbox"></div>
+                          <span class="checkbox-label main-checkbox-label">
+                              FACTORY BLEM
+                          </span>
+                      </div>
+                      <div class="row main-checkbox-group">
+                          <div class="checkbox main-checkbox"></div>
+                          <span class="checkbox-label main-checkbox-label">
+                              RETURNED
+                          </span>
+                      </div>
+                      <div class="row main-checkbox-group">
+                          <div class="checkbox main-checkbox"></div>
+                          <span class="checkbox-label main-checkbox-label">
+                              DONATION
+                          </span>
+                      </div>
+                      <p>Parts Missing:  </p>
+                      <div class="underlineBox" id="firstRow"></div>
+                      <div class="sub-row">
+                          <div class="underlineBox"></div>
+                      </div>
+                      <div class="sub-row">
+                          <div class="underlineBox"></div>
+                      </div>
+                      <div class="sub-row">
+                          <div class="underlineBox"></div>
+                      </div>
+                  </div>
+                  
+                  <div class="form-group topRight">
+                      <h1 id="form-title">Depot Travel Sheet</h1>
+                      <div class="product-identity-box">
+                          <h1>{{ data.inventory_id.model_number }}</h1>
+                          <h1>{{ data.inventory_id.serial_number }}</h1>
+                          <div class="barcode">
+                            <ng-barcode
+                                ng-barcode-input="{{ data.inventory_id.unique_id }}"
+                                ng-barcode-code="code39"
+                                ng-barcode-color="{{ ctrl.barcodeColor }}"
+                                ng-barcode-background="{{ ctrl.barcodeBackground }}">
+                            </ng-barcode>
+                          </div>
+                          <span class="line-label">{{ data.inventory_id.unique_id }}</span>
+                      </div>
+                      <p id="special-instructions"><u>SPECIAL INSTRUCTIONS:</u></p>
+                      <div class="instructionsBox">
+                          <div class="form-group left">
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <span class="checkbox-label">
+                                      Diagnose ONLY
+                                  </span>
+                              </div>
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <span class="checkbox-label">
+                                      Do not test
+                                  </span>
+                              </div>
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <span class="checkbox-label">
+                                      Allowance needed
+                                  </span>
+                              </div>
+                          </div>
+                          <div class="form-group right">
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <div class="checkbox-label">
+                                      No cleaning needed
+                                  </div>
+                              </div>
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <div class="checkbox-label">
+                                      Full Detail
+                                  </div>
+                              </div>
+                              <div class="instructions-checkbox-group">
+                                  <div class="checkbox instructions-checkbox"></div>
+                                  <div class="underline"></div>
+                              </div>
+                          </div>
+
+                      </div>
+
+                  </div>
+              </div>
+              <div class="main-section">
+                  <div class="mainHeader">
+                      <div class="form-group left">
+                          <div class="row">
+                              <p class="leftLabel">
+                                  First test date: 
+                              </p>
+                              <div class="underline"></div>
+                          </div>
+                          <div class="row">
+                              <p class="leftLabel">
+                                  Tested By: 
+                              </p>
+                              <div class="underline"></div>
+                          </div>
+                      </div>
+                      <div class="form-group right">
+                          <div class="row">
+                              <p class="rightLabel">
+                                  Notes:  
+                              </p>
+                              <div class="underline"></div>
+                          </div>
+                          <div class="row">
+                              <div class="underline" id="extended">
+                                  {{ data.notes }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <table>
+                      <thead>
+                          <th>Date</th>
+                          <th>Tech</th>
+                          <th>Service Description</th>
+                          <th>Part #</th>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          
+                      </tbody>
+                  </table>
+              </div>
+              <div class="footer-section">
+                  <div class="form-group left">
+                      <div class="checkbox-group">
+                          <div class="checkbox"></div>
+                          <span class="checkbox-label">Markdown recieved on:</span>
+                          <span class="underline"></span>
+                      </div>
+                      <div class="checkbox-group">
+                          <div class="checkbox"></div>
+                          <span class="checkboxLabel left-footer-label">Depot</span>
+
+                              <div class="checkbox"></div>
+                              <span class="checkbox-label">Reinstall</span>
+
+                      </div>
+                      <div class="checkbox-group">
+                          <div class="checkbox"></div>
+                          <span class="checkboxLabel left-footer-label">PDI</span>
+                          <div class="checkbox"></div>
+                          <span class="checkbox-label">Damage Allowance</span>
+                      </div>
+                  </div>
+                  <div class="form-group right">
+                      <div class="row">
+                          <div class="form-group" id="date-box">
+                              <div class="underline" id="date-line"></div>
+                              <span class="line-label">Date</span>
+                          </div>
+                          <div class="form-group" id="debit-box">
+                              <div class="underline"></div>
+                              <span class="line-label">Debit Memo #</span>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group" id="authorized">
+                              <div class="underline"></div>
+                              <span class="line-label">Authorized</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+  </div>
   
 </div>  

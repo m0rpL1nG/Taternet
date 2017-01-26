@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import InvModelSerial, InvTransferRequest, Inventory
+from ..models import TransferRequest, Inventory
 
 
 # class InventorySerializer(serializers.ModelSerializer):
@@ -17,18 +17,21 @@ class InventorySerializer(serializers.ModelSerializer):
         fields = [
             'model_number',
             'serial_number',
+            'unique_id'
             'location',
         ]
 
 
 class TransferSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InvTransferRequest
+        model = TransferRequest
         depth = 1
         fields = [
-            'inv_transfer_comments',
-            'inv_transfer_to_location',
-            'inv_transfer_mdl_ser_id',
+            'comments',
+            'notes',
+            'warehouse_notes',
+            'to_location',
+            'inventory_id',
         ]
 
 

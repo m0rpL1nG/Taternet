@@ -7,6 +7,7 @@ class Inventory(models.Model):
     id = models.AutoField(db_column='INV SER Record ID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     model_number = models.CharField(db_column='INV SER Model Number', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     serial_number = models.CharField(db_column='INV SER Serial Number', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    unique_id = models.CharField(db_column='INV SER Unique ID', max_length=15, blank=True, null=True)
     location = models.CharField(db_column='INV SER Item Location', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     active = models.NullBooleanField(db_column='INV SER Active YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
@@ -61,7 +62,7 @@ class InvModelSerial(models.Model):
     # inv_ser_commission_cost = models.DecimalField(db_column='INV SER Commission Cost', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # inv_ser_closeout_price = models.DecimalField(db_column='INV SER CloseOut Price', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # inv_ser_bay_location = models.CharField(db_column='INV SER Bay Location', max_length=10, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    # inv_ser_unique_id = models.CharField(db_column='INV SER Unique ID', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    inv_ser_unique_id = models.CharField(db_column='INV SER Unique ID', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # inv_ser_last_inventory_date = models.DateTimeField(db_column='INV SER Last Inventory Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # inv_ser_last_inventory_time = models.DateTimeField(db_column='INV SER Last Inventory Time', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # inv_ser_original_cost = models.DecimalField(db_column='INV SER Original Cost', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -80,24 +81,24 @@ class InvModelSerial(models.Model):
         db_table = 'INV Model Serial'
         app_label = 'whirlwind'
 
-class InvTransferRequest(models.Model):
-    inv_transfer_id = models.AutoField(primary_key=True, db_column='INV TRANSFER ID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_ar_detail_ext = models.IntegerField(db_column='INV TRANSFER AR Detail Ext', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_mdl_ser_id = models.ForeignKey(InvModelSerial, db_column='INV TRANSFER Mdl Ser ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_part_id = models.IntegerField(db_column='INV TRANSFER Part ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_ser_parts_id = models.IntegerField(db_column='INV TRANSFER SER PARTS ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_notes = models.TextField(db_column='INV TRANSFER Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_setup_date = models.DateTimeField(db_column='INV TRANSFER Setup Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_complete_date = models.DateTimeField(db_column='INV TRANSFER Complete Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_setup_by = models.CharField(db_column='INV TRANSFER Setup By', max_length=25, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_completed_yn = models.NullBooleanField(db_column='INV TRANSFER Completed YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_to_location = models.CharField(db_column='INV TRANSFER To Location', max_length=12, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_print_count = models.IntegerField(db_column='INV TRANSFER Print Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_comments = models.TextField(db_column='INV TRANSFER Comments', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_last_print_date = models.DateTimeField(db_column='INV TRANSFER Last Print Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_warehouse_notes = models.TextField(db_column='INV TRANSFER Warehouse Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_sent_it_yn = models.NullBooleanField(db_column='INV TRANSFER Sent It YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_transfer_sent_it_date = models.DateTimeField(db_column='INV TRANSFER Sent It Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+class TransferRequest(models.Model):
+    id = models.AutoField(primary_key=True, db_column='INV TRANSFER ID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    ar_detail_ext = models.IntegerField(db_column='INV TRANSFER AR Detail Ext', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    inventory_id = models.ForeignKey(Inventory, db_column='INV TRANSFER Mdl Ser ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #part_id = models.IntegerField(db_column='INV TRANSFER Part ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #ser_parts_id = models.IntegerField(db_column='INV TRANSFER SER PARTS ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    notes = models.TextField(db_column='INV TRANSFER Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #setup_date = models.DateTimeField(db_column='INV TRANSFER Setup Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #complete_date = models.DateTimeField(db_column='INV TRANSFER Complete Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #setup_by = models.CharField(db_column='INV TRANSFER Setup By', max_length=25, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #completed_yn = models.NullBooleanField(db_column='INV TRANSFER Completed YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    to_location = models.CharField(db_column='INV TRANSFER To Location', max_length=12, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #print_count = models.IntegerField(db_column='INV TRANSFER Print Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    comments = models.TextField(db_column='INV TRANSFER Comments', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #last_print_date = models.DateTimeField(db_column='INV TRANSFER Last Print Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    warehouse_notes = models.TextField(db_column='INV TRANSFER Warehouse Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #sent_it_yn = models.NullBooleanField(db_column='INV TRANSFER Sent It YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #sent_it_date = models.DateTimeField(db_column='INV TRANSFER Sent It Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
