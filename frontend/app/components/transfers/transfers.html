@@ -1,13 +1,40 @@
 <div layout="column" ng-controller="TransfersController as ctrl">  
+    <md-toolbar layout="row" class="md-whiteframe-glow-z1 site-content-toolbar">
+      <div class="md-toolbar-tools">
+        <md-button 
+          hide 
+          show-sm 
+          class="md-icon-button" 
+          aria-label="menu" 
+          ng-click="main.toggleSideNav()">
+          <md-icon><i class="material-icons">menu</i></md-icon>
+        </md-button>
+        <h2><span>Travel Sheets</span></h2>
+        <span flex></span> <!-- flex span takes up middle space? -->
+        <h2>{{ username || "Temp User" }}</h2>
+        <md-menu>
+          <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
+             <md-icon><i class="material-icons">more_vert</i></md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item><md-button ng-click="main.logout()">logout</md-button></md-menu-item>
+            <md-menu-item><md-button>Place Holder</md-button></md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </div>
+    </md-toolbar>
+
+
   <md-content flex layout-padding>
-    <p>List of Transfers</p>
-    <section>
+        <md-whiteframe class="md-whiteframe-2dp" layout layout-align="center center">
+            <span>.md-whiteframe-2dp</span>
+        </md-whiteframe>
         <md-input-container>
           <label>Product Location</label>
           <md-select ng-model="ctrl.inLocationFilter" ng-change="ctrl.filterTransfers()">
             <md-option><em>None</em></md-option>
-            <md-option ng-repeat="location in ctrl.locations" ng-value="location">
-              {{location}}
+            <md-option ng-repeat="store in ctrl.stores" ng-value="store.id">
+              {{ store.name }}
             </md-option>
           </md-select>
          </md-input-container>
@@ -15,8 +42,8 @@
             <label>Product Destination</label>
           <md-select ng-model="ctrl.toLocationFilter" ng-change="ctrl.filterTransfers()">
             <md-option><em>None</em></md-option>
-            <md-option ng-repeat="location in ctrl.locations" ng-value="location">
-              {{location}}
+            <md-option ng-repeat="classification in ctrl.stockClassifications" ng-value="classification.id">
+              {{ classification.name }}
             </md-option>
           </md-select>
         </md-input-container>
@@ -31,7 +58,7 @@
         on-row-click="ctrl.onRowClick(row)"
         on-select="ctrl.onSelect(rows)">
       </dtable>
-    </section>
+
   </md-content>
   
   <!--NOT DISPLAYED ** TEMPLATE FOR PRINTING-->

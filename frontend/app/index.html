@@ -13,6 +13,8 @@
     <link href="{% static '/bower_components/angular-data-table/release/dataTable.css' %}" rel="stylesheet">
     <link href="{% static '/bower_components/angular-data-table/release/material.css' %}" rel="stylesheet">
     <link href="{% static '/app/components/ngPrint/ngPrint.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   </head>
   <body
     ng-app="myApp" 
@@ -28,26 +30,6 @@
           View content
         </ng-view>
       </md-content>
-  </body>
-</html>  
-
-<!--{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link href="{% static '/bower_components/angular-material/angular-material.min.css' %}" rel="stylesheet">
-    <link href="{% static '/bower_components/angular-data-table/release/dataTable.css' %}" rel="stylesheet">
-    <link href="{% static '/bower_components/angular-data-table/release/material.css' %}" rel="stylesheet">
-    <link href="{% static '/app/components/ngPrint/ngPrint.min.css' %}" rel="stylesheet">
-
-    <title>Home Controller</title>
-  </head>
-  <body ng-app="myApp" ng-cloak>
-      
-      <div ng-view></div>
-
-  <!--Angular, etc /--> 
   <script src="{% static 'dist/js/bundle.js' %}"></script>
   </body>
-</html>-->
+</html>

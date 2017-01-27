@@ -92851,10 +92851,10 @@
 	            }, {
 	            name: "Notes",
 	            // prop: "notes",
-	            width: 300,
+	            width: 600,
 	            cellRenderer: function(scope, ele) {
 	                var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-	                 return `<md-input-container md-no-float style="margin: 0px; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
+	                 return `<md-input-container md-no-float style="margin: 0px; width: 100%; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
 	                }
 	            }
 	            ]
@@ -92866,7 +92866,29 @@
 	    //Barcode Setup
 	    vm.barcodeBackground = [255, 255, 255]
 	    vm.barcodeColor = { r: 0, g: 0, b: 0 };
-	    vm.locations = ['0000', '0005', '0006', '0007', '0010', '0012']    
+	    
+	    vm.stores = [
+	        {name: "North Tampa", id:"01"},
+	        {name: "Brandon", id:"02"},
+	        {name: "South Tampa", id:"03"},
+	        {name: "Lakeland", id:"04"},
+	        {name: "Winter Haven", id:"05"},
+	        {name: "Oldsmar", id:"06"},
+	        {name: "Wesley Chapel", id:"07"},
+	        {name: "Distribution", id:"09"},
+	        {name: "Largo", id:"11"},
+	        {name: "Port Richey", id:"12"},
+	        {name: "Spring Hill", id:"13"},
+	                ]    
+	    vm.stockClassifications = [
+	        {name: "Floor Model", id:"01"},
+	        {name: "Display", id:"02"},
+	        {name: "Boxed", id:"03"},
+	        {name: "Depot", id:"04"},
+	        {name: "Return", id:"05"},
+	        {name: "Lost", id:"06"},
+	        {name: "Depot Overstock", id:"12"},
+	    ]
 	    
 	    //Print Setup
 	    vm.printDiv = printDiv;
