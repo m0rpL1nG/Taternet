@@ -92818,8 +92818,8 @@
 	    //Page variables and functions
 	    vm.filterTransfers = filterTransfers;
 	    vm.transfers = undefined;
-	    vm.inLocationFilter = null;
-	    vm.toLocationFilter = null;
+	    vm.inLocationFilter = {};
+	    vm.toLocationFilter = {};
 
 	    //Data Table Setup
 	    vm.options = {
@@ -92917,8 +92917,60 @@
 	    }
 
 	    function filterTransfers(){
-	        console.log("changed")
-	        vm.transfers = filterFilter(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter })
+	        // Set inLocationFilter Value
+	        if (vm.inLocationFilter.store == "None"){ vm.inLocationFilter.store = null;}
+	        if (vm.toLocationFilter.store == "None"){ vm.toLocationFilter.store = null;}
+	        
+	        if (vm.inLocationFilter.store){
+	            vm.inLocationFilter.value = vm.inLocationFilter.store;
+	            if(vm.inLocationFilter.stockClassification){
+	                vm.inLocationFilter.value = `${vm.inLocationFilter.store}${vm.inLocationFilter.stockClassification}`;
+	            }
+	        } else {
+	            vm.inLocationFilter.store = null;
+	            vm.inLocationFilter.stockClassification = null;
+	            vm.inLocationFilter.value = null;
+	        }
+	        
+	        // set toLocationFilter Value
+	        if (vm.toLocationFilter.store){
+	            vm.toLocationFilter.value = vm.toLocationFilter.store;
+	            if(vm.toLocationFilter.stockClassification){
+	                vm.toLocationFilter.value = `${vm.toLocationFilter.store}${vm.toLocationFilter.stockClassification}`;
+	            }
+	        } else {
+	            vm.toLocationFilter.store = null;
+	            vm.toLocationFilter.stockClassification = null;
+	            vm.toLocationFilter.value = null;
+	        }
+	        
+	        // Filter based on values
+	        var  matchingTransfers= [];
+	        
+	        if (vm.inLocationFilter.value){
+	            console.log(vm.inLocationFilter.value)
+				for(var i = 0; i < vm.dataStore.length; i++){
+					if(vm.dataStore[i].inventory_id.location.substr(0, vm.inLocationFilter.value.length) == vm.inLocationFilter.value){
+						matchingTransfers.push(vm.dataStore[i]);
+					}
+				}
+				vm.transfers = matchingTransfers;
+			} else {
+	            vm.transfers = vm.dataStore;
+	        }
+	        matchingTransfers = [];
+
+	        if (vm.toLocationFilter.value){
+	            console.log(vm.toLocationFilter.value);
+				for(var i = 0; i < vm.transfers.length; i++){
+					if(vm.transfers[i].to_location.substr(0, vm.toLocationFilter.value.length) == vm.toLocationFilter.value){
+						matchingTransfers.push(vm.transfers[i]);
+					}
+				}
+				vm.transfers = matchingTransfers;
+			}
+
+	        // vm.transfers = filterFilter(vm.dataStore, { to_location: vm.toLocationFilter })
 	    //    vm.transfers = $filter('filter')(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter });
 	    } 
 	    
