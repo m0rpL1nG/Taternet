@@ -49,19 +49,3 @@ var routesConfig = require("./routes");
 angular.module("myApp").config(routesConfig); 
 require("./config/materialTheme")
 require("./config/angularJWT")
-// angular
-//   .module('myApp')
-//   .config(function Config($httpProvider, jwtOptionsProvider) {
-    // jwtOptionsProvider.config({
-    //   authPrefix: 'JWT ',
-    //   tokenGetter: ['options', function(options) {
-    //     // Skip authentication for any requests ending in .html
-    //     // if (options.url.substr(options.url.length - 5) == '.json') {
-    //     //   return null;
-    //     // }
-    //     return JSON.parse(localStorage.getItem('ls.currentUser')).token
-    //   }]
-    // });
-
-    // $httpProvider.interceptors.push('jwtInterceptor');
-  // })
