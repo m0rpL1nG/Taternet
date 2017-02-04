@@ -100,22 +100,7 @@
 	angular.module("myApp").config(routesConfig); 
 	__webpack_require__(31)
 	__webpack_require__(32)
-	// angular
-	//   .module('myApp')
-	//   .config(function Config($httpProvider, jwtOptionsProvider) {
-	    // jwtOptionsProvider.config({
-	    //   authPrefix: 'JWT ',
-	    //   tokenGetter: ['options', function(options) {
-	    //     // Skip authentication for any requests ending in .html
-	    //     // if (options.url.substr(options.url.length - 5) == '.json') {
-	    //     //   return null;
-	    //     // }
-	    //     return JSON.parse(localStorage.getItem('ls.currentUser')).token
-	    //   }]
-	    // });
 
-	    // $httpProvider.interceptors.push('jwtInterceptor');
-	  // })
 
 /***/ },
 /* 1 */
