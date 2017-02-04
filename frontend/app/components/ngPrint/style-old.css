@@ -1,0 +1,252 @@
+section.page {
+    width: 8.5in;
+    height: 11in;
+}
+
+
+#header{
+    margin-top: 10px;
+}
+    #header #header-date {
+        width: 25%;
+        text-align: center;
+    }
+
+    #header #logo {
+        text-align: right;
+        width: 74%;
+    }
+        #header #logo img{
+            width: 82%;
+            height: 50px; 
+        }
+        
+    .top-section .topLeft{
+        display: inline-block;
+        width: 42%;
+    }
+    .topLeft .main-checkbox-group {
+        height: 35px;
+        vertical-align: top;
+    }
+        .topLeft .main-checkbox{
+            height: 30px;
+            width: 35px;
+        }
+        .topLeft .main-checkbox-label{
+            font-size: 35px;
+        }
+        .topLeft .checkbox-label h1{
+            margin:0;
+            font-size: 35px;
+        }
+
+    .topLeft p {
+        display: inline-block;
+        margin: 0;
+        width: 30%;
+    }
+    .topLeft .underlineBox{
+        display: inline-block;
+        width: 100%;
+        height: 25px;
+        border-bottom: solid 2px black;
+    }
+    .topLeft .underlineBox#firstRow{
+        margin-top: 3px;
+        width: 68.5%;
+    }
+    .top-section .topRight{
+        width: 55%;
+        margin-left: 15px;
+    }
+        .topRight  h1#form-title{
+            padding-left: 70px;
+            margin: -10px;
+            word-spacing: 15px;
+        }
+        .topRight .product-identity-box{
+            margin-top: 10px;
+            text-align: center;
+            border: 2px dashed black;
+            background: red;
+        }
+        .topRight .product-identity-box h1 {
+            height: 25px;
+        }
+        .topRight .product-identity-box .barcode{
+            padding: 10px 0;
+            background: red;
+        }
+            ng-barcode, .ng-barcode, div[ng-barcode] {
+                height:45px;
+                width: 80%;
+
+            }
+
+        .topRight #special-instructions{
+            margin: 0;
+            margin-top: 3px;
+            font-weight: bold;
+        }
+        .topRight .instructionsBox{
+            vertical-align: top;
+        }
+        .topRight .instructionsBox .instructions-checkbox-group{
+            margin:3px 0px;;
+        }
+        .topRight .instructionsBox .instructions-checkbox {
+            height:25px;
+            width: 28px;
+        }
+
+        .topRight .instructionsBox .left{
+            display: inline-block;
+            width: 36%;
+        }
+        .topRight .instructionsBox .right{
+            width: 63%;
+        }
+        .topRight .instructionsBox .underline{
+            width: 87.7%;
+            vertical-align: bottom;
+        }
+.main-section{
+    margin-top: 10px;
+    outline: solid 4px black;
+    width: 99.5%;
+}
+    .main-section .mainHeader .left {
+        width:25%;
+        text-align: right;
+    }
+        .main-section .mainHeader .left .leftLabel{
+            display: inline-block;
+        }
+        .main-section .mainHeader .left .underline{
+            height: 25px;
+            width: 48%;
+        }
+    .main-section .mainHeader .right {
+        width:73%;
+        text-align: right;
+    }
+        .main-section .mainHeader .right .rightLabel{
+            display: inline-block;
+        }
+        .main-section .mainHeader .right .underline{
+            height: 25px;
+            width: 88%;
+        }
+        .main-section .mainHeader .right .underline#extended{
+            width: 95%;
+            height: 29px;
+        }
+        .main-section table{
+            width: 100.8%;
+            border-collapse: collapse;
+            margin-left: -3px;
+        }
+            .main-section table th{
+                border: 3px solid black;
+            }
+            .main-section table tr, td{
+                height:27px;
+                border: 1px solid black;
+            }
+    .footer-section{
+        margin-top: 10px;
+        border: 1px solid black;
+        padding: 5px;
+    }
+        .footer-section .left{
+            width:50%;
+        }
+        .footer-section .checkbox-group{
+            height: 27px;
+            margin-bottom: 5px;
+        }
+        .footer-section .left .checkbox{
+            height:25px;
+            width: 28px;
+            vertical-align: middle;
+        }
+        .footer-section .left .checkboxLabel{
+            display: inline-block;
+            vertical-align: middle;
+            padding-left: 5px;
+        }
+
+        .footer-section .left .checkbox-group .left-footer-label{
+             width: 30%;
+        }
+        .footer-section .left .underline{
+            width: 32%;
+        }
+        .footer-section .right{
+            width: 48%;
+            vertical-align: top;
+        }
+        .footer-section .right .form-group{
+            text-align: top;
+        }
+        .footer-section .right .form-group#date-box{
+            width: 25%;
+        }
+            .footer-section .right .form-group#date-box .underline{
+                height:25px;
+            }
+       
+        .footer-section .right .form-group#debit-box{
+            width: 70%;
+            margin-left: 10px;
+        }
+            .footer-section .right .form-group#debit-box .underline{
+                height:20px;
+            }
+       
+        .footer-section .right .form-group#authorized{
+            width: 100%;
+        }
+            .footer-section .right .form-group#authorized .underline{
+                height:39px;
+            }
+        .footer-section .line-label{
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+/*Common Styles*/
+
+h1{
+    margin:0;
+}
+.row {
+    display: block;
+}
+.form-group{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.underline{
+    border-bottom: 1px solid black;
+    display: inline-block;
+    width: 100%;
+}
+.line-label{
+    font-size:13px;
+    font-weight: bold;
+}
+
+.checkbox {
+    border: 1px solid black;
+    display: inline-block;
+    vertical-align: middle;
+}
+.checkbox-label{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 5px;
+}

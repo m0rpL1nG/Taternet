@@ -10,7 +10,8 @@ require("../bower_components/angular-resource/angular-resource");
 require("../bower_components/angular-jwt/dist/angular-jwt.min");
 require("../bower_components/angular-data-table/release/dataTable");
 require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
-
+require("../app/components/ngPrint/ngPrint.min")
+require("../bower_components/angular-barcode/dist/ng-barcode.min")
 
 /* Globals */
 _ = require("../bower_components/lodash");  
@@ -25,6 +26,7 @@ require("./components/navigation/navigation");
 require("./components/home/home");
 require("./components/game/game");
 require("./components/users/users");
+require("./components/transfers/transfers");
 
 
 /* App Dependencies */
@@ -34,12 +36,15 @@ angular.module("myApp", [
     "Home",
     "Game",
     "Users",
+    "Transfers",
     "angular-jwt",
     "ngMaterial",
     "ngResource",
     "ngRoute",
     "data-table",
     "LocalStorageModule",
+    "ngPrint",
+    "ngBarcode",
 ]);
 
 /* Config Vars */

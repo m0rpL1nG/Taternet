@@ -8,6 +8,7 @@ function NavController($location) {
     vm.navigate = navigate;
 
     function navigate(place) {
+        console.log(place)
         $location.path(`/${place}`)
     }
 

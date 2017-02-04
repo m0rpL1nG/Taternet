@@ -16,6 +16,10 @@ function routesConfig($routeProvider) {
       templateUrl: _urlPrefixes.TEMPLATES + "components/users/users.html",
       label: "Users"
     })
+    .when("/transfers", {
+      templateUrl: _urlPrefixes.TEMPLATES + "components/transfers/transfers.html",
+      label: "Users"
+    })
     .otherwise({
       templateUrl: _urlPrefixes.TEMPLATES + "404.html"
     });
