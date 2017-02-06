@@ -1,30 +1,38 @@
-function routesConfig($routeProvider) {  
-  $routeProvider
-    .when("/", {
-      templateUrl: _urlPrefixes.TEMPLATES + "components/home/home.html",
+function routesConfig($stateProvider, $urlRouterProvider) {  
+  
+  $urlRouterProvider.otherwise('/home');
+  
+  $stateProvider
+    .state("Home", {
+      url: "/home",
+      templateUrl: "frontend/app/components/home/home.html",
       label: "Home"
     })
-    .when("/login", {
-      templateUrl: _urlPrefixes.TEMPLATES + "shared/main/login.html",
+    .state("login", {
+      url: "/login",
+      templateUrl: "frontend/app/shared/main/login.html",
       label: "Login"
     })
-    .when("/games", {
-      templateUrl: _urlPrefixes.TEMPLATES + "components/game/game.html",
+    .state("games", {
+      url: "/games",
+      templateUrl: "frontend/app/components/game/game.html",
       label: "Games"
     })
-    .when("/users", {
-      templateUrl: _urlPrefixes.TEMPLATES + "components/users/users.html",
+    .state("users", {
+      url: "/users",
+      templateUrl: "frontend/app/components/users/users.html",
       label: "Users"
     })
-    .when("/transfers", {
-      templateUrl: _urlPrefixes.TEMPLATES + "components/transfers/transfers.html",
-      label: "Users"
+    .state("transfers", {
+      url: "/transfers",
+      templateUrl: "frontend/app/components/transfers/transfers.html",
+      label: "transfers"
     })
-    .otherwise({
-      templateUrl: _urlPrefixes.TEMPLATES + "404.html"
-    });
+    // .otherwise({
+    //   templateUrl: "frontend/app/404.html"
+    // });
 }
 
-routesConfig.$inject = ["$routeProvider"];
+routesConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
 
 module.exports = routesConfig;  

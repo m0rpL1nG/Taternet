@@ -12,7 +12,7 @@ function gamedataservice($http) {
     };
 
     function getGames() {
-        return $http.get(_urlPrefixes.API + "games/")
+        return $http.get("api/v1/games/")
             .then(getGamesComplete)
             .catch(getGamesFailed);
 
@@ -26,7 +26,7 @@ function gamedataservice($http) {
     }
 
     function getGame() {
-        return $http.get(_urlPrefixes.API + "games/:game_id/")
+        return $http.get("api/v1/games/:game_id/")
             .then(getGameComplete)
             .catch(getGameFailed);
 
@@ -41,7 +41,7 @@ function gamedataservice($http) {
 
     function addGame(newGameObj) {
         console.log("newGameObj", newGameObj)
-        return $http.post(_urlPrefixes.API + "games/", newGameObj)
+        return $http.post("api/v1/games/", newGameObj)
             .then(getGameComplete)
             .catch(getGameFailed);
 

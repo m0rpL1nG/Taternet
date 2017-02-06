@@ -13,7 +13,7 @@ function transferdataservice($http) {
 
     function getTransfers() {
         console.log('At service before request')
-        return $http.get(_urlPrefixes.API + "transfers/")
+        return $http.get("api/v1/transfers/")
             .then(getTransfersComplete)
             .catch(getTransfersFailed);
 
