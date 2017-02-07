@@ -81,12 +81,12 @@
 	angular.module("myApp", ["Main", "Navigation", "Home", "Game", "Users", "Transfers", "angular-jwt", "ngMaterial", "ngResource", "ui.router", "data-table", "LocalStorageModule", "ngPrint", "ngBarcode"]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(28);
+	var routesConfig = __webpack_require__(30);
 
 	/* App Config */
 	angular.module("myApp").config(routesConfig);
+	__webpack_require__(28);
 	__webpack_require__(29);
-	__webpack_require__(30);
 
 /***/ },
 /* 1 */
@@ -3714,7 +3714,7 @@
 	        var printContents = document.getElementById(divName).innerHTML;
 	        var popupWin = window.open('', '_blank', 'width=800,height=600');
 	        popupWin.document.open();
-	        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/bower_components/angular-data-table/release/style-old.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+	        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/components/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
 	        popupWin.document.close();
 	    }
 	}
@@ -3781,6 +3781,52 @@
 /* 28 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	angular.module('myApp').config(config);
+
+	function config($mdThemingProvider) {
+	    $mdThemingProvider.theme('default').primaryPalette('blue-grey', {
+	        'default': '500', // by default use shade 500 from the pink palette for primary intentions
+	        'hue-1': '700', // use shade 700 for the <code>md-hue-1</code> class
+	        'hue-2': '800', // use shade 800 for the <code>md-hue-2</code> class
+	        'hue-3': 'A200' // use shade A200 for the <code>md-hue-3</code> class
+	    }).accentPalette('light-blue', {
+	        'default': '700' // use shade 200 for default, and keep all other shades the same
+	    });
+	}
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	// angular
+	//     .module('myApp')
+	//     .config(config);
+
+	// function config($httpProvider, jwtOptionsProvider) {
+	//     jwtOptionsProvider.config({
+	//       authPrefix: 'JWT ',
+	//       tokenGetter: ['options', function(options) {
+	//         // Skip authentication for any requests ending in .html
+	//         // if (options.url.substr(options.url.length - 5) == '.json') {
+	//         //   return null;
+	//         // }
+	//         if (!localStorage.getItem('ls.currentUser')){
+	//           currentUser = {username: '' ,token:''};
+	//           localStorage.setItem('ls.currentUser', JSON.stringify(currentUser))
+	//         };
+	//         return JSON.parse(localStorage.getItem('ls.currentUser')).token
+	//       }]
+	//     });
+	//    $httpProvider.interceptors.push('jwtInterceptor');
+	// }
+	"use strict";
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
 	"use strict";
 
 	function routesConfig($stateProvider, $urlRouterProvider) {
@@ -3816,52 +3862,6 @@
 	routesConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
 
 	module.exports = routesConfig;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('myApp').config(config);
-
-	function config($mdThemingProvider) {
-	    $mdThemingProvider.theme('default').primaryPalette('blue-grey', {
-	        'default': '500', // by default use shade 500 from the pink palette for primary intentions
-	        'hue-1': '700', // use shade 700 for the <code>md-hue-1</code> class
-	        'hue-2': '800', // use shade 800 for the <code>md-hue-2</code> class
-	        'hue-3': 'A200' // use shade A200 for the <code>md-hue-3</code> class
-	    }).accentPalette('light-blue', {
-	        'default': '700' // use shade 200 for default, and keep all other shades the same
-	    });
-	}
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	// angular
-	//     .module('myApp')
-	//     .config(config);
-
-	// function config($httpProvider, jwtOptionsProvider) {
-	//     jwtOptionsProvider.config({
-	//       authPrefix: 'JWT ',
-	//       tokenGetter: ['options', function(options) {
-	//         // Skip authentication for any requests ending in .html
-	//         // if (options.url.substr(options.url.length - 5) == '.json') {
-	//         //   return null;
-	//         // }
-	//         if (!localStorage.getItem('ls.currentUser')){
-	//           currentUser = {username: '' ,token:''};
-	//           localStorage.setItem('ls.currentUser', JSON.stringify(currentUser))
-	//         };
-	//         return JSON.parse(localStorage.getItem('ls.currentUser')).token
-	//       }]
-	//     });
-	//    $httpProvider.interceptors.push('jwtInterceptor');
-	// }
-	"use strict";
 
 /***/ }
 /******/ ]);
