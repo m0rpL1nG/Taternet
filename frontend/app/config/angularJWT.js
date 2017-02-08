@@ -1,5 +1,5 @@
 // angular
-//     .module('myApp')
+//     .module('taternet')
 //     .config(config);
 
 // function config($httpProvider, jwtOptionsProvider) {

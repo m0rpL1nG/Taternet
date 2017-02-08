@@ -3,31 +3,29 @@
 <html>  
   <head>
     <meta charset="utf-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Taternet</title>
 
     <link href="{% static '/bower_components/angular-material/angular-material.min.css' %}" rel="stylesheet">
     <link href="{% static '/bower_components/angular-data-table/release/dataTable.css' %}" rel="stylesheet">
     <link href="{% static '/bower_components/angular-data-table/release/material.css' %}" rel="stylesheet">
-    <link href="{% static '/app/components/ngPrint/ngPrint.min.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
   </head>
   <body
-    ng-app="myApp" 
+    ng-app="taternet" 
     layout="row" 
     class="ng-scope" 
     ng-cloak 
     ng-controller="MainController as main">
       <!--Include Main navigation-->
-      <div layout="row" ng-include src="'frontend/app/components/navigation/navigation.html'"></div>
+      <div layout="row" ng-include src="'frontend/app/navigation/navigation.html'"></div>
 
       <md-content flex layout="row" tabindex="-1" role="main">
         <ui-view flex>
           states not loading
         </ui-view>
       </md-content>
-  <script src="{% static '/dist/js/bundle.js' %}"></script>
+  <script src="{% static '/assets/js/bundle.js' %}"></script>
   </body>
 </html>

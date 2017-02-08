@@ -1,4 +1,4 @@
-<div ng-controller="UsersController as ctrl">  
+<div>  
   <section flex layout="column">
 
     <md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar">
@@ -11,7 +11,7 @@
             </button>
             <md-menu-content>
               <md-menu-item>
-                <md-button ng-click="ctrl.sampleAction('share', $event)">
+                <md-button ng-click="people.sampleAction('share', $event)">
                   Share...
                 </md-button>
               </md-menu-item>
@@ -42,14 +42,20 @@
       </div>
     </md-toolbar>
   </section>
+  <ui-view> 
 
   <md-content layout-padding flex="" id="content" class="md-default-theme">
     <h2>Scrolling</h2>
-    <dtable options="ctrl.options" rows="ctrl.data" class="material"></dtable>
+    <dtable 
+      options="people.options" 
+      rows="people.data" 
+      on-row-click="people.onRowClick(row)"
+      class="material"></dtable>
   </md-content>
 
   <md-content class="footer md-default-theme">
   <md-divider class="md-default-theme"></md-divider>
   <p><strong>angular-data-table</strong> is a <strong>Swimlane</strong> open-source project; we believe in giving back to the open-source community by sharing some of our projects. <strong>Swimlane</strong> is an automated cyber security operations and incident response platform that enables cyber security teams to leverage threat intelligence, speed up incident response and automate security operations.&ensp;Learn more at <a href="http://swimlane.com">Swimlane.com</a></p>
   </md-content>
+  </ui-view>
 </div>  

@@ -2,7 +2,7 @@
 module.exports = {  
     entry: "./app/app.js",
     output: {
-        path: "./dist/js/",
+        path: "./assets/js/",
         filename: "bundle.js",
         sourceMapFilename: "bundle.js.map",
     },
