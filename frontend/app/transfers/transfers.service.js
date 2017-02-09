@@ -10,10 +10,20 @@ function transferdataservice($http) {
         // getGame: getGame,
         // addGame: addGame
     };
-
-    function getTransfers() {
-        console.log('At service before request')
-        return $http.get("api/v1/transfers/")
+    function getTransfers(location, destination) {
+        console.log(location, destination);
+        var params = {}
+        if (location){
+            params.location = location;
+        }
+        if(destination){
+            params.destination = destination;
+        }
+        return $http({
+            url: "api/v1/transfers/",
+            method: "GET",
+            params: params
+            })
             .then(getTransfersComplete)
             .catch(getTransfersFailed);
 

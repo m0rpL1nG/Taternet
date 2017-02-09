@@ -42,7 +42,7 @@ function PeopleController(dataservice, $state) {
     
     function onRowClick(row) {
         console.log('ROW CLICKED', row);
-        $state.transitionTo('people.detail', {id: row.id});
+        $state.transitionTo('index.people.detail', {id: row.id});
     }
 
 }

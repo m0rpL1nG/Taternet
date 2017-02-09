@@ -1,0 +1,25 @@
+<div layout-fill layout="column" ng-cloak>
+    <md-sidenav
+        flex
+        class="site-sidenav md-sidenav-left"
+        md-component-id="left-menu"
+        md-is-locked-open="$mdMedia('gt-sm')"
+        md-whiteframe="4">
+
+        <md-toolbar class="md-hue-2" layout="row" layout-align="center">
+            <a href="/">
+                <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
+            </a>
+        </md-toolbar>
+        <!--<md-divider></md-divider>-->
+        <md-toolbar flex layout="column" class="md-hue-2">
+            <md-list>
+                <md-list-item ng-repeat="item in nav.items" ui-sref="index.{{item.link }}">
+                    <span>{{ item.title }}</span>
+                    <md-divder></md-divder>
+                </md-list-item>
+            </md-list>
+
+        </md-toolbar>
+    </md-sidenav>
+</div>

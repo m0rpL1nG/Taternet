@@ -1,9 +1,14 @@
 angular.module("Transfers")
     .controller("TransfersController", TransfersController);
 
-TransfersController.$inject=['transferdataservice', '$filter', 'filterFilter']
+TransfersController.$inject=[
+    'transferdataservice',
+    '$filter',
+    'filterFilter',
+    'sessionservice',
+    ]
 
-function TransfersController(transferdataservice, $filter, filterFilter) {  
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice) {  
 
     var vm = this;
     
@@ -12,6 +17,7 @@ function TransfersController(transferdataservice, $filter, filterFilter) {
     vm.transfers = undefined;
     vm.inLocationFilter = {};
     vm.toLocationFilter = {};
+    vm.resetFilters = resetFilters;
 
     //Data Table Setup
     vm.options = {
@@ -60,6 +66,7 @@ function TransfersController(transferdataservice, $filter, filterFilter) {
     vm.barcodeColor = { r: 0, g: 0, b: 0 };
     
     vm.stores = [
+        {name: "Corporate", id: "00"},
         {name: "North Tampa", id:"01"},
         {name: "Brandon", id:"02"},
         {name: "South Tampa", id:"03"},
@@ -79,32 +86,45 @@ function TransfersController(transferdataservice, $filter, filterFilter) {
         {name: "Depot", id:"04"},
         {name: "Return", id:"05"},
         {name: "Lost", id:"06"},
+        {name: "Eval", id: "10"},
         {name: "Depot Overstock", id:"12"},
     ]
     
     //Print Setup
     vm.printDiv = printDiv;
-
+    // vm.date = new Date().toISOString().slice(0,10).replace(/-/g,"");
     
+    vm.baseLocation;
+
     //// functions
     activate();
 
     function activate() {
-        return getTransfers().then(function() {
-            // console.log('Activated Transfer recall')
-            // logger.info('Activated Users View');
-        });
+        // var newDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
+        var month = new Date().toISOString().slice(0,10).replace(/-/g,"").slice(4,6);
+        var day = new Date().toISOString().slice(0,10).replace(/-/g,"").slice(6,8);
+        var year = new Date().toISOString().slice(0,10).replace(/-/g,"").slice(0, 4);
+        // var whole = new Date().toISOString().slice(0,10).replace(/-/g,"")
+        console.log(month, day, year);
+        vm.date = `${month}/${day}/${year}`;
+        console.log(vm.date);
+        getTransfers(null, sessionservice.getUserLocation(), true);
+        getTransfers();
+        // return getTransfers().then(function() {
+        //     // console.log('Activated Transfer recall')
+        //     // logger.info('Activated Users View');
+        // });
     }
 
-    function getTransfers() {
+    function getTransfers(location = null, destination = null, partial=false) {
         console.log('transfer request begun')
-        return transferdataservice.getTransfers()
+        return transferdataservice.getTransfers(location, destination)
             .then(function(data) {
                 // console.log("Transfers: ", data);
-                vm.transfers = data;
-                vm.dataStore = data;
+                if(partial){vm.transfers = data;}
+                else{vm.dataStore = data};
                 // console.log("filtered", vm.transfersFilter)
-            return vm.transfers;
+            // return vm.transfers;
             });
     }
 
@@ -164,7 +184,15 @@ function TransfersController(transferdataservice, $filter, filterFilter) {
 
         // vm.transfers = filterFilter(vm.dataStore, { to_location: vm.toLocationFilter })
     //    vm.transfers = $filter('filter')(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter });
-    } 
+    }   
+
+    function resetFilters(){
+        vm.transfers = vm.dataStore;
+        if(vm.inLocationFilter){
+            vm.inLocationFilter = {};};
+        if(vm.toLocationFilter){vm.toLocationFilter= {};};
+    }
+
     
     function onSelect(row) {
         console.log('ROW SELECTED!', row);
@@ -178,7 +206,7 @@ function TransfersController(transferdataservice, $filter, filterFilter) {
         var printContents = document.getElementById(divName).innerHTML;
         var popupWin = window.open('', '_blank', 'width=800,height=600');
         popupWin.document.open()
-        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/components/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
         popupWin.document.close();
     } 
 

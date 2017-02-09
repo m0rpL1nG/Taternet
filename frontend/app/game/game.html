@@ -1,54 +1,30 @@
-<div layout="column" ng-controller="GameListController as ctrl">  
-    <md-toolbar layout="row" class="md-whiteframe-glow-z1 site-content-toolbar">
-      <div class="md-toolbar-tools">
-        <md-button 
-          hide 
-          show-sm 
-          class="md-icon-button" 
-          aria-label="menu" 
-          ng-click="main.toggleSideNav()">
-          <md-icon><i class="material-icons">menu</i></md-icon>
-        </md-button>
-        <h2><span>Dashboard</span></h2>
-        <span flex></span> <!-- flex span takes up middle space? -->
-        <h2>{{ username || "Temp User" }}</h2>
-        <md-menu>
-          <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
-             <md-icon><i class="material-icons">more_vert</i></md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item><md-button ng-click="main.logout()">logout</md-button></md-menu-item>
-            <md-menu-item><md-button>Place Holder</md-button></md-menu-item>
-          </md-menu-content>
-        </md-menu>
-      </div>
-    </md-toolbar>
+<div layout="column">  
 
   <md-content flex layout-padding>
     <section flex layout-padding>
     <p>Add a Game</p>
     <md-input-container>
       <label>Title</label>
-      <input ng-model="ctrl.game.title">
+      <input ng-model="game.game.title">
     </md-input-container>
     <md-input-container>
       <label>Description</label>
-      <input ng-model="ctrl.game.description">
+      <input ng-model="game.game.description">
     </md-input-container>
     <md-input-container>
-      <md-button class="md-raised md-primary" ng-click="ctrl.addGame(ctrl.game)">Primary</md-button>
+      <md-button class="md-raised md-primary" ng-click="game.addGame(game.game)">Primary</md-button>
     </md-input-container>
     </section>
     <md-divider></md-divider>
     <p>List of Games</p>
     <section>
       <dtable
-        options="ctrl.options"
-        rows="ctrl.data"
+        options="game.options"
+        rows="game.data"
         class="material"
-        selected="ctrl.selected"
-        on-row-click="ctrl.onRowClick(row)"
-        on-select="ctrl.onSelect(rows)">
+        selected="game.selected"
+        on-row-click="game.onRowClick(row)"
+        on-select="game.onSelect(rows)">
       </dtable>
     </section>
   </md-content>

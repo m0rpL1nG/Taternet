@@ -1,6 +1,6 @@
 // var path = require('path');
 module.exports = {  
-    entry: "./app/app.js",
+    entry: "./app/app.module.js",
     output: {
         path: "./assets/js/",
         filename: "bundle.js",
@@ -37,7 +37,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js'],
         alias: {
-          'angular': './dist/js/bundle.js',
+          'angular': './assets/js/bundle.js',
       }
 
 
