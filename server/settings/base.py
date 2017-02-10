@@ -22,7 +22,7 @@ DATABASES = {
         'NAME': 'FamousTate',
         'USER': 'sa',
         'PASSWORD': '7777777',
-        'HOST': 'SQLSANDBOX',
+        'HOST': '10.10.1.99',
         'PORT': '1433',
 
         'OPTIONS': {
