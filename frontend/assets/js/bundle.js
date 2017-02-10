@@ -973,15 +973,24 @@
 	    activate();
 
 	    function activate() {
-	        // var newDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
 	        var month = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(4, 6);
 	        var day = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(6, 8);
 	        var year = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(0, 4);
-	        // var whole = new Date().toISOString().slice(0,10).replace(/-/g,"")
+
 	        console.log(month, day, year);
 	        vm.date = month + "/" + day + "/" + year;
 	        console.log(vm.date);
 	        getTransfers(null, sessionservice.getUserLocation(), true);
+	        vm.toLocationFilter = {
+	            store: {
+	                name: "Corporate",
+	                id: "00"
+	            },
+	            stockClassification: {
+	                name: "Eval",
+	                id: "10"
+	            }
+	        };
 	        getTransfers();
 	        // return getTransfers().then(function() {
 	        //     // console.log('Activated Transfer recall')
@@ -1031,6 +1040,7 @@
 	        if (vm.toLocationFilter.store) {
 	            vm.toLocationFilter.value = vm.toLocationFilter.store;
 	            if (vm.toLocationFilter.stockClassification) {
+	                console.log(vm.toLocationFilter);
 	                vm.toLocationFilter.value = "" + vm.toLocationFilter.store + vm.toLocationFilter.stockClassification;
 	            }
 	        } else {
