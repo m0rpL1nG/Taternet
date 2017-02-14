@@ -1,35 +1,5 @@
 
 import datetime
-import environ
-
-ROOT = environ.Path(__file__) - 2
-PROJECT_ROOT = environ.Path(__file__) - 3
-ENV = environ.Env(DEBUG=(bool, False),)
-CURRENT_ENV = 'dev' # 'dev' is the default Environment
-ENV.read_env('{}/{}.env'.format(ROOT, CURRENT_ENV))
-SECRET_KEY = ENV('SECRET_KEY')
-DEBUG = ENV('DEBUG')
-
-ALLOWED_HOSTS = ['*']
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '{}{}'.format(PROJECT_ROOT, 'db.sqlite3'),
-    },
-    'whirlwind': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'FamousTate',
-        'USER': 'sa',
-        'PASSWORD': '7777777',
-        'HOST': 'SQLSANDBOX',
-        'PORT': '1433',
-
-        'OPTIONS': {
-            'driver': 'ODBC Driver 13 for SQL Server',
-        },
-    },
-}
 
 DATABASE_ROUTERS = [
     #'server.settings.routers.auth.AuthRouter',
@@ -68,21 +38,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'server.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': ['{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
@@ -118,15 +88,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/frontend/'
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    ]
-STATICFILES_DIRS = [
-    '{}{}'.format(PROJECT_ROOT, ENV('FRONTEND_ROOT'))
-    ]
