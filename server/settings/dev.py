@@ -11,7 +11,7 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [u'10.20.1.112']
+ALLOWED_HOSTS = [u'10.20.1.112', u'10.20.1.112.xip.io']
 
 DATABASES = {
     'default': env.db(),
@@ -44,6 +44,16 @@ TEMPLATES = [
         },
     },
 ]
+
+##### AUTH Settings ####
+
+# Google API Settings
+GOOGLE_OAUTH2_CLIENT_ID = env('CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = env('CLIENT_SECRET')
+GOOGLE_OAUTH2_SCOPES = ('email', 'profile')
+# "redirect_uris": [],
+# "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+# "token_uri": "https://accounts.google.com/o/oauth2/token"
 
 STATIC_URL = '/frontend/'
 STATICFILES_FINDERS = [

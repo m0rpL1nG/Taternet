@@ -1,15 +1,16 @@
 /* Libs */
-require("../bower_components/angular/angular.min");  
+require("../bower_components/angular/angular");  
 
 require("../bower_components/angular-aria/angular-aria.min");
 require("../bower_components/angular-animate/angular-animate.min");
-require("../bower_components/angular-material/angular-material.min");
+require("../bower_components/angular-material/angular-material");
 
 require("../../node_modules/angular-ui-router/release/angular-ui-router.min");   
 require("../bower_components/angular-resource/angular-resource.min");
-require("../bower_components/angular-jwt/dist/angular-jwt.min");
+require("../bower_components/satellizer/dist/satellizer");
+// require("../bower_components/angular-jwt/dist/angular-jwt.min");
 require("../bower_components/angular-data-table/release/dataTable.min");
-require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
+// require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
 require("../bower_components/angular-barcode/dist/ng-barcode.min")
 
 /* Globals */
@@ -37,12 +38,13 @@ angular.module("taternet", [
     //////////////////
     // Outside Libs //
     //////////////////
-    "angular-jwt",
+    "satellizer",
+    // "angular-jwt",
     "ngMaterial",
     "ngResource",
     "ui.router",
     "data-table",
-    "LocalStorageModule",
+    // "LocalStorageModule",
     "ngBarcode",
 ]);
 

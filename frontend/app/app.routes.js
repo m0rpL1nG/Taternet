@@ -6,13 +6,6 @@ function routesConfig($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
   
   var states = [
-    // {
-    //   name: 'index',
-    //   url: '/',
-    //   views: {
-    //     '': {templateUrl: 'frontend/app/layout/shell.html'}
-    //   }
-    // }
     {
       name: "index",
       url: '',
@@ -39,11 +32,13 @@ function routesConfig($stateProvider, $urlRouterProvider) {
       },
     },
     /////////////////////////
-    // {
-    //   name: "login", 
-    //   url: "/login",
-    //   templateUrl: "frontend/app/shared/main/login.html",
-    // },
+    {
+      name: "authenticate",
+      url: "/auth",
+      templateUrl: "frontend/app/admin/session/login.html",
+      controller: "SessionController",
+      controllerAs: "session",
+    },
     {
       name: "index.games",
       url: "/games",
