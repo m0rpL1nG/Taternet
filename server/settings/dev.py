@@ -11,7 +11,7 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [u'10.20.1.112', u'10.20.1.112.xip.io', u'localhost']
+ALLOWED_HOSTS = [u'10.20.1.112', u'10.20.1.112.xip.io', u'localhost', u'10.10.1.75', u'10.10.1.75.xip.io']
 
 DATABASES = {
     'default': env.db(),
