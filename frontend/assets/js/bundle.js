@@ -72091,7 +72091,7 @@
 	        redirectUri: window.location.origin + '/'
 	    });
 
-	    $authProvider.authToken = 'JWT';
+	    $authProvider.tokenType = 'JWT';
 	    $authProvider.tokenPrefix = 'satellizer_jwt';
 	}
 

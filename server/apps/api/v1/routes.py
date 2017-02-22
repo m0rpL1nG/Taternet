@@ -12,7 +12,6 @@ api_router.register('whirlwindusers', UserApiView)
 api_router.register('transfers', TransferViewset, base_name="transfers")
 api_router.register('inventory', InventoryViewset)
 # api_router.register('users', UsersViewset)
-urlpatterns = api_router.urls
 
 urlpatterns = [
      url(r'^login/', include('rest_social_auth.urls_jwt')),
@@ -20,5 +19,3 @@ urlpatterns = [
 ]
 
 urlpatterns += api_router.urls
-
-print 
