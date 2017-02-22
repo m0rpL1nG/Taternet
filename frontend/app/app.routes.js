@@ -42,9 +42,7 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.dashboard",
       url: "/dashboard",
-      templateUrl: "frontend/app/admin/session/dashboard.html",
-      // controller: "GameListController",
-      // controllerAs: "game",
+      templateUrl: "frontend/app/dashboard/dashboard.html",
     },
     {
       name: "index.games",

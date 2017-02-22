@@ -1,9 +1,23 @@
-<div flex layout="column">
-    <md-content flex>
-            <div flex>
-                <button ng-click="session.authenticate('google')">Login in with google</button>
-                <button ng-click="session.logout()">Logout</button>
-                <!--<div flex ng-init="session.authenticate('google')"></div>-->
-            </div>
-    </md-content>
+<div layout-fill layout="row" layout-align="center center">
+    <md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
+        <h2>Employee Login</h2>        
+        <md-button class="md-raised md-primary" ng-click="session.authenticate('google')">Login</md-button>
+        <p>Employees with valid Famous Tate email accounts can login using this link.
+        If you need a Famous Tate email account, please contact your manager.</p>
+    </md-whiteframe>
+    <md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
+        <h2>Contractor Login</h2>   
+        <md-input-container>
+            <label>email address</label>
+            <input>
+        </md-input-container>
+        <md-input-container>
+            <label>password</label>
+            <input>
+        </md-input-container>     
+        <md-input-container>
+            <md-button class="md-raised md-primary" ng-click="session.logout()">Login</md-button>
+            <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
+        </md-input-container>
+    </md-whiteframe>
 </div>
