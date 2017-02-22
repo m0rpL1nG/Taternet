@@ -10,8 +10,8 @@ require("../bower_components/angular-resource/angular-resource.min");
 require("../bower_components/satellizer/dist/satellizer");
 // require("../bower_components/angular-jwt/dist/angular-jwt.min");
 require("../bower_components/angular-data-table/release/dataTable.min");
-// require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
-require("../bower_components/angular-barcode/dist/ng-barcode.min")
+require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
+require("../../node_modules/ng-barcode/dist/ng-barcode.min")
 
 /* Globals */
 
@@ -44,7 +44,7 @@ angular.module("taternet", [
     "ngResource",
     "ui.router",
     "data-table",
-    // "LocalStorageModule",
+    "LocalStorageModule",
     "ngBarcode",
 ]);
 

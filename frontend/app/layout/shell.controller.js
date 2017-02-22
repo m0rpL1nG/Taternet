@@ -1,9 +1,9 @@
 angular.module("Layout")
     .controller("ShellController", ShellController);
 
-ShellController.$inject=['sessionservice', '$mdSidenav']
+ShellController.$inject=['sessionservice', '$mdSidenav', 'localStorageService']
 
-function ShellController(sessionservice, $mdSidenav) {  
+function ShellController(sessionservice, $mdSidenav, localStorageService) {  
     var vm = this;
     // Needs of this controller
     // 1. Check if user is logged
@@ -11,7 +11,8 @@ function ShellController(sessionservice, $mdSidenav) {
     // 3. Redirect Major view components
 
     vm.toggleSideNav = toggleSideNav;
-    
+
+
     function toggleSideNav() {
         console.log('toggleSidenav');
         $mdSidenav('left-menu').toggle();

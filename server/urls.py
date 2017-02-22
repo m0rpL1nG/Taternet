@@ -11,13 +11,13 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     
     # Auth
-    # url(r'^api/login/', include('rest_social_auth.urls_jwt')),
+    url(r'^api/login/', include('rest_social_auth.urls_jwt')),
     
     # API:V1
     url(r'^api/v1/', include(api_router.urls)),
     url(r'^api/v1/login/', include('rest_social_auth.urls_jwt')),
     url(r'^api/v1/user/', UserDetailView.as_view()),
-    url(r'auth/google/callback/', OkResponse),
+    url(r'auth/google/', OkResponse),
 
     # App Entry point
     url(r'^$', TemplateView.as_view(template_name="app/index.html"), name='index'),

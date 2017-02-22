@@ -3,13 +3,13 @@ routesConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
 
 function routesConfig($stateProvider, $urlRouterProvider) {  
   
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/dashboard');
   
   var states = [
     {
       name: "index",
       url: '',
-      // abstract: true,
+      abstract: true,
       views: {
         '': {
           templateUrl: "frontend/app/layout/shell.html",
@@ -23,8 +23,8 @@ function routesConfig($stateProvider, $urlRouterProvider) {
         },
         'topnav@index': {
           templateUrl: "frontend/app/layout/topnav.html",
-          // controller: "HeaderController",
-          // controllerAs: "head"
+          controller: "TopNavController",
+          controllerAs: "top"
         },
         // 'body@index': {
         //   templateUrl: "frontend/app/layout/body.html",
@@ -38,6 +38,13 @@ function routesConfig($stateProvider, $urlRouterProvider) {
       templateUrl: "frontend/app/admin/session/login.html",
       controller: "SessionController",
       controllerAs: "session",
+    },
+    {
+      name: "index.dashboard",
+      url: "/dashboard",
+      templateUrl: "frontend/app/admin/session/dashboard.html",
+      // controller: "GameListController",
+      // controllerAs: "game",
     },
     {
       name: "index.games",

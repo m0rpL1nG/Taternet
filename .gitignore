@@ -1,7 +1,9 @@
 node_modules/
 bower_components/
 env/
+tate/
 .vscode/
+migrations/
 *.env
 *.pyc
 client_secrets.json

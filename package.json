@@ -11,6 +11,7 @@
     "bower": "^1.8.0",
     "eslint": "^3.12.2",
     "eslint-loader": "^1.6.1",
+    "ng-barcode": "^1.0.8",
     "webpack": "^2.2.1"
   },
   "devDependencies": {},

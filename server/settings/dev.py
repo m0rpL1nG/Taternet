@@ -11,7 +11,7 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [u'10.20.1.112', u'10.20.1.112.xip.io']
+ALLOWED_HOSTS = [u'10.20.1.112', u'10.20.1.112.xip.io', u'localhost']
 
 DATABASES = {
     'default': env.db(),
@@ -36,9 +36,12 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -48,12 +51,14 @@ TEMPLATES = [
 ##### AUTH Settings ####
 
 # Google API Settings
-GOOGLE_OAUTH2_CLIENT_ID = env('CLIENT_ID')
-GOOGLE_OAUTH2_CLIENT_SECRET = env('CLIENT_SECRET')
-GOOGLE_OAUTH2_SCOPES = ('email', 'profile')
-# "redirect_uris": [],
-# "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-# "token_uri": "https://accounts.google.com/o/oauth2/token"
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Ox6pH8BUMjyCOglSEvnT02JQ'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('CLIENT_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
+
 
 STATIC_URL = '/frontend/'
 STATICFILES_FINDERS = [

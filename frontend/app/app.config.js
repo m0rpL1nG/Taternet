@@ -4,6 +4,7 @@ angular
 function config($mdThemingProvider, $authProvider){
     materialConfig($mdThemingProvider);
     satellizerConfig($authProvider);
+    // JWTconfig($httpProvider, jwtOptionsProvider)
 }
 
 function materialConfig($mdThemingProvider) {
@@ -23,18 +24,16 @@ function materialConfig($mdThemingProvider) {
 function satellizerConfig($authProvider){
     console.log("satellizerConfig ran");
     $authProvider.google({
-        url: "/api/v1/login/social/jwt_user/google-oauth2",
+        url: '/api/v1/login/social/jwt_user/google-oauth2/',
         clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
-        scope: ['email', 'profile'],
-        // redirectUri : 'http://10.20.1.112.xip.io/auth/'
-        redirectUri: window.location.origin + '.xip.io/auth/google/callback/',
+        redirectUri: window.location.origin + '/',
     });
     
     $authProvider.authToken = 'JWT';
     $authProvider.tokenPrefix = 'satellizer_jwt';
 }
 
-// function config($httpProvider, jwtOptionsProvider) {
+// function JWTconfig($httpProvider, jwtOptionsProvider) {
 //     jwtOptionsProvider.config({
 //       authPrefix: 'JWT ',
 //       tokenGetter: ['options', function(options) {
