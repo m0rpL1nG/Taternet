@@ -58,20 +58,20 @@
 	__webpack_require__(7);
 	// require("../bower_components/angular-jwt/dist/angular-jwt.min");
 	__webpack_require__(16);
-	__webpack_require__(36);
-	__webpack_require__(35);
+	__webpack_require__(17);
+	__webpack_require__(18);
 
 	/* Globals */
 
 	/* Components */
-	__webpack_require__(17);
-	__webpack_require__(20);
+	__webpack_require__(19);
+	__webpack_require__(22);
 	// require("./shared/main/main");
 	// require("./navigation/navigation");
 	// require("./home/home.module");
-	__webpack_require__(23);
 	__webpack_require__(26);
-	__webpack_require__(30);
+	__webpack_require__(29);
+	__webpack_require__(33);
 
 	/* App Dependencies */
 	angular.module("taternet", ["Admin", "Layout",
@@ -86,11 +86,11 @@
 	"ngMaterial", "ngResource", "ui.router", "data-table", "LocalStorageModule", "ngBarcode"]);
 
 	/* Config Vars */
-	var routesConfig = __webpack_require__(33);
+	var routesConfig = __webpack_require__(36);
 
 	/* App Config */
 	angular.module("taternet").config(routesConfig);
-	__webpack_require__(34);
+	__webpack_require__(37);
 
 /***/ },
 /* 1 */
@@ -71166,17 +71166,37 @@
 
 /***/ },
 /* 17 */
+/***/ function(module, exports) {
+
+	/**
+	 * An Angular module that gives you access to the browsers local storage
+	 * @version v0.5.1 - 2016-09-21
+	 * @link https://github.com/grevory/angular-local-storage
+	 * @author grevory <greg@gregpike.ca>
+	 * @license MIT License, http://www.opensource.org/licenses/MIT
+	 */
+	!function(a,b){var c=b.isDefined,d=b.isUndefined,e=b.isNumber,f=b.isObject,g=b.isArray,h=b.isString,i=b.extend,j=b.toJson;b.module("LocalStorageModule",[]).provider("localStorageService",function(){this.prefix="ls",this.storageType="localStorage",this.cookie={expiry:30,path:"/",secure:!1},this.defaultToCookie=!0,this.notify={setItem:!0,removeItem:!1},this.setPrefix=function(a){return this.prefix=a,this},this.setStorageType=function(a){return this.storageType=a,this},this.setDefaultToCookie=function(a){return this.defaultToCookie=!!a,this},this.setStorageCookie=function(a,b,c){return this.cookie.expiry=a,this.cookie.path=b,this.cookie.secure=c,this},this.setStorageCookieDomain=function(a){return this.cookie.domain=a,this},this.setNotify=function(a,b){return this.notify={setItem:a,removeItem:b},this},this.$get=["$rootScope","$window","$document","$parse","$timeout",function(a,b,k,l,m){function n(c){if(c||(c=b.event),s.setItem&&h(c.key)&&w(c.key)){var d=v(c.key);m(function(){a.$broadcast("LocalStorageModule.notification.changed",{key:d,newvalue:c.newValue,storageType:p.storageType})})}}var o,p=this,q=p.prefix,r=p.cookie,s=p.notify,t=p.storageType;k?k[0]&&(k=k[0]):k=document,"."!==q.substr(-1)&&(q=q?q+".":"");var u=function(a){return q+a},v=function(a){return a.replace(new RegExp("^"+q,"g"),"")},w=function(a){return 0===a.indexOf(q)},x=function(){try{var c=t in b&&null!==b[t],d=u("__"+Math.round(1e7*Math.random()));return c&&(o=b[t],o.setItem(d,""),o.removeItem(d)),c}catch(e){return p.defaultToCookie&&(t="cookie"),a.$broadcast("LocalStorageModule.notification.error",e.message),!1}},y=x(),z=function(b,c,e){if(K(e),c=d(c)?null:j(c),!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),s.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:"cookie"}),F(b,c);try{o&&o.setItem(u(b),c),s.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:p.storageType})}catch(f){return a.$broadcast("LocalStorageModule.notification.error",f.message),F(b,c)}return!0},A=function(b,c){if(K(c),!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),G(b);var d=o?o.getItem(u(b)):null;if(!d||"null"===d)return null;try{return JSON.parse(d)}catch(e){return d}},B=function(){var b=0;arguments.length>=1&&("localStorage"===arguments[arguments.length-1]||"sessionStorage"===arguments[arguments.length-1])&&(b=1,K(arguments[arguments.length-1]));var c,d;for(c=0;c<arguments.length-b;c++)if(d=arguments[c],!y&&p.defaultToCookie||"cookie"===p.storageType)y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),s.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:d,storageType:"cookie"}),H(d);else try{o.removeItem(u(d)),s.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:d,storageType:p.storageType})}catch(e){a.$broadcast("LocalStorageModule.notification.error",e.message),H(d)}},C=function(b){if(K(b),!y)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),[];var c=q.length,d=[];for(var e in o)if(e.substr(0,c)===q)try{d.push(e.substr(c))}catch(f){return a.$broadcast("LocalStorageModule.notification.error",f.Description),[]}return d},D=function(b,c){K(c);var d=q?new RegExp("^"+q):new RegExp,e=b?new RegExp(b):new RegExp;if(!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),I();if(!y&&!p.defaultToCookie)return!1;var f=q.length;for(var g in o)if(d.test(g)&&e.test(g.substr(f)))try{B(g.substr(f))}catch(h){return a.$broadcast("LocalStorageModule.notification.error",h.message),I()}return!0},E=function(){try{return b.navigator.cookieEnabled||"cookie"in k&&(k.cookie.length>0||(k.cookie="test").indexOf.call(k.cookie,"test")>-1)}catch(c){return a.$broadcast("LocalStorageModule.notification.error",c.message),!1}}(),F=function(b,c,h,i){if(d(c))return!1;if((g(c)||f(c))&&(c=j(c)),!E)return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;try{var l="",m=new Date,n="";if(null===c?(m.setTime(m.getTime()+-864e5),l="; expires="+m.toGMTString(),c=""):e(h)&&0!==h?(m.setTime(m.getTime()+24*h*60*60*1e3),l="; expires="+m.toGMTString()):0!==r.expiry&&(m.setTime(m.getTime()+24*r.expiry*60*60*1e3),l="; expires="+m.toGMTString()),b){var o="; path="+r.path;r.domain&&(n="; domain="+r.domain),"boolean"==typeof i?i===!0&&(n+="; secure"):r.secure===!0&&(n+="; secure"),k.cookie=u(b)+"="+encodeURIComponent(c)+l+o+n}}catch(p){return a.$broadcast("LocalStorageModule.notification.error",p.message),!1}return!0},G=function(b){if(!E)return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;for(var c=k.cookie&&k.cookie.split(";")||[],d=0;d<c.length;d++){for(var e=c[d];" "===e.charAt(0);)e=e.substring(1,e.length);if(0===e.indexOf(u(b)+"=")){var f=decodeURIComponent(e.substring(q.length+b.length+1,e.length));try{return JSON.parse(f)}catch(g){return f}}}return null},H=function(a){F(a,null)},I=function(){for(var a=null,b=q.length,c=k.cookie.split(";"),d=0;d<c.length;d++){for(a=c[d];" "===a.charAt(0);)a=a.substring(1,a.length);var e=a.substring(b,a.indexOf("="));H(e)}},J=function(){return t},K=function(a){return a&&t!==a&&(t=a,y=x()),y},L=function(a,b,d,e,g){e=e||b;var h=A(e,g);return null===h&&c(d)?h=d:f(h)&&f(d)&&(h=i(h,d)),l(b).assign(a,h),a.$watch(b,function(a){z(e,a,g)},f(a[b]))};y&&(b.addEventListener?(b.addEventListener("storage",n,!1),a.$on("$destroy",function(){b.removeEventListener("storage",n)})):b.attachEvent&&(b.attachEvent("onstorage",n),a.$on("$destroy",function(){b.detachEvent("onstorage",n)})));var M=function(a){K(a);for(var c=0,d=b[t],e=0;e<d.length;e++)0===d.key(e).indexOf(q)&&c++;return c};return{isSupported:y,getStorageType:J,setStorageType:K,set:z,add:z,get:A,keys:C,remove:B,clearAll:D,bind:L,deriveKey:u,underiveKey:v,length:M,defaultToCookie:this.defaultToCookie,cookie:{isSupported:E,set:F,add:F,get:G,remove:H,clearAll:I}}}]})}(window,window.angular);
+	//# sourceMappingURL=angular-local-storage.min.js.map
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	!function(){"use strict";function b(){var b={bindToController:!0,controller:e,controllerAs:"barcodeCtrl",restrict:"AEC",template:'<img width="100%" height="100%" ng-if="barcodeCtrl.input" ng-src="{{barcodeCtrl.base64Barcode()}}" />',scope:{input:"@ngBarcodeInput",code:"@ngBarcodeCode",colorBarcode:"@ngBarcodeColor",colorBackground:"@ngBarcodeBackground"}};return b}function e(){function b(){l.code39.BMP={};for(var b in l.code39.plain){var e=l.code39.plain[b];l.code39.BMP[b]="";for(var w=0;9>w;w++){switch(e.charAt(w)){case"B":l.code39.BMP[b]+="\x00\x00\x00\x00\x00\x00\x00\x00\x00";break;case"b":l.code39.BMP[b]+="\x00\x00\x00";break;case"W":l.code39.BMP[b]+="";break;case"w":l.code39.BMP[b]+=""}l.code39.BMP[b]+=""}}return a()}function e(b){var e=!1;return b.length%2!=0||isNaN(parseInt(b))||(e=!0),e}function a(){var b="",a=i.code,w=i.input.toUpperCase(),n=c(i.colorBarcode,1),o=c(i.colorBackground,2),B=[n,o];switch(a){case"code39":for(var t="*"+w.trim()+"*",d=0;d<t.length;d++)b+=l.code39.BMP[t.charAt(d)];break;case"i25":var a=w.trim();if(!e(a))throw"Invalid input format";b=l.I25.plain.START,a.length%2==1&&(a="0"+a);for(var d=0;d<a.length;d+=2)for(var p=l.I25.plain[a.charAt(d)],x=l.I25.plain[a.charAt(d+1)].replace(/b/g,"w").replace(/B/g,"W"),W=0;5>W;W++)b+=p.charAt(W)+x.charAt(W);b+=l.I25.plain.END,b=b.replace(/w/g,""),b=b.replace(/W/g,""),b=b.replace(/b/g,"\x00\x00\x00"),b=b.replace(/B/g,"\x00\x00\x00\x00\x00\x00\x00\x00\x00");break;default:throw"Code "+a+" not implemented"}return r([b],B)}function w(b){var e="",a=0;do{var n=b.charCodeAt(a++),r=b.charCodeAt(a++),o=b.charCodeAt(a++),c=n>>2,B=(3&n)<<4|r>>4,i=(15&r)<<2|o>>6,l=63&o;isNaN(r)?i=l=64:isNaN(o)&&(l=64),e=e+w.keyStr.charAt(c)+w.keyStr.charAt(B)+w.keyStr.charAt(i)+w.keyStr.charAt(l)}while(a<b.length);return e}function n(b,e){if(0>b||0>e)throw"Negative numbers not allowed.";for(var a=1,w="",n=0;e>n;n++){if(0==b)o=0;else{var r=256*a,o=b%r;b-=o,o/=a,a=r}w+=String.fromCharCode(o)}if(0!=b)throw"Overflow, number too big for string length";return w}function r(b,e){var a="BMxxxx\x00\x00\x00\x00yyyy",r=b.length,o=r&&b[0].length,c=n(r,4),B=n(o,4),i=n(40,4),l=8,t=n(l,2),d=i+B+c+"\x00"+t+"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";if(24!=l){for(var p=[],x=0,W=0,h=0,u=0;256>u;u++)u<e.length&&(x=e[u][0],W=e[u][1],h=e[u][2]),p[u]=String.fromCharCode(h,W,x,0);p=p.join("")}var f;f=o%4==1?"\x00\x00\x00":o%4==2?"\x00\x00":o%4==3?"\x00":"";for(var g=[],s=0;r>s;s++)g[s]=b[r-s-1]+f;var v=a+d+p+g.join("");return v=v.replace(/yyyy/,n(a.length+d.length+p.length,4)),v=v.replace(/xxxx/,n(v.length,4)),"data:image/bmp;base64,"+w(v)}function o(b){var e=null,a=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;b=b.replace(a,function(b,e,a,w){return e+e+a+a+w+w});var w=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(b);return e=w?[parseInt(w[1],16),parseInt(w[2],16),parseInt(w[3],16)]:[0,0,0]}function c(b,e){return b?B(b)?JSON.parse(b):o(b):1===e?[0,0,0]:[255,255,255]}function B(b){try{return JSON.parse(b)}catch(e){return!1}}var i=this,l={};l.code39={},l.code39.plain={},l.code39.plain[0]="bwbWBwBwb",l.code39.plain[1]="BwbWbwbwB",l.code39.plain[2]="bwBWbwbwB",l.code39.plain[3]="BwBWbwbwb",l.code39.plain[4]="bwbWBwbwB",l.code39.plain[5]="BwbWBwbwb",l.code39.plain[6]="bwBWBwbwb",l.code39.plain[7]="bwbWbwBwB",l.code39.plain[8]="BwbWbwBwb",l.code39.plain[9]="bwBWbwBwb",l.code39.plain.A="BwbwbWbwB",l.code39.plain.B="bwBwbWbwB",l.code39.plain.C="BwBwbWbwb",l.code39.plain.D="bwbwBWbwB",l.code39.plain.E="BwbwBWbwb",l.code39.plain.F="bwBwBWbwb",l.code39.plain.G="bwbwbWBwB",l.code39.plain.H="BwbwbWBwb",l.code39.plain.I="bwBwbWBwb",l.code39.plain.J="bwbwBWBwb",l.code39.plain.K="BwbwbwbWB",l.code39.plain.L="bwBwbwbWB",l.code39.plain.M="BwBwbwbWb",l.code39.plain.N="bwbwBwbWB",l.code39.plain.O="BwbwBwbWb",l.code39.plain.P="bwBwBwbWb",l.code39.plain.Q="bwbwbwBWB",l.code39.plain.R="BwbwbwBWb",l.code39.plain.S="bwBwbwBWb",l.code39.plain.T="bwbwBwBWb",l.code39.plain.U="BWbwbwbwB",l.code39.plain.V="bWBwbwbwB",l.code39.plain.W="BWBwbwbwb",l.code39.plain.X="bWbwBwbwB",l.code39.plain.Y="BWbwBwbwb",l.code39.plain.Z="bWBwBwbwb",l.code39.plain["-"]="bWbwbwBwB",l.code39.plain["."]="BWbwbwBwb",l.code39.plain[" "]="bWBwbwBwb",l.code39.plain["*"]="bWbwBwBwb",l.code39.plain.$="bWbWbWbwb",l.code39.plain["/"]="bWbWbwbWb",l.code39.plain["+"]="bWbwbWbWb",l.code39.plain["%"]="bwbWbWbWb",l.I25={},l.I25.plain={},l.I25.plain.START="wwwwwwwwwwbwbw",l.I25.plain.END="Bwbwwwwwwwwww",l.I25.plain[0]="bbBBb",l.I25.plain[1]="BbbbB",l.I25.plain[2]="bBbbB",l.I25.plain[3]="BBbbb",l.I25.plain[4]="bbBbB",l.I25.plain[5]="BbBbb",l.I25.plain[6]="bBBbb",l.I25.plain[7]="bbbBB",l.I25.plain[8]="BbbBb",l.I25.plain[9]="bBbBb",w.keyStr="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",i.base64Barcode=b}angular.module("ngBarcode",[]).directive("ngBarcode",b)}();
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	angular.module("Admin", []);
 
-	__webpack_require__(18);
-	__webpack_require__(19);
+	__webpack_require__(20);
+	__webpack_require__(21);
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71228,7 +71248,7 @@
 	}
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71300,19 +71320,19 @@
 	}
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	angular.module("Layout", []);
 
-	__webpack_require__(21);
-	__webpack_require__(22);
-	__webpack_require__(37);
+	__webpack_require__(23);
+	__webpack_require__(24);
+	__webpack_require__(25);
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71337,7 +71357,7 @@
 	}
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71352,18 +71372,53 @@
 	}
 
 /***/ },
-/* 23 */
+/* 25 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	angular.module("Layout").controller("TopNavController", TopNavController);
+
+	TopNavController.$inject = ['sessionservice', 'localStorageService', '$mdSidenav'];
+
+	function TopNavController(sessionservice, localStorageService, $mdSidenav) {
+	    var vm = this;
+
+	    vm.logout = logout;
+	    vm.toggleSideNav = toggleSideNav;
+	    vm.user = {};
+
+	    activate();
+
+	    function activate() {
+	        vm.user = localStorageService.get('currentUser');
+	        console.log("user at shell controller", vm.user);
+	    }
+
+	    function logout() {
+	        sessionservice.logout();
+	        vm.user = {};
+	    }
+
+	    function toggleSideNav() {
+	        console.log('toggleSidenav');
+	        $mdSidenav('left-menu').toggle();
+	    };
+	}
+
+/***/ },
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	angular.module("Game", []);
 
-	__webpack_require__(24);
-	__webpack_require__(25);
+	__webpack_require__(27);
+	__webpack_require__(28);
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71439,7 +71494,7 @@
 	}
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71494,19 +71549,19 @@
 	}
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	angular.module("People", []);
 
-	__webpack_require__(27);
-	__webpack_require__(28);
-	__webpack_require__(29);
+	__webpack_require__(30);
+	__webpack_require__(31);
+	__webpack_require__(32);
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71550,7 +71605,7 @@
 	}
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71602,7 +71657,7 @@
 	}
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71637,18 +71692,18 @@
 	}
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	angular.module("Transfers", []);
 
-	__webpack_require__(31);
-	__webpack_require__(32);
+	__webpack_require__(34);
+	__webpack_require__(35);
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71860,7 +71915,7 @@
 	}
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71928,7 +71983,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -72004,7 +72059,7 @@
 	module.exports = routesConfig;
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -72057,55 +72112,6 @@
 	//     });
 	//    $httpProvider.interceptors.push('jwtInterceptor');
 	// }
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	!function(){"use strict";function b(){var b={bindToController:!0,controller:e,controllerAs:"barcodeCtrl",restrict:"AEC",template:'<img width="100%" height="100%" ng-if="barcodeCtrl.input" ng-src="{{barcodeCtrl.base64Barcode()}}" />',scope:{input:"@ngBarcodeInput",code:"@ngBarcodeCode",colorBarcode:"@ngBarcodeColor",colorBackground:"@ngBarcodeBackground"}};return b}function e(){function b(){l.code39.BMP={};for(var b in l.code39.plain){var e=l.code39.plain[b];l.code39.BMP[b]="";for(var w=0;9>w;w++){switch(e.charAt(w)){case"B":l.code39.BMP[b]+="\x00\x00\x00\x00\x00\x00\x00\x00\x00";break;case"b":l.code39.BMP[b]+="\x00\x00\x00";break;case"W":l.code39.BMP[b]+="";break;case"w":l.code39.BMP[b]+=""}l.code39.BMP[b]+=""}}return a()}function e(b){var e=!1;return b.length%2!=0||isNaN(parseInt(b))||(e=!0),e}function a(){var b="",a=i.code,w=i.input.toUpperCase(),n=c(i.colorBarcode,1),o=c(i.colorBackground,2),B=[n,o];switch(a){case"code39":for(var t="*"+w.trim()+"*",d=0;d<t.length;d++)b+=l.code39.BMP[t.charAt(d)];break;case"i25":var a=w.trim();if(!e(a))throw"Invalid input format";b=l.I25.plain.START,a.length%2==1&&(a="0"+a);for(var d=0;d<a.length;d+=2)for(var p=l.I25.plain[a.charAt(d)],x=l.I25.plain[a.charAt(d+1)].replace(/b/g,"w").replace(/B/g,"W"),W=0;5>W;W++)b+=p.charAt(W)+x.charAt(W);b+=l.I25.plain.END,b=b.replace(/w/g,""),b=b.replace(/W/g,""),b=b.replace(/b/g,"\x00\x00\x00"),b=b.replace(/B/g,"\x00\x00\x00\x00\x00\x00\x00\x00\x00");break;default:throw"Code "+a+" not implemented"}return r([b],B)}function w(b){var e="",a=0;do{var n=b.charCodeAt(a++),r=b.charCodeAt(a++),o=b.charCodeAt(a++),c=n>>2,B=(3&n)<<4|r>>4,i=(15&r)<<2|o>>6,l=63&o;isNaN(r)?i=l=64:isNaN(o)&&(l=64),e=e+w.keyStr.charAt(c)+w.keyStr.charAt(B)+w.keyStr.charAt(i)+w.keyStr.charAt(l)}while(a<b.length);return e}function n(b,e){if(0>b||0>e)throw"Negative numbers not allowed.";for(var a=1,w="",n=0;e>n;n++){if(0==b)o=0;else{var r=256*a,o=b%r;b-=o,o/=a,a=r}w+=String.fromCharCode(o)}if(0!=b)throw"Overflow, number too big for string length";return w}function r(b,e){var a="BMxxxx\x00\x00\x00\x00yyyy",r=b.length,o=r&&b[0].length,c=n(r,4),B=n(o,4),i=n(40,4),l=8,t=n(l,2),d=i+B+c+"\x00"+t+"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";if(24!=l){for(var p=[],x=0,W=0,h=0,u=0;256>u;u++)u<e.length&&(x=e[u][0],W=e[u][1],h=e[u][2]),p[u]=String.fromCharCode(h,W,x,0);p=p.join("")}var f;f=o%4==1?"\x00\x00\x00":o%4==2?"\x00\x00":o%4==3?"\x00":"";for(var g=[],s=0;r>s;s++)g[s]=b[r-s-1]+f;var v=a+d+p+g.join("");return v=v.replace(/yyyy/,n(a.length+d.length+p.length,4)),v=v.replace(/xxxx/,n(v.length,4)),"data:image/bmp;base64,"+w(v)}function o(b){var e=null,a=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;b=b.replace(a,function(b,e,a,w){return e+e+a+a+w+w});var w=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(b);return e=w?[parseInt(w[1],16),parseInt(w[2],16),parseInt(w[3],16)]:[0,0,0]}function c(b,e){return b?B(b)?JSON.parse(b):o(b):1===e?[0,0,0]:[255,255,255]}function B(b){try{return JSON.parse(b)}catch(e){return!1}}var i=this,l={};l.code39={},l.code39.plain={},l.code39.plain[0]="bwbWBwBwb",l.code39.plain[1]="BwbWbwbwB",l.code39.plain[2]="bwBWbwbwB",l.code39.plain[3]="BwBWbwbwb",l.code39.plain[4]="bwbWBwbwB",l.code39.plain[5]="BwbWBwbwb",l.code39.plain[6]="bwBWBwbwb",l.code39.plain[7]="bwbWbwBwB",l.code39.plain[8]="BwbWbwBwb",l.code39.plain[9]="bwBWbwBwb",l.code39.plain.A="BwbwbWbwB",l.code39.plain.B="bwBwbWbwB",l.code39.plain.C="BwBwbWbwb",l.code39.plain.D="bwbwBWbwB",l.code39.plain.E="BwbwBWbwb",l.code39.plain.F="bwBwBWbwb",l.code39.plain.G="bwbwbWBwB",l.code39.plain.H="BwbwbWBwb",l.code39.plain.I="bwBwbWBwb",l.code39.plain.J="bwbwBWBwb",l.code39.plain.K="BwbwbwbWB",l.code39.plain.L="bwBwbwbWB",l.code39.plain.M="BwBwbwbWb",l.code39.plain.N="bwbwBwbWB",l.code39.plain.O="BwbwBwbWb",l.code39.plain.P="bwBwBwbWb",l.code39.plain.Q="bwbwbwBWB",l.code39.plain.R="BwbwbwBWb",l.code39.plain.S="bwBwbwBWb",l.code39.plain.T="bwbwBwBWb",l.code39.plain.U="BWbwbwbwB",l.code39.plain.V="bWBwbwbwB",l.code39.plain.W="BWBwbwbwb",l.code39.plain.X="bWbwBwbwB",l.code39.plain.Y="BWbwBwbwb",l.code39.plain.Z="bWBwBwbwb",l.code39.plain["-"]="bWbwbwBwB",l.code39.plain["."]="BWbwbwBwb",l.code39.plain[" "]="bWBwbwBwb",l.code39.plain["*"]="bWbwBwBwb",l.code39.plain.$="bWbWbWbwb",l.code39.plain["/"]="bWbWbwbWb",l.code39.plain["+"]="bWbwbWbWb",l.code39.plain["%"]="bwbWbWbWb",l.I25={},l.I25.plain={},l.I25.plain.START="wwwwwwwwwwbwbw",l.I25.plain.END="Bwbwwwwwwwwww",l.I25.plain[0]="bbBBb",l.I25.plain[1]="BbbbB",l.I25.plain[2]="bBbbB",l.I25.plain[3]="BBbbb",l.I25.plain[4]="bbBbB",l.I25.plain[5]="BbBbb",l.I25.plain[6]="bBBbb",l.I25.plain[7]="bbbBB",l.I25.plain[8]="BbbBb",l.I25.plain[9]="bBbBb",w.keyStr="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",i.base64Barcode=b}angular.module("ngBarcode",[]).directive("ngBarcode",b)}();
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	/**
-	 * An Angular module that gives you access to the browsers local storage
-	 * @version v0.5.1 - 2016-09-21
-	 * @link https://github.com/grevory/angular-local-storage
-	 * @author grevory <greg@gregpike.ca>
-	 * @license MIT License, http://www.opensource.org/licenses/MIT
-	 */
-	!function(a,b){var c=b.isDefined,d=b.isUndefined,e=b.isNumber,f=b.isObject,g=b.isArray,h=b.isString,i=b.extend,j=b.toJson;b.module("LocalStorageModule",[]).provider("localStorageService",function(){this.prefix="ls",this.storageType="localStorage",this.cookie={expiry:30,path:"/",secure:!1},this.defaultToCookie=!0,this.notify={setItem:!0,removeItem:!1},this.setPrefix=function(a){return this.prefix=a,this},this.setStorageType=function(a){return this.storageType=a,this},this.setDefaultToCookie=function(a){return this.defaultToCookie=!!a,this},this.setStorageCookie=function(a,b,c){return this.cookie.expiry=a,this.cookie.path=b,this.cookie.secure=c,this},this.setStorageCookieDomain=function(a){return this.cookie.domain=a,this},this.setNotify=function(a,b){return this.notify={setItem:a,removeItem:b},this},this.$get=["$rootScope","$window","$document","$parse","$timeout",function(a,b,k,l,m){function n(c){if(c||(c=b.event),s.setItem&&h(c.key)&&w(c.key)){var d=v(c.key);m(function(){a.$broadcast("LocalStorageModule.notification.changed",{key:d,newvalue:c.newValue,storageType:p.storageType})})}}var o,p=this,q=p.prefix,r=p.cookie,s=p.notify,t=p.storageType;k?k[0]&&(k=k[0]):k=document,"."!==q.substr(-1)&&(q=q?q+".":"");var u=function(a){return q+a},v=function(a){return a.replace(new RegExp("^"+q,"g"),"")},w=function(a){return 0===a.indexOf(q)},x=function(){try{var c=t in b&&null!==b[t],d=u("__"+Math.round(1e7*Math.random()));return c&&(o=b[t],o.setItem(d,""),o.removeItem(d)),c}catch(e){return p.defaultToCookie&&(t="cookie"),a.$broadcast("LocalStorageModule.notification.error",e.message),!1}},y=x(),z=function(b,c,e){if(K(e),c=d(c)?null:j(c),!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),s.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:"cookie"}),F(b,c);try{o&&o.setItem(u(b),c),s.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:p.storageType})}catch(f){return a.$broadcast("LocalStorageModule.notification.error",f.message),F(b,c)}return!0},A=function(b,c){if(K(c),!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),G(b);var d=o?o.getItem(u(b)):null;if(!d||"null"===d)return null;try{return JSON.parse(d)}catch(e){return d}},B=function(){var b=0;arguments.length>=1&&("localStorage"===arguments[arguments.length-1]||"sessionStorage"===arguments[arguments.length-1])&&(b=1,K(arguments[arguments.length-1]));var c,d;for(c=0;c<arguments.length-b;c++)if(d=arguments[c],!y&&p.defaultToCookie||"cookie"===p.storageType)y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),s.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:d,storageType:"cookie"}),H(d);else try{o.removeItem(u(d)),s.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:d,storageType:p.storageType})}catch(e){a.$broadcast("LocalStorageModule.notification.error",e.message),H(d)}},C=function(b){if(K(b),!y)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),[];var c=q.length,d=[];for(var e in o)if(e.substr(0,c)===q)try{d.push(e.substr(c))}catch(f){return a.$broadcast("LocalStorageModule.notification.error",f.Description),[]}return d},D=function(b,c){K(c);var d=q?new RegExp("^"+q):new RegExp,e=b?new RegExp(b):new RegExp;if(!y&&p.defaultToCookie||"cookie"===p.storageType)return y||a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),I();if(!y&&!p.defaultToCookie)return!1;var f=q.length;for(var g in o)if(d.test(g)&&e.test(g.substr(f)))try{B(g.substr(f))}catch(h){return a.$broadcast("LocalStorageModule.notification.error",h.message),I()}return!0},E=function(){try{return b.navigator.cookieEnabled||"cookie"in k&&(k.cookie.length>0||(k.cookie="test").indexOf.call(k.cookie,"test")>-1)}catch(c){return a.$broadcast("LocalStorageModule.notification.error",c.message),!1}}(),F=function(b,c,h,i){if(d(c))return!1;if((g(c)||f(c))&&(c=j(c)),!E)return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;try{var l="",m=new Date,n="";if(null===c?(m.setTime(m.getTime()+-864e5),l="; expires="+m.toGMTString(),c=""):e(h)&&0!==h?(m.setTime(m.getTime()+24*h*60*60*1e3),l="; expires="+m.toGMTString()):0!==r.expiry&&(m.setTime(m.getTime()+24*r.expiry*60*60*1e3),l="; expires="+m.toGMTString()),b){var o="; path="+r.path;r.domain&&(n="; domain="+r.domain),"boolean"==typeof i?i===!0&&(n+="; secure"):r.secure===!0&&(n+="; secure"),k.cookie=u(b)+"="+encodeURIComponent(c)+l+o+n}}catch(p){return a.$broadcast("LocalStorageModule.notification.error",p.message),!1}return!0},G=function(b){if(!E)return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;for(var c=k.cookie&&k.cookie.split(";")||[],d=0;d<c.length;d++){for(var e=c[d];" "===e.charAt(0);)e=e.substring(1,e.length);if(0===e.indexOf(u(b)+"=")){var f=decodeURIComponent(e.substring(q.length+b.length+1,e.length));try{return JSON.parse(f)}catch(g){return f}}}return null},H=function(a){F(a,null)},I=function(){for(var a=null,b=q.length,c=k.cookie.split(";"),d=0;d<c.length;d++){for(a=c[d];" "===a.charAt(0);)a=a.substring(1,a.length);var e=a.substring(b,a.indexOf("="));H(e)}},J=function(){return t},K=function(a){return a&&t!==a&&(t=a,y=x()),y},L=function(a,b,d,e,g){e=e||b;var h=A(e,g);return null===h&&c(d)?h=d:f(h)&&f(d)&&(h=i(h,d)),l(b).assign(a,h),a.$watch(b,function(a){z(e,a,g)},f(a[b]))};y&&(b.addEventListener?(b.addEventListener("storage",n,!1),a.$on("$destroy",function(){b.removeEventListener("storage",n)})):b.attachEvent&&(b.attachEvent("onstorage",n),a.$on("$destroy",function(){b.detachEvent("onstorage",n)})));var M=function(a){K(a);for(var c=0,d=b[t],e=0;e<d.length;e++)0===d.key(e).indexOf(q)&&c++;return c};return{isSupported:y,getStorageType:J,setStorageType:K,set:z,add:z,get:A,keys:C,remove:B,clearAll:D,bind:L,deriveKey:u,underiveKey:v,length:M,defaultToCookie:this.defaultToCookie,cookie:{isSupported:E,set:F,add:F,get:G,remove:H,clearAll:I}}}]})}(window,window.angular);
-	//# sourceMappingURL=angular-local-storage.min.js.map
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	angular.module("Layout").controller("TopNavController", TopNavController);
-
-	TopNavController.$inject = ['sessionservice', 'localStorageService'];
-
-	function TopNavController(sessionservice, localStorageService) {
-	    var vm = this;
-
-	    vm.logout = logout;
-	    vm.user = {};
-
-	    activate();
-
-	    function activate() {
-	        vm.user = localStorageService.get('currentUser');
-	        console.log("user at shell controller", vm.user);
-	    }
-
-	    function logout() {
-	        sessionservice.logout();
-	        vm.user = {};
-	    }
-	}
 
 /***/ }
 /******/ ]);

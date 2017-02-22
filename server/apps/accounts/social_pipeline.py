@@ -34,12 +34,12 @@ def save_avatar(strategy, details, user=None, *args, **kwargs):
 
 
 def check_for_email(backend, uid, user=None, *args, **kwargs):
-    print kwargs
+    print "check for email \n\n"
     if not kwargs['details'].get('email'):
         return Response({'error': "Email wasn't provided by oauth provider"}, status=400)
 
 def associate_whirlwind_id(strategy, details, user=None, *args, **kwargs):
-    print "associate_whirlwind_id starting"
+    print "associate_whirlwind_id starting \n\n"
     if user:
         print user
         email = user.email

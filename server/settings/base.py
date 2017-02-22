@@ -114,7 +114,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
  
     #custom action - prevent login without whirlwind ID
-    # 'server.apps.accounts.social_pipeline.associate_whirlwind_id',
+    'server.apps.accounts.social_pipeline.associate_whirlwind_id',
 
     # custom action - adds users avatar link
     'server.apps.accounts.social_pipeline.save_avatar',  
