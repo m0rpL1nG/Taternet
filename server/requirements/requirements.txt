@@ -7,7 +7,6 @@ django-braces==1.11.0
 django-environ==0.4.1
 django-oauth-toolkit==0.11.0
 django-pyodbc-azure==1.10.4.0
-django-rest-framework-social-oauth2==1.0.5
 djangorestframework==3.5.3
 djangorestframework-jwt==1.9.0
 google-api-python-client==1.6.2
@@ -26,9 +25,10 @@ pyodbc==4.0.1
 python-openid==2.2.5
 requests==2.13.0
 requests-oauthlib==0.8.0
+rest-social-auth==1.1.0
 rsa==3.4.2
 six==1.10.0
-social-auth-app-django==1.1.0
-social-auth-core==1.2.0
+social-auth-app-django==0.1.0
+social-auth-core==0.2.1
 uritemplate==3.0.0
 wrapt==1.10.8
