@@ -6,9 +6,10 @@ TransfersController.$inject=[
     '$filter',
     'filterFilter',
     'sessionservice',
+    '$mdDialog'
     ]
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice) {  
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog) {  
 
     var vm = this;
     
@@ -18,7 +19,8 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
     vm.inLocationFilter = {};
     vm.toLocationFilter = {};
     vm.resetFilters = resetFilters;
-
+    vm.showFilters = showFilters;
+    vm.filterDisabled = true;
     //Data Table Setup
     vm.options = {
         rowHeight: 50,
@@ -31,7 +33,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         columns: [{
             name: "Model Number",
             prop: "inventory_id.model_number",
-            width: 300,
+            width: 220,
             isCheckboxColumn: true,
             headerCheckbox: true
             }, {
@@ -39,11 +41,11 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
             prop: "inventory_id.serial_number",
             width: 200,
             }, {
-            name: "Current Location",
+            name: "from",
             prop: "inventory_id.location",
             width: 100,
             }, {
-            name: "Destination Location",
+            name: "to",
             prop: "to_location",
             width: 100,
             }, {
@@ -104,9 +106,9 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         var day = new Date().toISOString().slice(0,10).replace(/-/g,"").slice(6,8);
         var year = new Date().toISOString().slice(0,10).replace(/-/g,"").slice(0, 4);
  
-        console.log(month, day, year);
+        // console.log(month, day, year);
         vm.date = `${month}/${day}/${year}`;
-        console.log(vm.date);
+        // console.log(vm.date);
         getTransfers(null, sessionservice.getUserLocation(), true);
         vm.toLocationFilter = {
             store: {
@@ -118,11 +120,8 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
                 id: "10"
             }
         }
-        getTransfers();
-        // return getTransfers().then(function() {
-        //     // console.log('Activated Transfer recall')
-        //     // logger.info('Activated Users View');
-        // });
+        // getTransfers();
+        return getTransfers().then(console.log("all transfers complete"))
     }
 
     function getTransfers(location = null, destination = null, partial=false) {
@@ -131,7 +130,10 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
             .then(function(data) {
                 // console.log("Transfers: ", data);
                 if(partial){vm.transfers = data;}
-                else{vm.dataStore = data};
+                else{
+                    vm.dataStore = data;
+                    vm.filterDisabled = false;
+                };
                 // console.log("filtered", vm.transfersFilter)
             // return vm.transfers;
             });
@@ -139,30 +141,25 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
 
     function filterTransfers(){
         // Set inLocationFilter Value
-        if (vm.inLocationFilter.store == "None"){ vm.inLocationFilter.store = null;}
-        if (vm.toLocationFilter.store == "None"){ vm.toLocationFilter.store = null;}
-        
-        if (vm.inLocationFilter.store){
-            vm.inLocationFilter.value = vm.inLocationFilter.store;
-            if(vm.inLocationFilter.stockClassification){
-                vm.inLocationFilter.value = `${vm.inLocationFilter.store}${vm.inLocationFilter.stockClassification}`;
+        console.log("start of filter Transfers")
+        console.log(vm.inLocationFilter, vm.toLocationFilter)
+        if (vm.inLocationFilter.store.id){
+            vm.inLocationFilter.value = vm.inLocationFilter.store.id;
+            if(vm.inLocationFilter.stockClassification.id){
+                vm.inLocationFilter.value = `${vm.inLocationFilter.store.id}${vm.inLocationFilter.stockClassification.id}`;
             }
         } else {
-            vm.inLocationFilter.store = null;
-            vm.inLocationFilter.stockClassification = null;
             vm.inLocationFilter.value = null;
         }
         
         // set toLocationFilter Value
-        if (vm.toLocationFilter.store){
-            vm.toLocationFilter.value = vm.toLocationFilter.store;
+        if (vm.toLocationFilter.store.id){
+            vm.toLocationFilter.value = vm.toLocationFilter.store.id;
             if(vm.toLocationFilter.stockClassification){
-                console.log(vm.toLocationFilter)
-                vm.toLocationFilter.value = `${vm.toLocationFilter.store}${vm.toLocationFilter.stockClassification}`;
+                // console.log(vm.toLocationFilter)
+                vm.toLocationFilter.value = `${vm.toLocationFilter.store.id}${vm.toLocationFilter.stockClassification.id}`;
             }
         } else {
-            vm.toLocationFilter.store = null;
-            vm.toLocationFilter.stockClassification = null;
             vm.toLocationFilter.value = null;
         }
         
@@ -170,7 +167,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         var  matchingTransfers= [];
         
         if (vm.inLocationFilter.value){
-            console.log(vm.inLocationFilter.value)
+            // console.log(vm.inLocationFilter.value)
 			for(var i = 0; i < vm.dataStore.length; i++){
 				if(vm.dataStore[i].inventory_id.location.substr(0, vm.inLocationFilter.value.length) == vm.inLocationFilter.value){
 					matchingTransfers.push(vm.dataStore[i]);
@@ -183,7 +180,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         matchingTransfers = [];
 
         if (vm.toLocationFilter.value){
-            console.log(vm.toLocationFilter.value);
+            // console.log(vm.toLocationFilter.value);
 			for(var i = 0; i < vm.transfers.length; i++){
 				if(vm.transfers[i].to_location.substr(0, vm.toLocationFilter.value.length) == vm.toLocationFilter.value){
 					matchingTransfers.push(vm.transfers[i]);
@@ -198,9 +195,6 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
 
     function resetFilters(){
         vm.transfers = vm.dataStore;
-        if(vm.inLocationFilter){
-            vm.inLocationFilter = {};};
-        if(vm.toLocationFilter){vm.toLocationFilter= {};};
     }
 
     
@@ -219,6 +213,91 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
         popupWin.document.close();
     } 
+
+    function showFilters(ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            controllerAs: 'dialog',
+            templateUrl: 'frontend/app/transfers/filterDialog.tmpl.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            // fullscreen: vm.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+            vm.status = 'You said the information was "' + answer + '".';
+            }, function() {
+            vm.status = 'You cancelled the dialog.';
+        });
+    };
+
+    function DialogController($mdDialog) {
+        var dialog = this;
+
+        var inLocationId = extractID(vm.inLocationFilter)
+        var toLocationId = extractID(vm.toLocationFilter)
+        
+        dialog.inLocationInput = inLocationId || null;
+        dialog.toLocationInput = toLocationId || null;
+        
+        // console.log(inLocationId, toLocationId)
+
+        
+        function extractID(filter){
+            if(Object.keys(filter).length > 0){
+                return filter.store.id + filter.stockClassification.id;
+            }
+        }
+
+        function extractFilterObject(userInput, direction){
+            var filterObj = {
+                    store: {name: null, id:null},
+                    stockClassification: {name: null, id: null}
+                };
+        
+            if (userInput){
+
+                filterObj.store.id = userInput.substr(0,2);          
+                if (userInput.length > 1){ filterObj.stockClassification.id = userInput.substr(2,3)};
+            }
+            if(filterObj.store.id){
+                for (var i = 0; i < vm.stores.length; i++){
+                    if(filterObj.store.id === vm.stores[i].id){
+                        filterObj.store.name = vm.stores[i].name;
+                    }
+                }
+            }
+            
+            if(filterObj.stockClassification.id){
+                for (var i = 0; i < vm.stockClassifications.length; i++){
+                    if(filterObj.stockClassification.id === vm.stockClassifications[i].id){
+                        filterObj.stockClassification.name = vm.stockClassifications[i].name;
+                    }
+                }
+            }
+
+            if (direction === 'in'){
+                vm.inLocationFilter = filterObj;
+            } else {
+                vm.toLocationFilter = filterObj;
+            }
+            // console.log("after extraction")
+            // console.log(vm.inLocationFilter, vm.toLocationFilter);
+        }
+
+        dialog.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        dialog.submit = function() {
+            // console.log("in filter at submit", dialog.inLocationInput);
+            // console.log("to filter at submit", dialog.toLocationInput);
+            extractFilterObject(dialog.inLocationInput, "in");
+            extractFilterObject(dialog.toLocationInput, "to");
+            vm.filterTransfers();
+            $mdDialog.hide();
+        };
+  }
 
 
 }

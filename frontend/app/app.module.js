@@ -47,3 +47,15 @@ var routesConfig = require("./app.routes");
 /* App Config */
 angular.module("taternet").config(routesConfig); 
 require("./app.config")
+
+/* Interceptors */
+
+angular.module("taternet").run(
+    function($rootScope, $state, $auth){
+        console.log($auth.isAuthenticated());
+        if($auth.isAuthenticated()){
+            $state.go('index.dashboard');
+        } else {
+            $state.go('authenticate')
+        }
+    })

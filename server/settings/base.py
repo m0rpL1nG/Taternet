@@ -121,12 +121,12 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # Django Rest Framework JWT auth
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800), #30 minutes until exp.
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7), #30 minutes until exp.
 
-#     'JWT_ALLOW_REFRESH': True,
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-# }
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
 
 
 # Internationalization

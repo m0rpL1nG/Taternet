@@ -2,55 +2,9 @@
 
   <md-content flex layout-padding>
       <div flex layout="row">
-
-        <md-whiteframe flex="30" class="md-whiteframe-2dp" layout layout-margin layout-align="start center">
-            <label>Product Location: </label>
-            <md-input-container>
-                <label>Store Name</label>
-                <md-select ng-model="ctrl.inLocationFilter.store" ng-change="ctrl.filterTransfers()">
-                    <md-option ng-value="null"><em>None</em></md-option>
-                    <md-option ng-repeat="store in ctrl.stores" ng-value="store.id">
-                    {{ store.name }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container ng-show="ctrl.inLocationFilter.store">
-                <label>Classification</label>
-                <md-select ng-model="ctrl.inLocationFilter.stockClassification" ng-change="ctrl.filterTransfers()">
-                    <md-option ng-value-"null"><em>None</em></md-option>
-                    <md-option ng-repeat="classification in ctrl.stockClassifications" ng-value="classification.id">
-                    {{ classification.name }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </md-whiteframe>
-        <md-whiteframe flex="30" class="md-whiteframe-2dp" layout layout-margin layout-align="start center">
-            <label>Destination: </label>
-            <md-input-container>
-                <label>Store Name</label>
-                <md-select ng-model="ctrl.toLocationFilter.store" ng-change="ctrl.filterTransfers()">
-                    <md-option><em>None</em></md-option>
-                    <md-option ng-repeat="store in ctrl.stores" ng-value="store.id">
-                    {{ store.name }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container ng-show="ctrl.toLocationFilter.store">
-                <label>Classification</label>
-                <md-select ng-model="ctrl.toLocationFilter.stockClassification" ng-change="ctrl.filterTransfers()">
-                    <md-option><em>None</em></md-option>
-                    <md-option ng-repeat="classification in ctrl.stockClassifications" ng-value="classification.id">
-                    {{ classification.name }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </md-whiteframe>
-         <md-whiteframe flex="15" class="md-whiteframe-2dp" layout layout-margin layout-align="center center">
             <md-button ng-click="ctrl.printDiv('printSection')" class="md-primary md-raised">Print Travel Sheets</md-button>
-         </md-whiteframe>
-        <md-whiteframe flex="15" class="md-whiteframe-2dp" layout layout-margin layout-align="center center">
-            <md-button ng-click="ctrl.resetFilters()" class="md-primary md-raised">Reset Filters</md-button>
-         </md-whiteframe>
+            <md-button ng-click="ctrl.showFilters()" ng-disabled="ctrl.filterDisabled" class="md-primary md-raised">Filter Transfers</md-button>
+    
       </div>
       <dtable
         flex="95"
