@@ -1,20 +1,21 @@
 <div layout="column" ng-controller="TransfersController as ctrl">  
 
-  <md-content flex layout-padding>
-      <div flex layout="row">
+  <md-content layout-padding>
+      <div layout="row">
             <md-button ng-click="ctrl.printDiv('printSection')" class="md-primary md-raised">Print Travel Sheets</md-button>
             <md-button ng-click="ctrl.showFilters()" ng-disabled="ctrl.filterDisabled" class="md-primary md-raised">Filter Transfers</md-button>
     
       </div>
-      <dtable
-        flex="95"
-        options="ctrl.options"
-        rows="ctrl.transfers"
-        class="material"
-        selected="ctrl.selected"
-        on-row-click="ctrl.onRowClick(row)"
-        on-select="ctrl.onSelect(rows)">
-      </dtable>
+      <div style="width:95%">
+        <dtable
+            options="ctrl.options"
+            rows="ctrl.transfers"
+            class="material"
+            selected="ctrl.selected"
+            on-row-click="ctrl.onRowClick(row)"
+            on-select="ctrl.onSelect(rows)">
+        </dtable>
+      </div>
 
   </md-content>
   

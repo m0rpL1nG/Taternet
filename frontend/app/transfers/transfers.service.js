@@ -10,7 +10,7 @@ function transferdataservice($http) {
         // getGame: getGame,
         // addGame: addGame
     };
-    function getTransfers(location, destination) {
+    function getTransfers(location, destination, init) {
         console.log(location, destination);
         var params = {}
         if (location){
@@ -18,6 +18,9 @@ function transferdataservice($http) {
         }
         if(destination){
             params.destination = destination;
+        }
+        if(init){
+            params.init = init;
         }
         return $http({
             url: "api/v1/transfers/",

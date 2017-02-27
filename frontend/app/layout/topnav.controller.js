@@ -1,9 +1,9 @@
 angular.module("Layout")
     .controller("TopNavController", TopNavController);
 
-TopNavController.$inject=['sessionservice', 'localStorageService', '$mdSidenav']
+TopNavController.$inject=['sessionservice', 'localStorageService', '$mdSidenav', '$state']
 
-function TopNavController(sessionservice, localStorageService, $mdSidenav) {  
+function TopNavController(sessionservice, localStorageService, $mdSidenav, $state) {  
     var vm = this;
 
     vm.logout = logout;
@@ -20,10 +20,11 @@ function TopNavController(sessionservice, localStorageService, $mdSidenav) {
     function logout(){
         sessionservice.logout();
         vm.user = {};
+        $state.go('authenticate');
     }
 
     function toggleSideNav() {
-        console.log('toggleSidenav');
+        // console.log('toggleSidenav');
         $mdSidenav('left-menu').toggle();
     };
 

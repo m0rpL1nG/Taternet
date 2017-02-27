@@ -4843,9 +4843,9 @@
 
 	angular.module("Layout").controller("TopNavController", TopNavController);
 
-	TopNavController.$inject = ['sessionservice', 'localStorageService', '$mdSidenav'];
+	TopNavController.$inject = ['sessionservice', 'localStorageService', '$mdSidenav', '$state'];
 
-	function TopNavController(sessionservice, localStorageService, $mdSidenav) {
+	function TopNavController(sessionservice, localStorageService, $mdSidenav, $state) {
 	    var vm = this;
 
 	    vm.logout = logout;
@@ -4862,10 +4862,11 @@
 	    function logout() {
 	        sessionservice.logout();
 	        vm.user = {};
+	        $state.go('authenticate');
 	    }
 
 	    function toggleSideNav() {
-	        console.log('toggleSidenav');
+	        // console.log('toggleSidenav');
 	        $mdSidenav('left-menu').toggle();
 	    };
 	}
@@ -5185,6 +5186,8 @@
 	    vm.transfers = undefined;
 	    vm.inLocationFilter = {};
 	    vm.toLocationFilter = {};
+	    vm.selected = [];
+	    vm.printList = [];
 	    vm.resetFilters = resetFilters;
 	    vm.showFilters = showFilters;
 	    vm.filterDisabled = true;
@@ -5197,37 +5200,40 @@
 	        checkboxSelection: true,
 	        selectable: true,
 	        multiSelect: true,
+	        columnMode: 'force',
 	        columns: [{
 	            name: "Model Number",
 	            prop: "inventory_id.model_number",
 	            width: 220,
+	            canAutoResize: false,
 	            isCheckboxColumn: true,
 	            headerCheckbox: true
 	        }, {
 	            name: "Serial Number",
 	            prop: "inventory_id.serial_number",
-	            width: 200
+	            width: 200,
+	            canAutoResize: false
 	        }, {
 	            name: "from",
 	            prop: "inventory_id.location",
-	            width: 100
+	            width: 100,
+	            canAutoResize: false
 	        }, {
 	            name: "to",
 	            prop: "to_location",
-	            width: 100
+	            width: 100,
+	            canAutoResize: false
 	        }, {
 	            name: "Notes",
-	            // prop: "notes",
-	            width: 600,
+	            prop: "notes",
 	            cellRenderer: function cellRenderer(scope, ele) {
 	                var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-	                return "<md-input-container md-no-float style=\"margin: 0px; width: 100%; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
+	                return "<md-input-container md-no-float style=\"margin: 0px; width:100%; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
 	            }
 	        }]
 	    };
-	    vm.selected = [];
-	    vm.onSelect = onSelect;
-	    vm.onRowClick = onRowClick;
+	    // vm.onSelect = onSelect;
+	    // vm.onRowClick = onRowClick;
 
 	    //Barcode Setup
 	    vm.barcodeBackground = [255, 255, 255];
@@ -5253,18 +5259,17 @@
 	        // console.log(month, day, year);
 	        vm.date = month + "/" + day + "/" + year;
 	        // console.log(vm.date);
-	        getTransfers(null, sessionservice.getUserLocation(), true);
+	        getTransfers(null, null, true, true);
 	        vm.toLocationFilter = {
 	            store: {
-	                name: "Corporate",
-	                id: "00"
+	                name: "",
+	                id: ""
 	            },
 	            stockClassification: {
-	                name: "Eval",
-	                id: "10"
+	                name: "",
+	                id: ""
 	            }
 	        };
-	        // getTransfers();
 	        return getTransfers().then(console.log("all transfers complete"));
 	    }
 
@@ -5272,9 +5277,10 @@
 	        var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	        var destination = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	        var partial = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	        var init = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
 	        console.log('transfer request begun');
-	        return transferdataservice.getTransfers(location, destination).then(function (data) {
+	        return transferdataservice.getTransfers(location, destination, init).then(function (data) {
 	            // console.log("Transfers: ", data);
 	            if (partial) {
 	                vm.transfers = data;
@@ -5345,15 +5351,21 @@
 	        vm.transfers = vm.dataStore;
 	    }
 
-	    function onSelect(row) {
-	        console.log('ROW SELECTED!', row);
-	    }
+	    // function onSelect(row) {
+	    //     console.log('ROW SELECTED!', row);
+	    // }
 
-	    function onRowClick(row) {
-	        console.log('ROW CLICKED', row);
-	    }
+	    // function onRowClick(row) {
+	    //     console.log('ROW CLICKED', row);
+	    // }
 
 	    function printDiv(divName) {
+	        // if (vm.selected.length === 0) {
+	        //     vm.printList = vm.transfers;
+	        // } else {
+	        //     vm.printList = vm.selected;
+	        //     vm.selected = [];
+	        // }
 	        var printContents = document.getElementById(divName).innerHTML;
 	        var popupWin = window.open('', '_blank', 'width=800,height=600');
 	        popupWin.document.open();
@@ -5390,6 +5402,7 @@
 
 	        function extractID(filter) {
 	            if (Object.keys(filter).length > 0) {
+
 	                return filter.store.id + filter.stockClassification.id;
 	            }
 	        }
@@ -5461,7 +5474,7 @@
 	    return {
 	        getTransfers: getTransfers
 	    };
-	    function getTransfers(location, destination) {
+	    function getTransfers(location, destination, init) {
 	        console.log(location, destination);
 	        var params = {};
 	        if (location) {
@@ -5469,6 +5482,9 @@
 	        }
 	        if (destination) {
 	            params.destination = destination;
+	        }
+	        if (init) {
+	            params.init = init;
 	        }
 	        return $http({
 	            url: "api/v1/transfers/",

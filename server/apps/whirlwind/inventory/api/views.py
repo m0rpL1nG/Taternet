@@ -1,30 +1,32 @@
 from rest_framework import viewsets, generics
 from ..models import TransferRequest, Inventory
+from ...users.models import Employees
 from .serializers import TransferSerializer, InventorySerializer
 
 
 class TransferViewset(viewsets.ModelViewSet):
     serializer_class = TransferSerializer
-    # queryset = TransferRequest.objects.all()
     def get_queryset(self):
         queryset = TransferRequest.objects.all()
+
+        print self.request.user.whirlwind_id
+        print self.request.query_params
+
+        # return base location from whirlwind using self.request.user.id
+
         location = self.request.query_params.get('location', None)
         destination = self.request.query_params.get('destination', None)
-        if location is not None:
-            queryset = queryset.filter(inventory_id__location=location)
-        if destination is not None:
-            queryset = queryset.filter(to_location=destination)
-        return queryset
+        init = self.request.query_params.get('init', None)
+        if init:
+            destination = Employees.objects.get(pk=self.request.user.whirlwind_id).location[:2]
+            print destination
 
-# class InventoryViewset(viewsets.ModelViewSet):
-#     serializer_class = InventorySerializer
-#     queryset = InvModelSerial.objects.filter(
-#         inv_ser_active_yn=True
-#         ).values(
-#             'inv_ser_model_number',
-#             'inv_ser_serial_number',
-#             'inv_ser_item_location',
-#         )
+        if location is not None:
+            queryset = queryset.filter(inventory_id__location__startswith=location)
+        if destination is not None:
+            queryset = queryset.filter(to_location__startswith=destination)
+        
+        return queryset
 
 class InventoryViewset(viewsets.ModelViewSet):
     serializer_class = InventorySerializer

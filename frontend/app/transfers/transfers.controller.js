@@ -18,6 +18,8 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
     vm.transfers = undefined;
     vm.inLocationFilter = {};
     vm.toLocationFilter = {};
+    vm.selected = [];
+    vm.printList = [];
     vm.resetFilters = resetFilters;
     vm.showFilters = showFilters;
     vm.filterDisabled = true;
@@ -30,38 +32,41 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         checkboxSelection: true,
         selectable: true,
         multiSelect: true,
+        columnMode: 'force',
         columns: [{
             name: "Model Number",
             prop: "inventory_id.model_number",
             width: 220,
+            canAutoResize: false,
             isCheckboxColumn: true,
             headerCheckbox: true
             }, {
             name: "Serial Number",
             prop: "inventory_id.serial_number",
             width: 200,
+            canAutoResize: false,
             }, {
             name: "from",
             prop: "inventory_id.location",
             width: 100,
+            canAutoResize: false,
             }, {
             name: "to",
             prop: "to_location",
             width: 100,
+            canAutoResize: false,
             }, {
             name: "Notes",
-            // prop: "notes",
-            width: 600,
+            prop: "notes",
             cellRenderer: function(scope, ele) {
                 var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-                 return `<md-input-container md-no-float style="margin: 0px; width: 100%; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
+                 return `<md-input-container md-no-float style="margin: 0px; width:100%; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
                 }
             }
             ]
     };
-    vm.selected = [];
-    vm.onSelect = onSelect;
-    vm.onRowClick = onRowClick;
+    // vm.onSelect = onSelect;
+    // vm.onRowClick = onRowClick;
 
     //Barcode Setup
     vm.barcodeBackground = [255, 255, 255]
@@ -109,24 +114,23 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         // console.log(month, day, year);
         vm.date = `${month}/${day}/${year}`;
         // console.log(vm.date);
-        getTransfers(null, sessionservice.getUserLocation(), true);
+        getTransfers(null, null, true, true);
         vm.toLocationFilter = {
             store: {
-                name: "Corporate",
-                id: "00"
+                name: "",
+                id: ""
             },
             stockClassification : {
-                name: "Eval",
-                id: "10"
+                name: "",
+                id: ""
             }
         }
-        // getTransfers();
         return getTransfers().then(console.log("all transfers complete"))
     }
 
-    function getTransfers(location = null, destination = null, partial=false) {
+    function getTransfers(location = null, destination = null, partial=false, init=false) {
         console.log('transfer request begun')
-        return transferdataservice.getTransfers(location, destination)
+        return transferdataservice.getTransfers(location, destination, init)
             .then(function(data) {
                 // console.log("Transfers: ", data);
                 if(partial){vm.transfers = data;}
@@ -198,15 +202,21 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
     }
 
     
-    function onSelect(row) {
-        console.log('ROW SELECTED!', row);
-    }
+    // function onSelect(row) {
+    //     console.log('ROW SELECTED!', row);
+    // }
     
-    function onRowClick(row) {
-        console.log('ROW CLICKED', row);
-    }
+    // function onRowClick(row) {
+    //     console.log('ROW CLICKED', row);
+    // }
 
     function printDiv (divName) {
+        // if (vm.selected.length === 0) {
+        //     vm.printList = vm.transfers;
+        // } else {
+        //     vm.printList = vm.selected;
+        //     vm.selected = [];
+        // }
         var printContents = document.getElementById(divName).innerHTML;
         var popupWin = window.open('', '_blank', 'width=800,height=600');
         popupWin.document.open()
@@ -245,6 +255,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         
         function extractID(filter){
             if(Object.keys(filter).length > 0){
+
                 return filter.store.id + filter.stockClassification.id;
             }
         }
