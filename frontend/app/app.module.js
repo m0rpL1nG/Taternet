@@ -10,7 +10,7 @@ require("../bower_components/angular-material/angular-material.min");
 require("../../node_modules/angular-ui-router/release/angular-ui-router.min");   
 require("../bower_components/angular-resource/angular-resource.min");
 require("../bower_components/satellizer/dist/satellizer.min");
-require("../bower_components/angular-data-table/release/dataTable.min");
+require("../assets/components/angular-data-table/release/dataTable.min");
 require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
 require("../../node_modules/ng-barcode/dist/ng-barcode.min")
 
