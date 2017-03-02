@@ -219,10 +219,10 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         if (vm.selected.length > 0) {
             wait = 50;
             // need to wait for angular render refresh... $timeout? some such nonsense
-            console.log("print only selected", vm.selected.length);
+            // console.log("print only selected", vm.selected.length);
             vm.printList = [];
             vm.printList = vm.selected;
-            console.log("printList Length: ", vm.printList.length)
+            // console.log("printList Length: ", vm.printList.length)
         } else {
             wait = 50;
             vm.printList = vm.transfers;
