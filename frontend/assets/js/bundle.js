@@ -1246,9 +1246,9 @@ function dataservice($http) {
 
 angular.module("Transfers").controller("TransfersController", TransfersController);
 
-TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog'];
+TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog', '$timeout'];
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog) {
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout) {
 
     var vm = this;
 
@@ -1355,6 +1355,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
             // console.log("Transfers: ", data);
             if (partial) {
                 vm.transfers = data;
+                vm.printList = data;
             } else {
                 vm.dataStore = data;
                 vm.filterDisabled = false;
@@ -1431,17 +1432,30 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
     // }
 
     function printDiv(divName) {
-        // if (vm.selected.length === 0) {
-        //     vm.printList = vm.transfers;
-        // } else {
-        //     vm.printList = vm.selected;
-        //     vm.selected = [];
-        // }
-        var printContents = document.getElementById(divName).innerHTML;
-        var popupWin = window.open('', '_blank', 'width=800,height=600');
-        popupWin.document.open();
-        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
-        popupWin.document.close();
+        console.log("items selected: ", vm.selected.length);
+        var wait = 0;
+        if (vm.selected.length > 0) {
+            wait = 50;
+            // need to wait for angular render refresh... $timeout? some such nonsense
+            console.log("print only selected", vm.selected.length);
+            vm.printList = [];
+            vm.printList = vm.selected;
+            console.log("printList Length: ", vm.printList.length);
+        } else {
+            wait = 50;
+            vm.printList = vm.transfers;
+        }
+
+        $timeout(function () {
+            var printContents = document.getElementById(divName).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=800,height=600');
+            popupWin.document.open();
+            popupWin.document.write('<html>' + '<head>' + '<link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" />' + '</head>' +
+            // '<body onload="window.print()>'+
+            '<body>' + '<script type="text/javascript">' + 'setTimeout(function () { window.print(); }, 500);' + 'window.onfocus = function () { setTimeout(function () { window.close(); }, 500); };' + '</script>' + printContents + '</body>' + '</html>');
+            // popupWin.document.close();
+            // popupWin.close();
+        }, wait);
     }
 
     function showFilters(ev) {
@@ -3702,7 +3716,66 @@ angular.module("taternet").run(function ($rootScope, $state, $auth) {
     } else {
         $state.go('authenticate');
     }
+
+    $rootScope.$on('$stateChangeStart', function () {
+        var payload = $auth.getPayload();
+        console.log(payload);
+        // var refreshToken = store.get('refreshToken');
+        // if (token) {
+        //   if (!jwtHelper.isTokenExpired(token)) {
+        //     if (!auth.isAuthenticated) {
+        //       auth.authenticate(store.get('profile'), token);
+
+
+        //       //Store the status in the scope 
+        //       $rootScope.isAuthenticated = auth.isAuthenticated
+        //     }
+        //   } else {
+        //     if (refreshToken) {
+        //       if (refreshingToken === null) {
+        //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+        //           store.set('token', idToken);
+        //           auth.authenticate(store.get('profile'), idToken);
+        //         }).finally(function() {
+        //           refreshingToken = null;
+        //         });
+        //       }
+        //       return refreshingToken;
+        //     } else {
+        //       $location.path('/login');
+        //     }
+        //   }
+        // }
+    });
 });
+
+// (function () {
+//     'use strict';
+
+//     angular.module('taternet')
+//         .factory('authMiddleware', authMiddleware);
+
+//     authMiddleware.$inject = ['$auth', '$state']
+
+//     function authMiddleware($auth, $state) {
+
+//         var authMiddleware = this;
+
+//         //if user is not logged in re-direct to login route
+//         authMiddleware.run = function(event){
+//             if(authService.isLoggedIn() == false){
+//                 event.preventDefault();
+//                 console.error('You are not logged in, so you cant browse this');
+//                 $state.go('login');
+//             }
+//         };
+
+//         return {
+//             run : authMiddleware.run
+//         };
+//     };
+
+// })();
 
 /***/ })
 /******/ ]);

@@ -58,4 +58,64 @@ angular.module("taternet").run(
         } else {
             $state.go('authenticate')
         }
-    })
+
+    $rootScope.$on('$stateChangeStart', function() {
+    var payload = $auth.getPayload()
+    console.log(payload);
+    // var refreshToken = store.get('refreshToken');
+    // if (token) {
+    //   if (!jwtHelper.isTokenExpired(token)) {
+    //     if (!auth.isAuthenticated) {
+    //       auth.authenticate(store.get('profile'), token);
+
+
+    //       //Store the status in the scope 
+    //       $rootScope.isAuthenticated = auth.isAuthenticated
+    //     }
+    //   } else {
+    //     if (refreshToken) {
+    //       if (refreshingToken === null) {
+    //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+    //           store.set('token', idToken);
+    //           auth.authenticate(store.get('profile'), idToken);
+    //         }).finally(function() {
+    //           refreshingToken = null;
+    //         });
+    //       }
+    //       return refreshingToken;
+    //     } else {
+    //       $location.path('/login');
+    //     }
+    //   }
+    // }
+  });
+})
+
+
+// (function () {
+//     'use strict';
+
+//     angular.module('taternet')
+//         .factory('authMiddleware', authMiddleware);
+    
+//     authMiddleware.$inject = ['$auth', '$state']
+
+//     function authMiddleware($auth, $state) {
+
+//         var authMiddleware = this;
+
+//         //if user is not logged in re-direct to login route
+//         authMiddleware.run = function(event){
+//             if(authService.isLoggedIn() == false){
+//                 event.preventDefault();
+//                 console.error('You are not logged in, so you cant browse this');
+//                 $state.go('login');
+//             }
+//         };
+
+//         return {
+//             run : authMiddleware.run
+//         };
+//     };
+
+// })();

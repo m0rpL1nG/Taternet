@@ -6,10 +6,11 @@ TransfersController.$inject=[
     '$filter',
     'filterFilter',
     'sessionservice',
-    '$mdDialog'
+    '$mdDialog',
+    '$timeout'
     ]
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog) {  
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout) {  
 
     var vm = this;
     
@@ -133,8 +134,10 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         return transferdataservice.getTransfers(location, destination, init)
             .then(function(data) {
                 // console.log("Transfers: ", data);
-                if(partial){vm.transfers = data;}
-                else{
+                if(partial){
+                    vm.transfers = data;
+                    vm.printList = data;
+                } else {
                     vm.dataStore = data;
                     vm.filterDisabled = false;
                 };
@@ -211,17 +214,41 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
     // }
 
     function printDiv (divName) {
-        // if (vm.selected.length === 0) {
-        //     vm.printList = vm.transfers;
-        // } else {
-        //     vm.printList = vm.selected;
-        //     vm.selected = [];
-        // }
-        var printContents = document.getElementById(divName).innerHTML;
-        var popupWin = window.open('', '_blank', 'width=800,height=600');
-        popupWin.document.open()
-        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
-        popupWin.document.close();
+        console.log("items selected: ", vm.selected.length)
+        var wait = 0;
+        if (vm.selected.length > 0) {
+            wait = 50;
+            // need to wait for angular render refresh... $timeout? some such nonsense
+            console.log("print only selected", vm.selected.length);
+            vm.printList = [];
+            vm.printList = vm.selected;
+            console.log("printList Length: ", vm.printList.length)
+        } else {
+            wait = 50;
+            vm.printList = vm.transfers;
+        }
+
+        $timeout(function(){
+            var printContents = document.getElementById(divName).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=800,height=600');
+            popupWin.document.open()
+            popupWin.document.write(
+                '<html>' + 
+                    '<head>' + 
+                        '<link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" />'+
+                    '</head>'+
+                    // '<body onload="window.print()>'+
+                    '<body>' +
+                        '<script type="text/javascript">' +
+                            'setTimeout(function () { window.print(); }, 500);'+
+                            'window.onfocus = function () { setTimeout(function () { window.close(); }, 500); };'+
+                        '</script>'+
+                        printContents + 
+                    '</body>'+
+                '</html>');
+            // popupWin.document.close();
+            // popupWin.close();
+        }, wait)
     } 
 
     function showFilters(ev) {

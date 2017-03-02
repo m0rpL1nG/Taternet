@@ -18,7 +18,8 @@ ALLOWED_HOSTS = [
     u'localhost',
     u'10.10.1.75', 
     u'10.10.1.75.xip.io',
-    u'10.10.1.75.nip.io'
+    u'10.10.1.75.nip.io',
+    u'david-ubuntuser',
     ]
 
 DATABASES = {
