@@ -31,10 +31,13 @@ function transferdataservice($http) {
             .catch(getTransfersFailed);
 
         function getTransfersComplete(response) {
-            return response.data;
+            console.log("get transfers success: ", response);
+            return response;
         }
 
-        function getTransfersFailed(error) {
+        function getTransfersFailed(response, error, status) {
+            console.log("Get Transfers Error: ", response);
+            throw response;
             // logger.error('XHR Failed for getAvengers.' + error.data);
         }
     }

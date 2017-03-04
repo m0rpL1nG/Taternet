@@ -47,6 +47,10 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.games",
       url: "/games",
+      data: 
+        {
+          roles: ['Admin']
+        },
       templateUrl: "frontend/app/game/game.html",
       controller: "GameListController",
       controllerAs: "game",
@@ -54,6 +58,10 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.people", 
       url: "/people",
+      data: 
+        {
+          roles: ['Admin']
+        },
       templateUrl: "frontend/app/people/people.html",
       controller: 'PeopleController',
       controllerAs: 'people',
@@ -61,6 +69,10 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.people.detail", 
       url: "/{id}",
+      data: 
+        {
+          roles: ['Admin']
+        },
       templateUrl: "frontend/app/people/detail/peopleDetail.html",
       controller: 'PeopleDetailController',
       controllerAs: 'peopleDetail',
@@ -68,6 +80,10 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.travelSheets",
       url: "/travelsheets",
+      data: 
+        {
+          roles: []
+        },
       templateUrl: "frontend/app/transfers/transfers.html",
     },
   ]

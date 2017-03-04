@@ -18,7 +18,7 @@ INSTALLED_APPS = [
 
     # Django Packages
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'social_django',
     'rest_social_auth',
 

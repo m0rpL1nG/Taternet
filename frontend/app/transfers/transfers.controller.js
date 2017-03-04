@@ -7,10 +7,11 @@ TransfersController.$inject=[
     'filterFilter',
     'sessionservice',
     '$mdDialog',
-    '$timeout'
+    '$timeout',
+    '$state'
     ]
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout) {  
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout, $state) {  
 
     var vm = this;
     
@@ -115,34 +116,55 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         // console.log(month, day, year);
         vm.date = `${month}/${day}/${year}`;
         // console.log(vm.date);
-        getTransfers(null, null, true, true);
-        vm.toLocationFilter = {
-            store: {
-                name: "",
-                id: ""
-            },
-            stockClassification : {
-                name: "",
-                id: ""
-            }
-        }
-        return getTransfers().then(console.log("all transfers complete"))
+        return getTransfers(null, null, true, true)
+            .then(function(){
+                vm.toLocationFilter = {
+                    store: {
+                        name: "",
+                        id: ""
+                    },
+                    stockClassification : {
+                        name: "",
+                        id: ""
+                    }
+                }
+                return getTransfers().then(console.log("all transfers complete"))
+            }).catch(function(){
+                console.log("that's an error");
+            });
     }
 
     function getTransfers(location = null, destination = null, partial=false, init=false) {
         console.log('transfer request begun')
         return transferdataservice.getTransfers(location, destination, init)
-            .then(function(data) {
-                // console.log("Transfers: ", data);
+            .then(function(response) {
+                console.log("Transfers: ", response.data);
                 if(partial){
-                    vm.transfers = data;
-                    vm.printList = data;
+                    vm.transfers = response.data;
+                    vm.printList = response.data;
                 } else {
-                    vm.dataStore = data;
+                    vm.dataStore = response.data;
                     vm.filterDisabled = false;
                 };
                 // console.log("filtered", vm.transfersFilter)
             // return vm.transfers;
+            })
+            .catch(function(response){
+                console.log("error at controller");
+                console.log(response);
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        // .clickOutsideToClose(true)
+                        .title('Your session has expired')
+                        .textContent('Please log in again.')
+                        .ariaLabel('Expired Session')
+                        .ok("Got it!")
+                        .targetEvent(document.window)
+                )
+                .then(function() {
+                        $state.go('authenticate');
+                });
+                throw response;
             });
     }
 

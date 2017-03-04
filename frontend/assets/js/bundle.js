@@ -681,24 +681,36 @@ function routesConfig($stateProvider, $urlRouterProvider) {
   }, {
     name: "index.games",
     url: "/games",
+    data: {
+      roles: ['Admin']
+    },
     templateUrl: "frontend/app/game/game.html",
     controller: "GameListController",
     controllerAs: "game"
   }, {
     name: "index.people",
     url: "/people",
+    data: {
+      roles: ['Admin']
+    },
     templateUrl: "frontend/app/people/people.html",
     controller: 'PeopleController',
     controllerAs: 'people'
   }, {
     name: "index.people.detail",
     url: "/{id}",
+    data: {
+      roles: ['Admin']
+    },
     templateUrl: "frontend/app/people/detail/peopleDetail.html",
     controller: 'PeopleDetailController',
     controllerAs: 'peopleDetail'
   }, {
     name: "index.travelSheets",
     url: "/travelsheets",
+    data: {
+      roles: []
+    },
     templateUrl: "frontend/app/transfers/transfers.html"
   }];
 
@@ -774,9 +786,9 @@ __webpack_require__(28);
 
 angular.module("Admin").controller("SessionController", SessionController);
 
-SessionController.$inject = ['sessionservice', '$mdDialog', '$auth', '$http', '$state', 'localStorageService'];
+SessionController.$inject = ['sessionservice', '$auth', '$http', '$state'];
 
-function SessionController(sessionservice, $mdDialog, $auth, $http, $state, localStorageService) {
+function SessionController(sessionservice, $auth, $http, $state) {
     var vm = this;
 
     vm.authenticate = authenticate;
@@ -786,18 +798,13 @@ function SessionController(sessionservice, $mdDialog, $auth, $http, $state, loca
     sessionservice.setUser();
     vm.user = sessionservice.getUser();
 
-    // function activate(){
-    //     $state.go('dashboard');
+    // If there's a token in localstorage, set the user using the token
+    // if ($auth.getToken()){
+    //     console.log("token: ", $auth.getToken())
+    //     $http.get('api/v1/user/').then(function(response){
+    //         sessionservice.setUser(response);
+    //     });
     // }
-
-    if ($auth.getToken()) {
-        console.log("token: ", $auth.getToken());
-        $http.get('api/v1/user/').then(function (response) {
-            sessionservice.setUser(response);
-        });
-    }
-
-    vm.jwtPayload = $auth.getPayload();
 
     function authenticate(provider) {
         $auth.authenticate(provider).then(function (response) {
@@ -806,9 +813,8 @@ function SessionController(sessionservice, $mdDialog, $auth, $http, $state, loca
             sessionservice.setUser(response);
             $state.go("index.dashboard");
         }).catch(function (data) {
-            var err_msg = "Something went wrong, maybe you haven't installed 'djangorestframework-jwt'?";
+            console.log("error: SessionController.authenticate");
             console.log(data);
-            console.log(err_msg);
             alert(err_msg);
         });
     }
@@ -1075,9 +1081,9 @@ function NavController(sessionservice) {
 
 angular.module("Layout").controller("TopNavController", TopNavController);
 
-TopNavController.$inject = ['sessionservice', 'localStorageService', '$mdSidenav', '$state'];
+TopNavController.$inject = ['sessionservice', '$mdSidenav', '$state'];
 
-function TopNavController(sessionservice, localStorageService, $mdSidenav, $state) {
+function TopNavController(sessionservice, $mdSidenav, $state) {
     var vm = this;
 
     vm.logout = logout;
@@ -1087,8 +1093,8 @@ function TopNavController(sessionservice, localStorageService, $mdSidenav, $stat
     activate();
 
     function activate() {
-        vm.user = localStorageService.get('currentUser');
-        console.log("user at shell controller", vm.user);
+        vm.user = sessionservice.getUser();
+        console.log("user at topnav controller", vm.user);
     }
 
     function logout() {
@@ -1246,9 +1252,9 @@ function dataservice($http) {
 
 angular.module("Transfers").controller("TransfersController", TransfersController);
 
-TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog', '$timeout'];
+TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog', '$timeout', '$state'];
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout) {
+function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout, $state) {
 
     var vm = this;
 
@@ -1330,18 +1336,21 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         // console.log(month, day, year);
         vm.date = month + "/" + day + "/" + year;
         // console.log(vm.date);
-        getTransfers(null, null, true, true);
-        vm.toLocationFilter = {
-            store: {
-                name: "",
-                id: ""
-            },
-            stockClassification: {
-                name: "",
-                id: ""
-            }
-        };
-        return getTransfers().then(console.log("all transfers complete"));
+        return getTransfers(null, null, true, true).then(function () {
+            vm.toLocationFilter = {
+                store: {
+                    name: "",
+                    id: ""
+                },
+                stockClassification: {
+                    name: "",
+                    id: ""
+                }
+            };
+            return getTransfers().then(console.log("all transfers complete"));
+        }).catch(function () {
+            console.log("that's an error");
+        });
     }
 
     function getTransfers() {
@@ -1351,17 +1360,26 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
         var init = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
         console.log('transfer request begun');
-        return transferdataservice.getTransfers(location, destination, init).then(function (data) {
-            // console.log("Transfers: ", data);
+        return transferdataservice.getTransfers(location, destination, init).then(function (response) {
+            console.log("Transfers: ", response.data);
             if (partial) {
-                vm.transfers = data;
-                vm.printList = data;
+                vm.transfers = response.data;
+                vm.printList = response.data;
             } else {
-                vm.dataStore = data;
+                vm.dataStore = response.data;
                 vm.filterDisabled = false;
             };
             // console.log("filtered", vm.transfersFilter)
             // return vm.transfers;
+        }).catch(function (response) {
+            console.log("error at controller");
+            console.log(response);
+            $mdDialog.show($mdDialog.alert()
+            // .clickOutsideToClose(true)
+            .title('Your session has expired').textContent('Please log in again.').ariaLabel('Expired Session').ok("Got it!").targetEvent(document.window)).then(function () {
+                $state.go('authenticate');
+            });
+            throw response;
         });
     }
 
@@ -1579,10 +1597,13 @@ function transferdataservice($http) {
         }).then(getTransfersComplete).catch(getTransfersFailed);
 
         function getTransfersComplete(response) {
-            return response.data;
+            console.log("get transfers success: ", response);
+            return response;
         }
 
-        function getTransfersFailed(error) {
+        function getTransfersFailed(response, error, status) {
+            console.log("Get Transfers Error: ", response);
+            throw response;
             // logger.error('XHR Failed for getAvengers.' + error.data);
         }
     }

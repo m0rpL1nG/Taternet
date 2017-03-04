@@ -1,9 +1,9 @@
 angular.module("Admin")
     .controller("SessionController", SessionController);
 
-SessionController.$inject=['sessionservice', '$mdDialog', '$auth', '$http', '$state', 'localStorageService']
+SessionController.$inject=['sessionservice', '$auth', '$http', '$state']
 
-function SessionController(sessionservice, $mdDialog, $auth, $http, $state, localStorageService) {  
+function SessionController(sessionservice, $auth, $http, $state) {  
     var vm = this;
     
     vm.authenticate = authenticate;
@@ -14,18 +14,13 @@ function SessionController(sessionservice, $mdDialog, $auth, $http, $state, loca
     sessionservice.setUser();
     vm.user = sessionservice.getUser();
 
-    // function activate(){
-    //     $state.go('dashboard');
+    // If there's a token in localstorage, set the user using the token
+    // if ($auth.getToken()){
+    //     console.log("token: ", $auth.getToken())
+    //     $http.get('api/v1/user/').then(function(response){
+    //         sessionservice.setUser(response);
+    //     });
     // }
-
-    if ($auth.getToken()){
-        console.log("token: ", $auth.getToken())
-        $http.get('api/v1/user/').then(function(response){
-            sessionservice.setUser(response);
-        });
-    }
-
-    vm.jwtPayload = $auth.getPayload();
 
     function authenticate(provider){
         $auth.authenticate(provider).then(function(response){
@@ -34,9 +29,8 @@ function SessionController(sessionservice, $mdDialog, $auth, $http, $state, loca
             sessionservice.setUser(response);
             $state.go("index.dashboard");
         }).catch(function(data) {
-            var err_msg = "Something went wrong, maybe you haven't installed 'djangorestframework-jwt'?";
+            console.log("error: SessionController.authenticate");
             console.log(data)
-            console.log(err_msg);
             alert(err_msg);
         });
     }
