@@ -20,6 +20,7 @@ require("./layout/layout.module");
 require("./game/game.module");
 require("./people/people.module");
 require("./transfers/transfers.module");
+require("./services/services.module")
 
 
 /* App Dependencies */
@@ -29,6 +30,7 @@ angular.module("taternet", [
     "Game",
     "People",
     "Transfers",
+    "Services",
     //////////////////
     // Outside Libs //
     //////////////////
@@ -50,46 +52,66 @@ require("./app.config")
 
 /* Interceptors */
 
-angular.module("taternet").run(
-    function($rootScope, $state, $auth){
-        console.log($auth.isAuthenticated());
-        if($auth.isAuthenticated()){
-            $state.go('index.dashboard');
-        } else {
-            $state.go('authenticate')
+
+angular.module("taternet").run(runBlock)
+
+runBlock.$inject = [
+    '$rootScope',
+    '$state', 
+    '$auth',
+    'sessionservice',
+    'routeAuthService']
+
+function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
+    console.log($auth.isAuthenticated());
+    if($auth.isAuthenticated()){
+        $state.go('index.dashboard');
+    } else {
+        $state.go('login')
+    }
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+        var payload = $auth.getPayload()
+        console.log(payload);
+        if (toState.name != 'login'){
+            $rootScope.toState = toState;
+            $rootScope.toStateParams = toStateParams;
+            console.log(toState, toStateParams)
+            routeAuthService.authorize();
         }
 
-    $rootScope.$on('$stateChangeStart', function() {
-    var payload = $auth.getPayload()
-    console.log(payload);
-    // var refreshToken = store.get('refreshToken');
-    // if (token) {
-    //   if (!jwtHelper.isTokenExpired(token)) {
-    //     if (!auth.isAuthenticated) {
-    //       auth.authenticate(store.get('profile'), token);
+
+            // routeAuthService.authorize(); 
+
+            // var refreshToken = store.get('refreshToken');
+            // if (token) {
+            //   if (!jwtHelper.isTokenExpired(token)) {
+            //     if (!auth.isAuthenticated) {
+            //       auth.authenticate(store.get('profile'), token);
 
 
-    //       //Store the status in the scope 
-    //       $rootScope.isAuthenticated = auth.isAuthenticated
-    //     }
-    //   } else {
-    //     if (refreshToken) {
-    //       if (refreshingToken === null) {
-    //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
-    //           store.set('token', idToken);
-    //           auth.authenticate(store.get('profile'), idToken);
-    //         }).finally(function() {
-    //           refreshingToken = null;
-    //         });
-    //       }
-    //       return refreshingToken;
-    //     } else {
-    //       $location.path('/login');
-    //     }
-    //   }
-    // }
-  });
-})
+            //       //Store the status in the scope 
+            //       $rootScope.isAuthenticated = auth.isAuthenticated
+            //     }
+            //   } else {
+            //     if (refreshToken) {
+            //       if (refreshingToken === null) {
+            //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+            //           store.set('token', idToken);
+            //           auth.authenticate(store.get('profile'), idToken);
+            //         }).finally(function() {
+            //           refreshingToken = null;
+            //         });
+            //       }
+            //       return refreshingToken;
+            //     } else {
+            //       $location.path('/login');
+            //     }
+            //   }
+            // }
+
+    });
+}
 
 
 // (function () {

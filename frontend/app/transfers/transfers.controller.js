@@ -162,7 +162,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
                         .targetEvent(document.window)
                 )
                 .then(function() {
-                        $state.go('authenticate');
+                        $state.go('login');
                 });
                 throw response;
             });

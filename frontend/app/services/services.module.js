@@ -1,3 +1,3 @@
-angular.module("Game", []);
+angular.module("Services", []);
 
-require("./localstorage.service");  
+require("./routeAuth.service");

@@ -669,14 +669,17 @@ function routesConfig($stateProvider, $urlRouterProvider) {
   },
   /////////////////////////
   {
-    name: "authenticate",
-    url: "/auth",
+    name: "login",
+    url: "/login",
     templateUrl: "frontend/app/admin/session/login.html",
     controller: "SessionController",
     controllerAs: "session"
   }, {
     name: "index.dashboard",
     url: "/dashboard",
+    data: {
+      roles: ['Admin']
+    },
     templateUrl: "frontend/app/dashboard/dashboard.html"
   }, {
     name: "index.games",
@@ -833,19 +836,24 @@ function SessionController(sessionservice, $auth, $http, $state) {
 
 angular.module('Admin').factory('sessionservice', sessionservice);
 
-sessionservice.$inject = ['$http', 'localStorageService', '$auth'];
+sessionservice.$inject = ['$http', 'localStorageService', '$auth', '$q'];
 
-function sessionservice($http, localStorageService, $auth) {
+function sessionservice($http, localStorageService, $auth, $q) {
     return {
         setUser: setUser,
         getUser: getUser,
         logout: logout,
         getNavItems: getNavItems,
-        getUserLocation: getUserLocation
+        getUserLocation: getUserLocation,
+        isInRole: isInRole,
+        isInAnyRole: isInAnyRole
     };
 
+    var self = this;
+
     function getUser() {
-        return localStorageService.get("currentUser");
+        var user = localStorageService.get("currentUser");
+        return $q.when(user);
     }
 
     function getUserLocation() {
@@ -877,7 +885,8 @@ function sessionservice($http, localStorageService, $auth) {
                 'first_name': null,
                 'last_name': null,
                 'email': null,
-                'social_thumb': null
+                'social_thumb': null,
+                'roles': []
             };
         }
         user.username = source.username;
@@ -885,6 +894,7 @@ function sessionservice($http, localStorageService, $auth) {
         user.last_name = source.last_name;
         user.email = source.email;
         user.thumb = source.social_thumb;
+        user.roles = ['Admin'];
 
         localStorageService.set('currentUser', user);
     };
@@ -895,6 +905,32 @@ function sessionservice($http, localStorageService, $auth) {
         setUser();
         console.log("username after logout", localStorageService.get('currentUser').email);
     };
+
+    function isInRole(role) {
+        var user = localStorageService.get("currentUser");
+        if (!$auth.isAuthenticated() || !user.roles) return false;
+        console.log(role);
+        console.log(user.roles.indexOf(role) != -1);
+        return user.roles.indexOf(role) != -1;
+    }
+
+    function isInAnyRole(roles) {
+
+        var user = localStorageService.get("currentUser");
+
+        console.log(user);
+        console.log("not authed:", !$auth.isAuthenticated());
+        console.log("doesnt have roles:, ", !user.roles);
+        if (!$auth.isAuthenticated() || !user.roles) return false;
+
+        for (var i = 0; i < roles.length; i++) {
+            console.log("result of isInRole:", isInRole(roles[i]));
+            if (isInRole(roles[i])) return true;
+        }
+        console.log("fell to bottom of isInAnyRole");
+
+        return false;
+    }
 }
 
 /***/ }),
@@ -1093,14 +1129,16 @@ function TopNavController(sessionservice, $mdSidenav, $state) {
     activate();
 
     function activate() {
-        vm.user = sessionservice.getUser();
+        return sessionservice.getUser().then(function (user) {
+            vm.user = user;
+        });
         console.log("user at topnav controller", vm.user);
     }
 
     function logout() {
         sessionservice.logout();
         vm.user = {};
-        $state.go('authenticate');
+        $state.go('login');
     }
 
     function toggleSideNav() {
@@ -1377,7 +1415,7 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
             $mdDialog.show($mdDialog.alert()
             // .clickOutsideToClose(true)
             .title('Your session has expired').textContent('Please log in again.').ariaLabel('Expired Session').ok("Got it!").targetEvent(document.window)).then(function () {
-                $state.go('authenticate');
+                $state.go('login');
             });
             throw response;
         });
@@ -3713,9 +3751,10 @@ __webpack_require__(13);
 __webpack_require__(12);
 __webpack_require__(14);
 __webpack_require__(15);
+__webpack_require__(35);
 
 /* App Dependencies */
-angular.module("taternet", ["Admin", "Layout", "Game", "People", "Transfers",
+angular.module("taternet", ["Admin", "Layout", "Game", "People", "Transfers", "Services",
 //////////////////
 // Outside Libs //
 //////////////////
@@ -3730,17 +3769,30 @@ __webpack_require__(10);
 
 /* Interceptors */
 
-angular.module("taternet").run(function ($rootScope, $state, $auth) {
+angular.module("taternet").run(runBlock);
+
+runBlock.$inject = ['$rootScope', '$state', '$auth', 'sessionservice', 'routeAuthService'];
+
+function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
     console.log($auth.isAuthenticated());
     if ($auth.isAuthenticated()) {
         $state.go('index.dashboard');
     } else {
-        $state.go('authenticate');
+        $state.go('login');
     }
 
-    $rootScope.$on('$stateChangeStart', function () {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
         var payload = $auth.getPayload();
         console.log(payload);
+        if (toState.name != 'login') {
+            $rootScope.toState = toState;
+            $rootScope.toStateParams = toStateParams;
+            console.log(toState, toStateParams);
+            routeAuthService.authorize();
+        }
+
+        // routeAuthService.authorize(); 
+
         // var refreshToken = store.get('refreshToken');
         // if (token) {
         //   if (!jwtHelper.isTokenExpired(token)) {
@@ -3768,7 +3820,7 @@ angular.module("taternet").run(function ($rootScope, $state, $auth) {
         //   }
         // }
     });
-});
+}
 
 // (function () {
 //     'use strict';
@@ -3797,6 +3849,65 @@ angular.module("taternet").run(function ($rootScope, $state, $auth) {
 //     };
 
 // })();
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+angular.module("Services", []);
+
+__webpack_require__(36);
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+angular.module('Services').factory('routeAuthService', routeAuthService);
+
+routeAuthService.$inject = ['$rootScope', '$state', 'sessionservice', '$auth'];
+
+function routeAuthService($rootScope, $state, sessionservice, $auth) {
+    return {
+        authorize: authorize
+    };
+
+    var self = this;
+
+    function authorize() {
+        return sessionservice.getUser().then(function () {
+            var isAuthenticated = $auth.isAuthenticated();
+            console.log("Authenticated at routeAuth:", isAuthenticated);
+            console.log("$rootScope.toState.data.roles:", $rootScope.toState.data.roles);
+            console.log("$rootScope.toState.data.roles.length: ", $rootScope.toState.data.roles.length);
+            console.log("Isn't in any role", !sessionservice.isInAnyRole($rootScope.toState.data.roles));
+            if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !sessionservice.isInAnyRole($rootScope.toState.data.roles)) {
+                console.log("entered redirect stragey");
+                if (isAuthenticated) {
+                    // user is signed in but not
+                    // authorized for desired state
+                    $state.go('accessdenied');
+                } else {
+                    // user is not authenticated. Stow
+                    // the state they wanted before you
+                    // send them to the sign-in state, so
+                    // you can return them when you're done
+                    $rootScope.returnToState = $rootScope.toState;
+                    $rootScope.returnToStateParams = $rootScope.toStateParams;
+
+                    // now, send them to the signin state
+                    // so they can log in
+                    $state.go('login');
+                }
+            }
+        });
+    }
+}
 
 /***/ })
 /******/ ]);

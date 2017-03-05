@@ -13,14 +13,14 @@ function TopNavController(sessionservice, $mdSidenav, $state) {
     activate()
 
     function activate(){
-        vm.user = sessionservice.getUser();
+        return sessionservice.getUser().then(function(user){ vm.user = user});
         console.log("user at topnav controller", vm.user);
     }
 
     function logout(){
         sessionservice.logout();
         vm.user = {};
-        $state.go('authenticate');
+        $state.go('login');
     }
 
     function toggleSideNav() {

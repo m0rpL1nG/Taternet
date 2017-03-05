@@ -33,8 +33,8 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     },
     /////////////////////////
     {
-      name: "authenticate",
-      url: "/auth",
+      name: "login",
+      url: "/login",
       templateUrl: "frontend/app/admin/session/login.html",
       controller: "SessionController",
       controllerAs: "session",
@@ -42,6 +42,10 @@ function routesConfig($stateProvider, $urlRouterProvider) {
     {
       name: "index.dashboard",
       url: "/dashboard",
+      data: 
+        {
+          roles: ['Admin']
+        },
       templateUrl: "frontend/app/dashboard/dashboard.html",
     },
     {
