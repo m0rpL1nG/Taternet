@@ -15,10 +15,7 @@ function routeAuthService($rootScope, $state, sessionservice, $auth) {
        return sessionservice.getUser()
           .then(function() {
             var isAuthenticated = $auth.isAuthenticated();
-            console.log("Authenticated at routeAuth:", isAuthenticated)
-            console.log("$rootScope.toState.data.roles:", $rootScope.toState.data.roles)
-            console.log("$rootScope.toState.data.roles.length: ", $rootScope.toState.data.roles.length)
-            console.log("Isn't in any role", !sessionservice.isInAnyRole($rootScope.toState.data.roles))
+
             if ($rootScope.toState.data.roles
                 && $rootScope.toState
                              .data.roles.length > 0 

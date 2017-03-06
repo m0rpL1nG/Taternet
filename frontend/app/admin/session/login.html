@@ -1,23 +1,25 @@
 <div layout-fill layout="row" layout-align="center center">
     <md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
         <h2>Employee Login</h2>        
-        <md-button class="md-raised md-primary" ng-click="session.authenticate('google')">Login</md-button>
+        <md-button class="md-raised md-primary" ng-click="session.employeeLogin('google')">Login</md-button>
         <p>Employees with valid Famous Tate email accounts can login using this link.
         If you need a Famous Tate email account, please contact your manager.</p>
     </md-whiteframe>
-    <md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
-        <h2>Contractor Login</h2>   
-        <md-input-container>
-            <label>email address</label>
-            <input>
-        </md-input-container>
-        <md-input-container>
-            <label>password</label>
-            <input>
-        </md-input-container>     
-        <md-input-container>
-            <md-button class="md-raised md-primary" ng-click="session.logout()">Login</md-button>
-            <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
-        </md-input-container>
+    <md-whiteframe flex="30" class="md-whiteframe-2dp">
+        <form name="userForm" layout="column" layout-align="center center"> 
+            <h2>Contractor Login</h2>
+            <md-input-container>
+                <label>email address</label>
+                <input type=text ng-model="session.user.email">
+            </md-input-container>
+            <md-input-container>
+                <label>password</label>
+                <input type="password" ng-model="session.user.password">
+            </md-input-container>     
+            <md-input-container>
+                <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
+                <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
+            </md-input-container>
+        </form>
     </md-whiteframe>
 </div>

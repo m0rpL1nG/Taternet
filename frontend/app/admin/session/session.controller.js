@@ -6,25 +6,25 @@ SessionController.$inject=['sessionservice', '$auth', '$http', '$state']
 function SessionController(sessionservice, $auth, $http, $state) {  
     var vm = this;
     
-    vm.authenticate = authenticate;
+    vm.employeeLogin = employeeLogin;
+    vm.contractorLogin = contractorLogin;
     vm.logout = logout;
-    
+    vm.user = {};
 
     // activate();
     sessionservice.setUser();
     vm.user = sessionservice.getUser();
 
     // If there's a token in localstorage, set the user using the token
-    // if ($auth.getToken()){
-    //     console.log("token: ", $auth.getToken())
+    // function setUserFromJWT(token){
     //     $http.get('api/v1/user/').then(function(response){
     //         sessionservice.setUser(response);
     //     });
     // }
 
-    function authenticate(provider){
+    function employeeLogin(provider){
         $auth.authenticate(provider).then(function(response){
-            console.log("response from google", response);
+            console.log("server reponse after social auth", response);
             $auth.setToken(response.data.token);
             sessionservice.setUser(response);
             $state.go("index.dashboard");
@@ -33,6 +33,23 @@ function SessionController(sessionservice, $auth, $http, $state) {
             console.log(data)
             alert(err_msg);
         });
+    }
+
+    function contractorLogin(){
+        vm.user.username = vm.user.email;
+        console.log("contractorLogin start")
+        $auth.login(vm.user)
+            .then(function(response) {
+                console.log("contractor login success: ", response)
+                $auth.setToken(response.data.token);
+                sessionservice.setUserJWT(response.data.token);
+                $state.go("index.dashboard");
+            })
+            .catch(function(response) {
+            // Handle errors here, such as displaying a notification
+            // for invalid email and/or password.
+                console.log("contractor login failure:", response)
+            });
     }
     
     function logout (){

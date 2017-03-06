@@ -7,6 +7,7 @@ sessionservice.$inject = ['$http', 'localStorageService', '$auth', '$q'];
 function sessionservice($http, localStorageService, $auth, $q) {
     return {
         setUser: setUser,
+        setUserJWT: setUserJWT,
         getUser: getUser,
         logout: logout,
         getNavItems: getNavItems,
@@ -44,7 +45,15 @@ function sessionservice($http, localStorageService, $auth, $q) {
         return links
     }
 
+    function setUserJWT(token){
+        $http.get('api/v1/user/').then(function(response){
+            console.log("setUserJWT response: ", response)
+            setUser(response);
+        });
+    }
+
     function setUser(response){
+            console.log(response);
             var source;
             var user = {};
             if (response){
@@ -79,8 +88,7 @@ function sessionservice($http, localStorageService, $auth, $q) {
     function isInRole(role){
         var user = localStorageService.get("currentUser");
         if (!$auth.isAuthenticated() || !user.roles) return false;
-            console.log(role);
-            console.log(user.roles.indexOf(role) != -1)
+
             return user.roles.indexOf(role) != -1;
     }
 
@@ -89,19 +97,16 @@ function sessionservice($http, localStorageService, $auth, $q) {
 
         var user = localStorageService.get("currentUser");
 
-        console.log(user);
-        console.log("not authed:", !$auth.isAuthenticated())
-        console.log("doesnt have roles:, ", !user.roles)
         if (!$auth.isAuthenticated() || !user.roles) return false;
 
-            for (var i = 0; i < roles.length; i++) {
-                console.log("result of isInRole:", isInRole(roles[i]))
-                if (isInRole(roles[i])) return true;
-                
-            }
-            console.log("fell to bottom of isInAnyRole")
+        for (var i = 0; i < roles.length; i++) {
+            console.log("result of isInRole:", isInRole(roles[i]))
+            if (isInRole(roles[i])) return true;
+            
+        }
+        console.log("fell to bottom of isInAnyRole")
 
-            return false
+        return false
     }
 
 }

@@ -52,7 +52,6 @@ require("./app.config")
 
 /* Interceptors */
 
-
 angular.module("taternet").run(runBlock)
 
 runBlock.$inject = [
@@ -79,36 +78,33 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
             console.log(toState, toStateParams)
             routeAuthService.authorize();
         }
+        
+        // var refreshToken = store.get('refreshToken');
+        // if (token) {
+        //   if (!jwtHelper.isTokenExpired(token)) {
+        //     if (!auth.isAuthenticated) {
+        //       auth.authenticate(store.get('profile'), token);
 
 
-            // routeAuthService.authorize(); 
-
-            // var refreshToken = store.get('refreshToken');
-            // if (token) {
-            //   if (!jwtHelper.isTokenExpired(token)) {
-            //     if (!auth.isAuthenticated) {
-            //       auth.authenticate(store.get('profile'), token);
-
-
-            //       //Store the status in the scope 
-            //       $rootScope.isAuthenticated = auth.isAuthenticated
-            //     }
-            //   } else {
-            //     if (refreshToken) {
-            //       if (refreshingToken === null) {
-            //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
-            //           store.set('token', idToken);
-            //           auth.authenticate(store.get('profile'), idToken);
-            //         }).finally(function() {
-            //           refreshingToken = null;
-            //         });
-            //       }
-            //       return refreshingToken;
-            //     } else {
-            //       $location.path('/login');
-            //     }
-            //   }
-            // }
+        //       //Store the status in the scope 
+        //       $rootScope.isAuthenticated = auth.isAuthenticated
+        //     }
+        //   } else {
+        //     if (refreshToken) {
+        //       if (refreshingToken === null) {
+        //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+        //           store.set('token', idToken);
+        //           auth.authenticate(store.get('profile'), idToken);
+        //         }).finally(function() {
+        //           refreshingToken = null;
+        //         });
+        //       }
+        //       return refreshingToken;
+        //     } else {
+        //       $location.path('/login');
+        //     }
+        //   }
+        // }
 
     });
 }

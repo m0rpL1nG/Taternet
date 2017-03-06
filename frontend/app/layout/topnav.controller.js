@@ -1,9 +1,9 @@
 angular.module("Layout")
     .controller("TopNavController", TopNavController);
 
-TopNavController.$inject=['sessionservice', '$mdSidenav', '$state']
+TopNavController.$inject=['sessionservice', '$mdSidenav', '$state', '$timeout']
 
-function TopNavController(sessionservice, $mdSidenav, $state) {  
+function TopNavController(sessionservice, $mdSidenav, $state, $timeout) {  
     var vm = this;
 
     vm.logout = logout;
@@ -13,8 +13,10 @@ function TopNavController(sessionservice, $mdSidenav, $state) {
     activate()
 
     function activate(){
-        return sessionservice.getUser().then(function(user){ vm.user = user});
-        console.log("user at topnav controller", vm.user);
+        $timeout(function(){
+            return sessionservice.getUser().then(function(user){ vm.user = user});
+            console.log("user at topnav controller", vm.user);
+        }, 300)
     }
 
     function logout(){

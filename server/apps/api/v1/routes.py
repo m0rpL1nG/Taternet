@@ -4,6 +4,7 @@ from server.apps.games.api.views import GameApiView
 from server.apps.whirlwind.users.api.views import UserApiView
 from server.apps.whirlwind.inventory.api.views import TransferViewset, InventoryViewset
 from server.apps.accounts.api.views import UserDetailView
+from rest_framework_jwt.views import obtain_jwt_token
 
 
 api_router = routers.DefaultRouter()
@@ -14,7 +15,8 @@ api_router.register('inventory', InventoryViewset)
 # api_router.register('users', UsersViewset)
 
 urlpatterns = [
-     url(r'^login/', include('rest_social_auth.urls_jwt')),
+     url(r'^employeelogin/', include('rest_social_auth.urls_jwt')),
+     url(r'^contractorlogin/', obtain_jwt_token),
      url(r'user/', UserDetailView.as_view()), 
 ]
 
