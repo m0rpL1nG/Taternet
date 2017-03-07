@@ -23,7 +23,7 @@ function materialConfig($mdThemingProvider) {
 function satellizerConfig($authProvider){
     console.log("satellizerConfig ran");
     $authProvider.google({
-        url: '/api/v1/employeelogin/social/jwt_user/google-oauth2/',
+        url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
         clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
         redirectUri: window.location.origin + '/',
     });

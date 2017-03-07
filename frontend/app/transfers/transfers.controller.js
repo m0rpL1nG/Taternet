@@ -128,17 +128,17 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
                         id: ""
                     }
                 }
-                return getTransfers().then(console.log("all transfers complete"))
+                getTransfers()
             }).catch(function(){
                 console.log("that's an error");
             });
     }
 
     function getTransfers(location = null, destination = null, partial=false, init=false) {
-        console.log('transfer request begun')
+        // console.log('transfer request begun')
         return transferdataservice.getTransfers(location, destination, init)
             .then(function(response) {
-                console.log("Transfers: ", response.data);
+                // console.log("Transfers: ", response.data);
                 if(partial){
                     vm.transfers = response.data;
                     vm.printList = response.data;
@@ -146,12 +146,13 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
                     vm.dataStore = response.data;
                     vm.filterDisabled = false;
                 };
+                return
                 // console.log("filtered", vm.transfersFilter)
             // return vm.transfers;
             })
-            .catch(function(response){
-                console.log("error at controller");
-                console.log(response);
+            .catch(function(error){
+                console.log("error at transfers controller");
+                console.log(error);
                 $mdDialog.show(
                     $mdDialog.alert()
                         // .clickOutsideToClose(true)
@@ -170,8 +171,8 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
 
     function filterTransfers(){
         // Set inLocationFilter Value
-        console.log("start of filter Transfers")
-        console.log(vm.inLocationFilter, vm.toLocationFilter)
+        // console.log("start of filter Transfers")
+        // console.log(vm.inLocationFilter, vm.toLocationFilter)
         if (vm.inLocationFilter.store.id){
             vm.inLocationFilter.value = vm.inLocationFilter.store.id;
             if(vm.inLocationFilter.stockClassification.id){

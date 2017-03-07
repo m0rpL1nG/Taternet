@@ -10,6 +10,14 @@ function routesConfig($stateProvider, $urlRouterProvider) {
       name: "index",
       url: '',
       abstract: true,
+      // resolve: {
+      //   user: ['sessionservice',
+      //     function(sessionservice) {
+            
+      //       return sessionservice.setUserJWT();
+      //     }
+      //   ]
+      // },
       views: {
         '': {
           templateUrl: "frontend/app/layout/shell.html",
@@ -44,7 +52,7 @@ function routesConfig($stateProvider, $urlRouterProvider) {
       url: "/dashboard",
       data: 
         {
-          roles: ['Admin']
+          roles: []
         },
       templateUrl: "frontend/app/dashboard/dashboard.html",
     },
@@ -86,7 +94,7 @@ function routesConfig($stateProvider, $urlRouterProvider) {
       url: "/travelsheets",
       data: 
         {
-          roles: []
+          roles: ['warehouse']
         },
       templateUrl: "frontend/app/transfers/transfers.html",
     },

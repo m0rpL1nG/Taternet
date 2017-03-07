@@ -62,7 +62,7 @@ runBlock.$inject = [
     'routeAuthService']
 
 function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
-    console.log($auth.isAuthenticated());
+    // console.log($auth.isAuthenticated());
     if($auth.isAuthenticated()){
         $state.go('index.dashboard');
     } else {
@@ -71,11 +71,10 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
         var payload = $auth.getPayload()
-        console.log(payload);
+        console.log("runBlock.stateChangeStart.payload", payload);
         if (toState.name != 'login'){
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
-            console.log(toState, toStateParams)
             routeAuthService.authorize();
         }
         
