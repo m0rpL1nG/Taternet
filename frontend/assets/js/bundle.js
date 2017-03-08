@@ -590,10 +590,14 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
 "use strict";
 
 
-angular.module("Admin", []);
+(function () {
+    'use strict';
 
-__webpack_require__(18);
-__webpack_require__(19);
+    angular.module("Admin", []);
+
+    __webpack_require__(18);
+    __webpack_require__(19);
+})();
 
 /***/ }),
 /* 10 */
@@ -602,36 +606,40 @@ __webpack_require__(19);
 "use strict";
 
 
-angular.module('taternet').config(config);
-function config($mdThemingProvider, $authProvider) {
-    materialConfig($mdThemingProvider);
-    satellizerConfig($authProvider);
-}
+(function () {
+    'use strict';
 
-function materialConfig($mdThemingProvider) {
-    console.log('MD theming');
-    $mdThemingProvider.theme('default').primaryPalette('blue-grey', {
-        'default': '500', // by default use shade 500 from the blue-grey palette for primary intentions
-        'hue-1': '700', // use shade 700 for the <code>md-hue-1</code> class
-        'hue-2': '800', // use shade 800 for the <code>md-hue-2</code> class
-        'hue-3': 'A200' // use shade A200 for the <code>md-hue-3</code> class
-    }).accentPalette('light-blue', {
-        'default': '700' // use shade 200 for default, and keep all other shades the same
-    });
-}
+    angular.module('taternet').config(config);
+    function config($mdThemingProvider, $authProvider) {
+        materialConfig($mdThemingProvider);
+        satellizerConfig($authProvider);
+    }
 
-function satellizerConfig($authProvider) {
-    console.log("satellizerConfig ran");
-    $authProvider.google({
-        url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
-        clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
-        redirectUri: window.location.origin + '/'
-    });
+    function materialConfig($mdThemingProvider) {
+        console.log('MD theming');
+        $mdThemingProvider.theme('default').primaryPalette('blue-grey', {
+            'default': '500', // by default use shade 500 from the blue-grey palette for primary intentions
+            'hue-1': '700', // use shade 700 for the <code>md-hue-1</code> class
+            'hue-2': '800', // use shade 800 for the <code>md-hue-2</code> class
+            'hue-3': 'A200' // use shade A200 for the <code>md-hue-3</code> class
+        }).accentPalette('light-blue', {
+            'default': '700' // use shade 200 for default, and keep all other shades the same
+        });
+    }
 
-    $authProvider.tokenType = 'JWT';
-    $authProvider.tokenPrefix = 'satellizer_jwt';
-    $authProvider.loginUrl = '/api/v1/contractorlogin/';
-}
+    function satellizerConfig($authProvider) {
+        console.log("satellizerConfig ran");
+        $authProvider.google({
+            url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
+            clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
+            redirectUri: window.location.origin + '/'
+        });
+
+        $authProvider.tokenType = 'JWT';
+        $authProvider.tokenPrefix = 'satellizer_jwt';
+        $authProvider.loginUrl = '/api/v1/contractorlogin/';
+    }
+})();
 
 /***/ }),
 /* 11 */
@@ -640,98 +648,103 @@ function satellizerConfig($authProvider) {
 "use strict";
 
 
-routesConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
+(function () {
 
-function routesConfig($stateProvider, $urlRouterProvider) {
+  'use strict';
 
-  // $urlRouterProvider.otherwise('/dashboard');
+  angular.module("taternet").config(routesConfig);
 
-  var states = [{
-    name: "index",
-    url: '',
-    abstract: true,
-    // resolve: {
-    //   user: ['sessionservice',
-    //     function(sessionservice) {
+  routesConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
 
-    //       return sessionservice.setUserJWT();
-    //     }
-    //   ]
-    // },
-    views: {
-      '': {
-        templateUrl: "frontend/app/layout/shell.html",
-        controller: "ShellController",
-        controllerAs: "shell"
-      },
-      'sidenav@index': {
-        templateUrl: "frontend/app/layout/sidenav.html",
-        controller: "NavController",
-        controllerAs: "nav"
-      },
-      'topnav@index': {
-        templateUrl: "frontend/app/layout/topnav.html",
-        controller: "TopNavController",
-        controllerAs: "top"
+  function routesConfig($stateProvider, $urlRouterProvider) {
+
+    // $urlRouterProvider.otherwise('/dashboard');
+
+    var states = [{
+      name: "index",
+      url: '',
+      abstract: true,
+      // resolve: {
+      //   user: ['sessionservice',
+      //     function(sessionservice) {
+
+      //       return sessionservice.setUserJWT();
+      //     }
+      //   ]
+      // },
+      views: {
+        '': {
+          templateUrl: "frontend/app/layout/shell/shell.html",
+          controller: "ShellController",
+          controllerAs: "shell"
+        },
+        'sidenav@index': {
+          templateUrl: "frontend/app/layout/sidenav/sidenav.html",
+          controller: "NavController",
+          controllerAs: "nav"
+        },
+        'topnav@index': {
+          templateUrl: "frontend/app/layout/topnav/topnav.html",
+          controller: "TopNavController",
+          controllerAs: "top"
+        }
       }
-    }
-  },
-  /////////////////////////
-  {
-    name: "login",
-    url: "/login",
-    templateUrl: "frontend/app/admin/session/login.html",
-    controller: "SessionController",
-    controllerAs: "session"
-  }, {
-    name: "index.dashboard",
-    url: "/dashboard",
-    data: {
-      roles: []
     },
-    templateUrl: "frontend/app/dashboard/dashboard.html"
-  }, {
-    name: "index.games",
-    url: "/games",
-    data: {
-      roles: ['Admin']
-    },
-    templateUrl: "frontend/app/game/game.html",
-    controller: "GameListController",
-    controllerAs: "game"
-  }, {
-    name: "index.people",
-    url: "/people",
-    data: {
-      roles: ['Admin']
-    },
-    templateUrl: "frontend/app/people/people.html",
-    controller: 'PeopleController',
-    controllerAs: 'people'
-  }, {
-    name: "index.people.detail",
-    url: "/{id}",
-    data: {
-      roles: ['Admin']
-    },
-    templateUrl: "frontend/app/people/detail/peopleDetail.html",
-    controller: 'PeopleDetailController',
-    controllerAs: 'peopleDetail'
-  }, {
-    name: "index.travelSheets",
-    url: "/travelsheets",
-    data: {
-      roles: ['warehouse']
-    },
-    templateUrl: "frontend/app/transfers/transfers.html"
-  }];
+    /////////////////////////
+    {
+      name: "login",
+      url: "/login",
+      templateUrl: "frontend/app/admin/session/login.html",
+      controller: "SessionController",
+      controllerAs: "session"
+    }, {
+      name: "index.dashboard",
+      url: "/dashboard",
+      data: {
+        roles: []
+      },
+      templateUrl: "frontend/app/dashboard/dashboard.html"
+    }, {
+      name: "index.games",
+      url: "/games",
+      data: {
+        roles: ['Admin']
+      },
+      templateUrl: "frontend/app/game/game.html",
+      controller: "GameListController",
+      controllerAs: "game"
+    }, {
+      name: "index.people",
+      url: "/people",
+      data: {
+        roles: ['Admin']
+      },
+      templateUrl: "frontend/app/people/people.html",
+      controller: 'PeopleController',
+      controllerAs: 'people'
+    }, {
+      name: "index.people.detail",
+      url: "/{id}",
+      data: {
+        roles: ['Admin']
+      },
+      templateUrl: "frontend/app/people/detail/peopleDetail.html",
+      controller: 'PeopleDetailController',
+      controllerAs: 'peopleDetail'
+    }, {
+      name: "index.travelSheets",
+      url: "/travelsheets",
+      data: {
+        roles: ['warehouse']
+      },
+      templateUrl: "frontend/app/transfers/transfers.html"
+    }];
 
-  states.forEach(function (state) {
-    $stateProvider.state(state);
-  });
-}
-
-module.exports = routesConfig;
+    states.forEach(function (state) {
+      $stateProvider.state(state);
+    });
+  }
+})();
 
 /***/ }),
 /* 12 */
@@ -740,10 +753,14 @@ module.exports = routesConfig;
 "use strict";
 
 
-angular.module("Game", []);
+(function () {
+    'use strict';
 
-__webpack_require__(21);
-__webpack_require__(20);
+    angular.module("Game", []);
+
+    __webpack_require__(21);
+    __webpack_require__(20);
+})();
 
 /***/ }),
 /* 13 */
@@ -752,11 +769,18 @@ __webpack_require__(20);
 "use strict";
 
 
-angular.module("Layout", []);
+(function () {
+    'use strict';
 
-__webpack_require__(22);
-__webpack_require__(23);
-__webpack_require__(24);
+    angular.module("Layout", []);
+
+    __webpack_require__(37);
+    __webpack_require__(38);
+    __webpack_require__(41);
+    __webpack_require__(40);
+    __webpack_require__(43);
+    __webpack_require__(39);
+})();
 
 /***/ }),
 /* 14 */
@@ -765,11 +789,15 @@ __webpack_require__(24);
 "use strict";
 
 
-angular.module("People", []);
+(function () {
+    'use strict';
 
-__webpack_require__(27);
-__webpack_require__(26);
-__webpack_require__(25);
+    angular.module("People", []);
+
+    __webpack_require__(27);
+    __webpack_require__(26);
+    __webpack_require__(25);
+})();
 
 /***/ }),
 /* 15 */
@@ -778,9 +806,13 @@ __webpack_require__(25);
 "use strict";
 
 
-angular.module("Services", []);
+(function () {
+    'use strict';
 
-__webpack_require__(28);
+    angular.module("Services", []);
+
+    __webpack_require__(28);
+})();
 
 /***/ }),
 /* 16 */
@@ -789,10 +821,14 @@ __webpack_require__(28);
 "use strict";
 
 
-angular.module("Transfers", []);
+(function () {
+    'use strict';
 
-__webpack_require__(29);
-__webpack_require__(30);
+    angular.module("Transfers", []);
+
+    __webpack_require__(29);
+    __webpack_require__(30);
+})();
 
 /***/ }),
 /* 17 */
@@ -807,52 +843,56 @@ __webpack_require__(30);
 "use strict";
 
 
-angular.module("Admin").controller("SessionController", SessionController);
+(function () {
+    'use strict';
 
-SessionController.$inject = ['sessionservice', '$auth', '$http', '$state', '$timeout'];
+    angular.module("Admin").controller("SessionController", SessionController);
 
-function SessionController(sessionservice, $auth, $http, $state, $timeout) {
-    var vm = this;
+    SessionController.$inject = ['sessionservice', '$auth', '$http', '$state', '$timeout'];
 
-    sessionservice.setUser();
-    vm.user = {};
-    vm.user = sessionservice.getUser();
+    function SessionController(sessionservice, $auth, $http, $state, $timeout) {
+        var vm = this;
 
-    vm.employeeLogin = employeeLogin;
-    vm.contractorLogin = contractorLogin;
-    vm.logout = logout;
+        sessionservice.setUser();
+        vm.user = {};
+        vm.user = sessionservice.getUser();
 
-    function employeeLogin(provider) {
-        $auth.authenticate(provider).then(function (response) {
-            console.log("social auth login success", response);
-            $auth.setToken(response.data.token);
-            sessionservice.setUserJWT(response.data.token).then(function () {
-                $state.go("index.dashboard");
+        vm.employeeLogin = employeeLogin;
+        vm.contractorLogin = contractorLogin;
+        vm.logout = logout;
+
+        function employeeLogin(provider) {
+            $auth.authenticate(provider).then(function (response) {
+                console.log("social auth login success", response);
+                $auth.setToken(response.data.token);
+                sessionservice.setUserJWT(response.data.token).then(function () {
+                    $state.go("index.dashboard");
+                });
+            }).catch(function (data) {
+                console.log("error: SessionController.authenticate");
+                console.log(data);
+                alert(err_msg);
             });
-        }).catch(function (data) {
-            console.log("error: SessionController.authenticate");
-            console.log(data);
-            alert(err_msg);
-        });
-    }
+        }
 
-    function contractorLogin() {
-        vm.user.username = vm.user.email;
-        $auth.login(vm.user).then(function (response) {
-            console.log("contractor login success: ", response);
-            $auth.setToken(response.data.token);
-            sessionservice.setUserJWT(response.data.token).then(function () {
-                $state.go("index.dashboard");
+        function contractorLogin() {
+            vm.user.username = vm.user.email;
+            $auth.login(vm.user).then(function (response) {
+                console.log("contractor login success: ", response);
+                $auth.setToken(response.data.token);
+                sessionservice.setUserJWT(response.data.token).then(function () {
+                    $state.go("index.dashboard");
+                });
+            }).catch(function (response) {
+                console.log("contractor login failure:", response);
             });
-        }).catch(function (response) {
-            console.log("contractor login failure:", response);
-        });
-    }
+        }
 
-    function logout() {
-        sessionservice.logout();
-    };
-}
+        function logout() {
+            sessionservice.logout();
+        };
+    }
+})();
 
 /***/ }),
 /* 19 */
@@ -861,127 +901,131 @@ function SessionController(sessionservice, $auth, $http, $state, $timeout) {
 "use strict";
 
 
-angular.module('Admin').factory('sessionservice', sessionservice);
+(function () {
+    'use strict';
 
-sessionservice.$inject = ['$http', 'localStorageService', '$auth', '$q'];
+    angular.module('Admin').factory('sessionservice', sessionservice);
 
-function sessionservice($http, localStorageService, $auth, $q) {
-    return {
-        setUser: setUser,
-        setUserJWT: setUserJWT,
-        getUser: getUser,
-        logout: logout,
-        getNavItems: getNavItems,
-        getUserLocation: getUserLocation,
-        isInRole: isInRole,
-        isInAnyRole: isInAnyRole
-    };
+    sessionservice.$inject = ['$http', 'localStorageService', '$auth', '$q'];
 
-    var self = this;
+    function sessionservice($http, localStorageService, $auth, $q) {
+        return {
+            setUser: setUser,
+            setUserJWT: setUserJWT,
+            getUser: getUser,
+            logout: logout,
+            getNavItems: getNavItems,
+            getUserLocation: getUserLocation,
+            isInRole: isInRole,
+            isInAnyRole: isInAnyRole
+        };
 
-    function getUser() {
-        var user = localStorageService.get("currentUser");
-        return $q.when(user);
-    }
+        var self = this;
 
-    function getUserLocation() {
-        return "0010";
-    }
+        function getUser() {
+            var user = localStorageService.get("currentUser");
+            return $q.when(user);
+        }
 
-    function getNavItems() {
-        var availableLinks = [{ title: "Games", link: "games" }, { title: "People", link: "people" }, { title: "Travel Sheets", link: "travelSheets" }, { title: "User Admin", link: "useradmin" }];
+        function getUserLocation() {
+            return "0010";
+        }
 
-        var groups = [{ id: 5, name: "warehouse", links: [2] }, { id: 8, name: "user_admins", links: [3] }];
+        function getNavItems() {
+            var availableLinks = [{ title: "Games", link: "games" }, { title: "People", link: "people" }, { title: "Travel Sheets", link: "travelSheets" }, { title: "User Admin", link: "useradmin" }];
 
-        var user = localStorageService.get("currentUser");
-        var links = [];
-        for (var i = 0; i < groups.length; i++) {
-            if (user.groups.indexOf(groups[i].id) != -1) {
-                for (var j = 0; j < groups[i].links.length; j++) {
-                    links.push(availableLinks[groups[i].links[j]]);
+            var groups = [{ id: 5, name: "warehouse", links: [2] }, { id: 8, name: "user_admins", links: [3] }];
+
+            var user = localStorageService.get("currentUser");
+            var links = [];
+            for (var i = 0; i < groups.length; i++) {
+                if (user.groups.indexOf(groups[i].id) != -1) {
+                    for (var j = 0; j < groups[i].links.length; j++) {
+                        links.push(availableLinks[groups[i].links[j]]);
+                    }
                 }
             }
-        }
-        // console.log(links)
+            // console.log(links)
 
 
-        return links;
-    }
-
-    function setUserJWT() {
-        var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-        if (!token) {
-            token = $auth.getToken();
+            return links;
         }
 
-        return $http.get('api/v1/user/').then(function (response) {
-            setUser(response);
-        });
-    }
+        function setUserJWT() {
+            var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    function setUser(response) {
-
-        var groups = [{ id: 5, name: "warehouse" }, { id: 8, name: "user_admins" }];
-
-        var source;
-        var user = {};
-        if (response) {
-            source = response.data;
-        } else {
-            source = {
-                'username': null,
-                'first_name': null,
-                'last_name': null,
-                'email': null,
-                'social_thumb': null,
-                'roles': [],
-                'groups': []
-            };
-        }
-        user.username = source.username;
-        user.first_name = source.first_name;
-        user.last_name = source.last_name;
-        user.email = source.email;
-        user.thumb = source.social_thumb;
-        user.roles = [];
-        user.groups = source.groups;
-
-        for (var i = 0; i < groups.length; i++) {
-            if (source.groups.indexOf(groups[i].id) != -1) {
-                user.roles.push(groups[i].name);
+            if (!token) {
+                token = $auth.getToken();
             }
+
+            return $http.get('api/v1/user/').then(function (response) {
+                setUser(response);
+            });
         }
 
-        localStorageService.set('currentUser', user);
-    };
+        function setUser(response) {
 
-    function logout() {
-        $auth.removeToken();
-        setUser();
-        console.log("username after logout", localStorageService.get('currentUser').email);
-    };
+            var groups = [{ id: 5, name: "warehouse" }, { id: 8, name: "user_admins" }];
 
-    function isInRole(role) {
-        var user = localStorageService.get("currentUser");
-        if (!$auth.isAuthenticated() || !user.roles) return false;
+            var source;
+            var user = {};
+            if (response) {
+                source = response.data;
+            } else {
+                source = {
+                    'username': null,
+                    'first_name': null,
+                    'last_name': null,
+                    'email': null,
+                    'social_thumb': null,
+                    'roles': [],
+                    'groups': []
+                };
+            }
+            user.username = source.username;
+            user.first_name = source.first_name;
+            user.last_name = source.last_name;
+            user.email = source.email;
+            user.thumb = source.social_thumb;
+            user.roles = [];
+            user.groups = source.groups;
 
-        return user.roles.indexOf(role) != -1;
-    }
+            for (var i = 0; i < groups.length; i++) {
+                if (source.groups.indexOf(groups[i].id) != -1) {
+                    user.roles.push(groups[i].name);
+                }
+            }
 
-    function isInAnyRole(roles) {
+            localStorageService.set('currentUser', user);
+        };
 
-        var user = localStorageService.get("currentUser");
+        function logout() {
+            $auth.removeToken();
+            setUser();
+            console.log("username after logout", localStorageService.get('currentUser').email);
+        };
 
-        if (!$auth.isAuthenticated() || !user.roles) return false;
+        function isInRole(role) {
+            var user = localStorageService.get("currentUser");
+            if (!$auth.isAuthenticated() || !user.roles) return false;
 
-        for (var i = 0; i < roles.length; i++) {
-            if (isInRole(roles[i])) return true;
+            return user.roles.indexOf(role) != -1;
         }
 
-        return false;
+        function isInAnyRole(roles) {
+
+            var user = localStorageService.get("currentUser");
+
+            if (!$auth.isAuthenticated() || !user.roles) return false;
+
+            for (var i = 0; i < roles.length; i++) {
+                if (isInRole(roles[i])) return true;
+            }
+
+            return false;
+        }
     }
-}
+})();
 
 /***/ }),
 /* 20 */
@@ -990,54 +1034,58 @@ function sessionservice($http, localStorageService, $auth, $q) {
 "use strict";
 
 
-angular.module('Game').factory('gamedataservice', gamedataservice);
+(function () {
+    'use strict';
 
-gamedataservice.$inject = ['$http'];
+    angular.module('Game').factory('gamedataservice', gamedataservice);
 
-function gamedataservice($http) {
-    return {
-        getGames: getGames,
-        getGame: getGame,
-        addGame: addGame
-    };
+    gamedataservice.$inject = ['$http'];
 
-    function getGames() {
-        return $http.get("api/v1/games/").then(getGamesComplete).catch(getGamesFailed);
+    function gamedataservice($http) {
+        return {
+            getGames: getGames,
+            getGame: getGame,
+            addGame: addGame
+        };
 
-        function getGamesComplete(response) {
-            return response.data;
+        function getGames() {
+            return $http.get("api/v1/games/").then(getGamesComplete).catch(getGamesFailed);
+
+            function getGamesComplete(response) {
+                return response.data;
+            }
+
+            function getGamesFailed(error) {
+                // logger.error('XHR Failed for getAvengers.' + error.data);
+            }
         }
 
-        function getGamesFailed(error) {
-            // logger.error('XHR Failed for getAvengers.' + error.data);
+        function getGame() {
+            return $http.get("api/v1/games/:game_id/").then(getGameComplete).catch(getGameFailed);
+
+            function getGameComplete(response) {
+                return response.data;
+            }
+
+            function getGameFailed(error) {
+                // logger.error('XHR Failed for getAvengers.' + error.data);
+            }
+        }
+
+        function addGame(newGameObj) {
+            console.log("newGameObj", newGameObj);
+            return $http.post("api/v1/games/", newGameObj).then(getGameComplete).catch(getGameFailed);
+
+            function getGameComplete(response) {
+                return response.data;
+            }
+
+            function getGameFailed(error) {
+                // logger.error('XHR Failed for getAvengers.' + error.data);
+            }
         }
     }
-
-    function getGame() {
-        return $http.get("api/v1/games/:game_id/").then(getGameComplete).catch(getGameFailed);
-
-        function getGameComplete(response) {
-            return response.data;
-        }
-
-        function getGameFailed(error) {
-            // logger.error('XHR Failed for getAvengers.' + error.data);
-        }
-    }
-
-    function addGame(newGameObj) {
-        console.log("newGameObj", newGameObj);
-        return $http.post("api/v1/games/", newGameObj).then(getGameComplete).catch(getGameFailed);
-
-        function getGameComplete(response) {
-            return response.data;
-        }
-
-        function getGameFailed(error) {
-            // logger.error('XHR Failed for getAvengers.' + error.data);
-        }
-    }
-}
+})();
 
 /***/ }),
 /* 21 */
@@ -1046,194 +1094,122 @@ function gamedataservice($http) {
 "use strict";
 
 
-angular.module("Game").controller("GameListController", GameListController);
+(function () {
+    'use strict';
 
-GameListController.$inject = ['gamedataservice'];
+    angular.module("Game").controller("GameListController", GameListController);
 
-function GameListController(gamedataservice) {
+    GameListController.$inject = ['gamedataservice'];
 
-    var vm = this;
+    function GameListController(gamedataservice) {
 
-    vm.options = {
-        rowHeight: 50,
-        headerHeight: 50,
-        footerHeight: false,
-        scrollbarV: false,
-        checkboxSelection: true,
-        selectable: true,
-        multiSelect: true,
-        columns: [{
-            name: "Title",
-            prop: "title",
-            width: 300,
-            isCheckboxColumn: true,
-            headerCheckbox: true
-        }, {
-            name: "Description",
-            prop: "description",
-            width: 300
-        }, {}]
-    };
-    vm.data = [];
-    vm.game = {};
-    vm.selected = [];
+        var vm = this;
 
-    vm.addGame = addGame;
-    vm.onSelect = onSelect;
-    vm.onRowClick = onRowClick;
+        vm.options = {
+            rowHeight: 50,
+            headerHeight: 50,
+            footerHeight: false,
+            scrollbarV: false,
+            checkboxSelection: true,
+            selectable: true,
+            multiSelect: true,
+            columns: [{
+                name: "Title",
+                prop: "title",
+                width: 300,
+                isCheckboxColumn: true,
+                headerCheckbox: true
+            }, {
+                name: "Description",
+                prop: "description",
+                width: 300
+            }, {}]
+        };
+        vm.data = [];
+        vm.game = {};
+        vm.selected = [];
 
-    function onSelect(row) {
-        console.log('ROW SELECTED!', row);
-    }
+        vm.addGame = addGame;
+        vm.onSelect = onSelect;
+        vm.onRowClick = onRowClick;
 
-    function onRowClick(row) {
-        console.log('ROW CLICKED', row);
-    }
+        function onSelect(row) {
+            console.log('ROW SELECTED!', row);
+        }
 
-    activate();
+        function onRowClick(row) {
+            console.log('ROW CLICKED', row);
+        }
 
-    function activate() {
-        return getGames().then(function () {
-            // logger.info('Activated Users View');
-        });
-    }
+        activate();
 
-    function getGames() {
-        return gamedataservice.getGames().then(function (data) {
-            vm.data = data;
-            return vm.data;
-        });
-    }
-
-    function addGame(game) {
-        console.log(game);
-        return gamedataservice.addGame(game).then(function (data) {
-            console.log(data);
-            // vm.data = data;
-            getGames();
-            return vm.data;
-        });
-    }
-}
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.module("Layout").controller("ShellController", ShellController);
-
-ShellController.$inject = ['sessionservice', '$mdSidenav', 'localStorageService'];
-
-function ShellController(sessionservice, $mdSidenav, localStorageService) {
-    var vm = this;
-    // Needs of this controller
-    // 1. Check if user is logged
-    // 2. Manage Permissions
-    // 3. Redirect Major view components
-
-    vm.toggleSideNav = toggleSideNav;
-
-    function toggleSideNav() {
-        console.log('toggleSidenav');
-        $mdSidenav('left-menu').toggle();
-    };
-}
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.module("Layout").controller("NavController", NavController);
-
-NavController.$inject = ['sessionservice'];
-
-function NavController(sessionservice) {
-    var vm = this;
-    vm.items = sessionservice.getNavItems();
-}
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-angular.module("Layout").controller("TopNavController", TopNavController);
-
-TopNavController.$inject = ['sessionservice', '$mdSidenav', '$state', '$timeout'];
-
-function TopNavController(sessionservice, $mdSidenav, $state, $timeout) {
-    var vm = this;
-
-    vm.logout = logout;
-    vm.toggleSideNav = toggleSideNav;
-    vm.user = {};
-
-    activate();
-
-    function activate() {
-        $timeout(function () {
-            return sessionservice.getUser().then(function (user) {
-                vm.user = user;
+        function activate() {
+            return getGames().then(function () {
+                // logger.info('Activated Users View');
             });
-            console.log("user at topnav controller", vm.user);
-        }, 300);
-    }
+        }
 
-    function logout() {
-        sessionservice.logout();
-        vm.user = {};
-        $state.go('login');
-    }
+        function getGames() {
+            return gamedataservice.getGames().then(function (data) {
+                vm.data = data;
+                return vm.data;
+            });
+        }
 
-    function toggleSideNav() {
-        // console.log('toggleSidenav');
-        $mdSidenav('left-menu').toggle();
-    };
-}
+        function addGame(game) {
+            console.log(game);
+            return gamedataservice.addGame(game).then(function (data) {
+                console.log(data);
+                // vm.data = data;
+                getGames();
+                return vm.data;
+            });
+        }
+    }
+})();
 
 /***/ }),
+/* 22 */,
+/* 23 */,
+/* 24 */,
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-angular.module("People").controller("PeopleDetailController", PeopleDetailController);
+(function () {
+    'use strict';
 
-PeopleDetailController.$inject = ['dataservice', '$stateParams'];
+    angular.module("People").controller("PeopleDetailController", PeopleDetailController);
 
-function PeopleDetailController(dataservice, $stateParams) {
-    var vm = this;
+    PeopleDetailController.$inject = ['dataservice', '$stateParams'];
 
-    vm.person = {};
+    function PeopleDetailController(dataservice, $stateParams) {
+        var vm = this;
 
-    activate();
+        vm.person = {};
 
-    function activate() {
-        console.log($stateParams);
-        return getPerson($stateParams.id).then(function (result) {
-            if (result) {
-                console.log(result);
-            }
-        });
+        activate();
+
+        function activate() {
+            console.log($stateParams);
+            return getPerson($stateParams.id).then(function (result) {
+                if (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        function getPerson(id) {
+            return dataservice.getPerson(id).then(function (data) {
+                console.log("get person", data);
+                vm.person = data;
+                return true;
+            });
+        }
     }
-
-    function getPerson(id) {
-        return dataservice.getPerson(id).then(function (data) {
-            console.log("get person", data);
-            vm.person = data;
-            return true;
-        });
-    }
-}
+})();
 
 /***/ }),
 /* 26 */
@@ -1242,51 +1218,55 @@ function PeopleDetailController(dataservice, $stateParams) {
 "use strict";
 
 
-angular.module("People").controller("PeopleController", PeopleController);
+(function () {
+    'use strict';
 
-PeopleController.$inject = ['dataservice', '$state'];
+    angular.module("People").controller("PeopleController", PeopleController);
 
-function PeopleController(dataservice, $state) {
-    var vm = this;
+    PeopleController.$inject = ['dataservice', '$state'];
 
-    vm.options = {
-        rowHeight: 50,
-        headerHeight: 50,
-        footerHeight: false,
-        scrollbarV: false,
-        selectable: true,
-        columns: [{
-            name: "Name",
-            width: 300
-        }, {
-            name: "Gender"
-        }, {
-            name: "Company"
-        }]
-    };
-    vm.data = [];
-    vm.onRowClick = onRowClick;
+    function PeopleController(dataservice, $state) {
+        var vm = this;
 
-    activate();
+        vm.options = {
+            rowHeight: 50,
+            headerHeight: 50,
+            footerHeight: false,
+            scrollbarV: false,
+            selectable: true,
+            columns: [{
+                name: "Name",
+                width: 300
+            }, {
+                name: "Gender"
+            }, {
+                name: "Company"
+            }]
+        };
+        vm.data = [];
+        vm.onRowClick = onRowClick;
 
-    function activate() {
-        return getPeople().then(function () {
-            // logger.info('Activated People View');
-        });
+        activate();
+
+        function activate() {
+            return getPeople().then(function () {
+                // logger.info('Activated People View');
+            });
+        }
+
+        function getPeople() {
+            return dataservice.getPeople().then(function (data) {
+                vm.data = data;
+                return vm.data;
+            });
+        }
+
+        function onRowClick(row) {
+            console.log('ROW CLICKED', row);
+            $state.transitionTo('index.people.detail', { id: row.id });
+        }
     }
-
-    function getPeople() {
-        return dataservice.getPeople().then(function (data) {
-            vm.data = data;
-            return vm.data;
-        });
-    }
-
-    function onRowClick(row) {
-        console.log('ROW CLICKED', row);
-        $state.transitionTo('index.people.detail', { id: row.id });
-    }
-}
+})();
 
 /***/ }),
 /* 27 */
@@ -1295,43 +1275,47 @@ function PeopleController(dataservice, $state) {
 "use strict";
 
 
-angular.module('People').factory('dataservice', dataservice);
+(function () {
+    'use strict';
 
-dataservice.$inject = ['$http'];
+    angular.module('People').factory('dataservice', dataservice);
 
-function dataservice($http) {
-    return {
-        getPeople: getPeople,
-        getPerson: getPerson
-    };
+    dataservice.$inject = ['$http'];
 
-    function getPeople() {
-        return $http({
-            url: 'frontend/assets/data/people.json',
-            // url: 'https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json',
-            // skipAuthorization: true,
-            method: 'GET'
-        }).then(getPeopleComplete).catch(getPeopleFailed);
+    function dataservice($http) {
+        return {
+            getPeople: getPeople,
+            getPerson: getPerson
+        };
 
-        function getPeopleComplete(response) {
-            return response.data;
+        function getPeople() {
+            return $http({
+                url: 'frontend/assets/data/people.json',
+                // url: 'https://cdn.rawgit.com/Swimlane/angular-data-table/master/demos/data/100.json',
+                // skipAuthorization: true,
+                method: 'GET'
+            }).then(getPeopleComplete).catch(getPeopleFailed);
+
+            function getPeopleComplete(response) {
+                return response.data;
+            }
+
+            function getPeopleFailed(error) {
+                // logger.error('XHR Failed for getAvengers.' + error.data);
+            }
         }
 
-        function getPeopleFailed(error) {
-            // logger.error('XHR Failed for getAvengers.' + error.data);
+        function getPerson(id) {
+            function personMatchesParam(person) {
+                return person.id == id;
+            }
+
+            return getPeople().then(function (people) {
+                return people.find(personMatchesParam);
+            });
         }
     }
-
-    function getPerson(id) {
-        function personMatchesParam(person) {
-            return person.id == id;
-        }
-
-        return getPeople().then(function (people) {
-            return people.find(personMatchesParam);
-        });
-    }
-}
+})();
 
 /***/ }),
 /* 28 */
@@ -1340,43 +1324,47 @@ function dataservice($http) {
 "use strict";
 
 
-angular.module('Services').factory('routeAuthService', routeAuthService);
+(function () {
+    'use strict';
 
-routeAuthService.$inject = ['$rootScope', '$state', 'sessionservice', '$auth'];
+    angular.module('Services').factory('routeAuthService', routeAuthService);
 
-function routeAuthService($rootScope, $state, sessionservice, $auth) {
-    return {
-        authorize: authorize
-    };
+    routeAuthService.$inject = ['$rootScope', '$state', 'sessionservice', '$auth'];
 
-    var self = this;
+    function routeAuthService($rootScope, $state, sessionservice, $auth) {
+        return {
+            authorize: authorize
+        };
 
-    function authorize() {
-        return sessionservice.getUser().then(function () {
-            var isAuthenticated = $auth.isAuthenticated();
+        var self = this;
 
-            if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !sessionservice.isInAnyRole($rootScope.toState.data.roles)) {
-                console.log("entered redirect stragey");
-                if (isAuthenticated) {
-                    // user is signed in but not
-                    // authorized for desired state
-                    $state.go('accessdenied');
-                } else {
-                    // user is not authenticated. Stow
-                    // the state they wanted before you
-                    // send them to the sign-in state, so
-                    // you can return them when you're done
-                    $rootScope.returnToState = $rootScope.toState;
-                    $rootScope.returnToStateParams = $rootScope.toStateParams;
+        function authorize() {
+            return sessionservice.getUser().then(function () {
+                var isAuthenticated = $auth.isAuthenticated();
 
-                    // now, send them to the signin state
-                    // so they can log in
-                    $state.go('login');
+                if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !sessionservice.isInAnyRole($rootScope.toState.data.roles)) {
+                    console.log("entered redirect stragey");
+                    if (isAuthenticated) {
+                        // user is signed in but not
+                        // authorized for desired state
+                        $state.go('accessdenied');
+                    } else {
+                        // user is not authenticated. Stow
+                        // the state they wanted before you
+                        // send them to the sign-in state, so
+                        // you can return them when you're done
+                        $rootScope.returnToState = $rootScope.toState;
+                        $rootScope.returnToStateParams = $rootScope.toStateParams;
+
+                        // now, send them to the signin state
+                        // so they can log in
+                        $state.go('login');
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-}
+})();
 
 /***/ }),
 /* 29 */
@@ -1385,319 +1373,323 @@ function routeAuthService($rootScope, $state, sessionservice, $auth) {
 "use strict";
 
 
-angular.module("Transfers").controller("TransfersController", TransfersController);
+(function () {
+    'use strict';
 
-TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog', '$timeout', '$state'];
+    angular.module("Transfers").controller("TransfersController", TransfersController);
 
-function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout, $state) {
+    TransfersController.$inject = ['transferdataservice', '$filter', 'filterFilter', 'sessionservice', '$mdDialog', '$timeout', '$state'];
 
-    var vm = this;
+    function TransfersController(transferdataservice, $filter, filterFilter, sessionservice, $mdDialog, $timeout, $state) {
 
-    //Page variables and functions
-    vm.filterTransfers = filterTransfers;
-    vm.transfers = undefined;
-    vm.inLocationFilter = {};
-    vm.toLocationFilter = {};
-    vm.selected = [];
-    vm.printList = [];
-    vm.resetFilters = resetFilters;
-    vm.showFilters = showFilters;
-    vm.filterDisabled = true;
-    //Data Table Setup
-    vm.options = {
-        rowHeight: 50,
-        headerHeight: 50,
-        footerHeight: false,
-        scrollbarV: false,
-        checkboxSelection: true,
-        selectable: true,
-        multiSelect: true,
-        columnMode: 'force',
-        columns: [{
-            name: "Model Number",
-            prop: "inventory_id.model_number",
-            width: 220,
-            canAutoResize: false,
-            isCheckboxColumn: true,
-            headerCheckbox: true
-        }, {
-            name: "Serial Number",
-            prop: "inventory_id.serial_number",
-            width: 200,
-            canAutoResize: false
-        }, {
-            name: "from",
-            prop: "inventory_id.location",
-            width: 100,
-            canAutoResize: false
-        }, {
-            name: "to",
-            prop: "to_location",
-            width: 100,
-            canAutoResize: false
-        }, {
-            name: "Notes",
-            prop: "notes",
-            cellRenderer: function cellRenderer(scope, ele) {
-                var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-                return "<md-input-container md-no-float style=\"margin: 0px; width:100%; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
-            }
-        }]
-    };
-    // vm.onSelect = onSelect;
-    // vm.onRowClick = onRowClick;
+        var vm = this;
 
-    //Barcode Setup
-    vm.barcodeBackground = [255, 255, 255];
-    vm.barcodeColor = { r: 0, g: 0, b: 0 };
-
-    vm.stores = [{ name: "Corporate", id: "00" }, { name: "North Tampa", id: "01" }, { name: "Brandon", id: "02" }, { name: "South Tampa", id: "03" }, { name: "Lakeland", id: "04" }, { name: "Winter Haven", id: "05" }, { name: "Oldsmar", id: "06" }, { name: "Wesley Chapel", id: "07" }, { name: "Distribution", id: "09" }, { name: "Largo", id: "11" }, { name: "Port Richey", id: "12" }, { name: "Spring Hill", id: "13" }];
-    vm.stockClassifications = [{ name: "Floor Model", id: "01" }, { name: "Display", id: "02" }, { name: "Boxed", id: "03" }, { name: "Depot", id: "04" }, { name: "Return", id: "05" }, { name: "Lost", id: "06" }, { name: "Eval", id: "10" }, { name: "Depot Overstock", id: "12" }];
-
-    //Print Setup
-    vm.printDiv = printDiv;
-    // vm.date = new Date().toISOString().slice(0,10).replace(/-/g,"");
-
-    vm.baseLocation;
-
-    //// functions
-    activate();
-
-    function activate() {
-        var month = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(4, 6);
-        var day = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(6, 8);
-        var year = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(0, 4);
-
-        // console.log(month, day, year);
-        vm.date = month + "/" + day + "/" + year;
-        // console.log(vm.date);
-        return getTransfers(null, null, true, true).then(function () {
-            vm.toLocationFilter = {
-                store: {
-                    name: "",
-                    id: ""
-                },
-                stockClassification: {
-                    name: "",
-                    id: ""
+        //Page variables and functions
+        vm.filterTransfers = filterTransfers;
+        vm.transfers = undefined;
+        vm.inLocationFilter = {};
+        vm.toLocationFilter = {};
+        vm.selected = [];
+        vm.printList = [];
+        vm.resetFilters = resetFilters;
+        vm.showFilters = showFilters;
+        vm.filterDisabled = true;
+        //Data Table Setup
+        vm.options = {
+            rowHeight: 50,
+            headerHeight: 50,
+            footerHeight: false,
+            scrollbarV: false,
+            checkboxSelection: true,
+            selectable: true,
+            multiSelect: true,
+            columnMode: 'force',
+            columns: [{
+                name: "Model Number",
+                prop: "inventory_id.model_number",
+                width: 220,
+                canAutoResize: false,
+                isCheckboxColumn: true,
+                headerCheckbox: true
+            }, {
+                name: "Serial Number",
+                prop: "inventory_id.serial_number",
+                width: 200,
+                canAutoResize: false
+            }, {
+                name: "from",
+                prop: "inventory_id.location",
+                width: 100,
+                canAutoResize: false
+            }, {
+                name: "to",
+                prop: "to_location",
+                width: 100,
+                canAutoResize: false
+            }, {
+                name: "Notes",
+                prop: "notes",
+                cellRenderer: function cellRenderer(scope, ele) {
+                    var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
+                    return "<md-input-container md-no-float style=\"margin: 0px; width:100%; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
                 }
-            };
-            getTransfers();
-        }).catch(function () {
-            console.log("that's an error");
-        });
-    }
+            }]
+        };
+        // vm.onSelect = onSelect;
+        // vm.onRowClick = onRowClick;
 
-    function getTransfers() {
-        var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var destination = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-        var partial = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        var init = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+        //Barcode Setup
+        vm.barcodeBackground = [255, 255, 255];
+        vm.barcodeColor = { r: 0, g: 0, b: 0 };
 
-        // console.log('transfer request begun')
-        return transferdataservice.getTransfers(location, destination, init).then(function (response) {
-            // console.log("Transfers: ", response.data);
-            if (partial) {
-                vm.transfers = response.data;
-                vm.printList = response.data;
-            } else {
-                vm.dataStore = response.data;
-                vm.filterDisabled = false;
-            };
-            return;
-            // console.log("filtered", vm.transfersFilter)
-            // return vm.transfers;
-        }).catch(function (error) {
-            console.log("error at transfers controller");
-            console.log(error);
-            $mdDialog.show($mdDialog.alert()
-            // .clickOutsideToClose(true)
-            .title('Your session has expired').textContent('Please log in again.').ariaLabel('Expired Session').ok("Got it!").targetEvent(document.window)).then(function () {
-                $state.go('login');
+        vm.stores = [{ name: "Corporate", id: "00" }, { name: "North Tampa", id: "01" }, { name: "Brandon", id: "02" }, { name: "South Tampa", id: "03" }, { name: "Lakeland", id: "04" }, { name: "Winter Haven", id: "05" }, { name: "Oldsmar", id: "06" }, { name: "Wesley Chapel", id: "07" }, { name: "Distribution", id: "09" }, { name: "Largo", id: "11" }, { name: "Port Richey", id: "12" }, { name: "Spring Hill", id: "13" }];
+        vm.stockClassifications = [{ name: "Floor Model", id: "01" }, { name: "Display", id: "02" }, { name: "Boxed", id: "03" }, { name: "Depot", id: "04" }, { name: "Return", id: "05" }, { name: "Lost", id: "06" }, { name: "Eval", id: "10" }, { name: "Depot Overstock", id: "12" }];
+
+        //Print Setup
+        vm.printDiv = printDiv;
+        // vm.date = new Date().toISOString().slice(0,10).replace(/-/g,"");
+
+        vm.baseLocation;
+
+        //// functions
+        activate();
+
+        function activate() {
+            var month = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(4, 6);
+            var day = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(6, 8);
+            var year = new Date().toISOString().slice(0, 10).replace(/-/g, "").slice(0, 4);
+
+            // console.log(month, day, year);
+            vm.date = month + "/" + day + "/" + year;
+            // console.log(vm.date);
+            return getTransfers(null, null, true, true).then(function () {
+                vm.toLocationFilter = {
+                    store: {
+                        name: "",
+                        id: ""
+                    },
+                    stockClassification: {
+                        name: "",
+                        id: ""
+                    }
+                };
+                getTransfers();
+            }).catch(function () {
+                console.log("that's an error");
             });
-            throw response;
-        });
-    }
-
-    function filterTransfers() {
-        // Set inLocationFilter Value
-        // console.log("start of filter Transfers")
-        // console.log(vm.inLocationFilter, vm.toLocationFilter)
-        if (vm.inLocationFilter.store.id) {
-            vm.inLocationFilter.value = vm.inLocationFilter.store.id;
-            if (vm.inLocationFilter.stockClassification.id) {
-                vm.inLocationFilter.value = "" + vm.inLocationFilter.store.id + vm.inLocationFilter.stockClassification.id;
-            }
-        } else {
-            vm.inLocationFilter.value = null;
         }
 
-        // set toLocationFilter Value
-        if (vm.toLocationFilter.store.id) {
-            vm.toLocationFilter.value = vm.toLocationFilter.store.id;
-            if (vm.toLocationFilter.stockClassification) {
-                // console.log(vm.toLocationFilter)
-                vm.toLocationFilter.value = "" + vm.toLocationFilter.store.id + vm.toLocationFilter.stockClassification.id;
-            }
-        } else {
-            vm.toLocationFilter.value = null;
+        function getTransfers() {
+            var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+            var destination = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var partial = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var init = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+            // console.log('transfer request begun')
+            return transferdataservice.getTransfers(location, destination, init).then(function (response) {
+                // console.log("Transfers: ", response.data);
+                if (partial) {
+                    vm.transfers = response.data;
+                    vm.printList = response.data;
+                } else {
+                    vm.dataStore = response.data;
+                    vm.filterDisabled = false;
+                };
+                return;
+                // console.log("filtered", vm.transfersFilter)
+                // return vm.transfers;
+            }).catch(function (error) {
+                console.log("error at transfers controller");
+                console.log(error);
+                $mdDialog.show($mdDialog.alert()
+                // .clickOutsideToClose(true)
+                .title('Your session has expired').textContent('Please log in again.').ariaLabel('Expired Session').ok("Got it!").targetEvent(document.window)).then(function () {
+                    $state.go('login');
+                });
+                throw response;
+            });
         }
 
-        // Filter based on values
-        var matchingTransfers = [];
-
-        if (vm.inLocationFilter.value) {
-            // console.log(vm.inLocationFilter.value)
-            for (var i = 0; i < vm.dataStore.length; i++) {
-                if (vm.dataStore[i].inventory_id.location.substr(0, vm.inLocationFilter.value.length) == vm.inLocationFilter.value) {
-                    matchingTransfers.push(vm.dataStore[i]);
+        function filterTransfers() {
+            // Set inLocationFilter Value
+            // console.log("start of filter Transfers")
+            // console.log(vm.inLocationFilter, vm.toLocationFilter)
+            if (vm.inLocationFilter.store.id) {
+                vm.inLocationFilter.value = vm.inLocationFilter.store.id;
+                if (vm.inLocationFilter.stockClassification.id) {
+                    vm.inLocationFilter.value = "" + vm.inLocationFilter.store.id + vm.inLocationFilter.stockClassification.id;
                 }
+            } else {
+                vm.inLocationFilter.value = null;
             }
-            vm.transfers = matchingTransfers;
-        } else {
+
+            // set toLocationFilter Value
+            if (vm.toLocationFilter.store.id) {
+                vm.toLocationFilter.value = vm.toLocationFilter.store.id;
+                if (vm.toLocationFilter.stockClassification) {
+                    // console.log(vm.toLocationFilter)
+                    vm.toLocationFilter.value = "" + vm.toLocationFilter.store.id + vm.toLocationFilter.stockClassification.id;
+                }
+            } else {
+                vm.toLocationFilter.value = null;
+            }
+
+            // Filter based on values
+            var matchingTransfers = [];
+
+            if (vm.inLocationFilter.value) {
+                // console.log(vm.inLocationFilter.value)
+                for (var i = 0; i < vm.dataStore.length; i++) {
+                    if (vm.dataStore[i].inventory_id.location.substr(0, vm.inLocationFilter.value.length) == vm.inLocationFilter.value) {
+                        matchingTransfers.push(vm.dataStore[i]);
+                    }
+                }
+                vm.transfers = matchingTransfers;
+            } else {
+                vm.transfers = vm.dataStore;
+            }
+            matchingTransfers = [];
+
+            if (vm.toLocationFilter.value) {
+                // console.log(vm.toLocationFilter.value);
+                for (var i = 0; i < vm.transfers.length; i++) {
+                    if (vm.transfers[i].to_location.substr(0, vm.toLocationFilter.value.length) == vm.toLocationFilter.value) {
+                        matchingTransfers.push(vm.transfers[i]);
+                    }
+                }
+                vm.transfers = matchingTransfers;
+            }
+
+            // vm.transfers = filterFilter(vm.dataStore, { to_location: vm.toLocationFilter })
+            //    vm.transfers = $filter('filter')(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter });
+        }
+
+        function resetFilters() {
             vm.transfers = vm.dataStore;
         }
-        matchingTransfers = [];
 
-        if (vm.toLocationFilter.value) {
-            // console.log(vm.toLocationFilter.value);
-            for (var i = 0; i < vm.transfers.length; i++) {
-                if (vm.transfers[i].to_location.substr(0, vm.toLocationFilter.value.length) == vm.toLocationFilter.value) {
-                    matchingTransfers.push(vm.transfers[i]);
+        // function onSelect(row) {
+        //     console.log('ROW SELECTED!', row);
+        // }
+
+        // function onRowClick(row) {
+        //     console.log('ROW CLICKED', row);
+        // }
+
+        function printDiv(divName) {
+            console.log("items selected: ", vm.selected.length);
+            var wait = 0;
+            if (vm.selected.length > 0) {
+                wait = 50;
+                // need to wait for angular render refresh... $timeout? some such nonsense
+                // console.log("print only selected", vm.selected.length);
+                vm.printList = [];
+                vm.printList = vm.selected;
+                // console.log("printList Length: ", vm.printList.length)
+            } else {
+                wait = 50;
+                vm.printList = vm.transfers;
+            }
+
+            $timeout(function () {
+                var printContents = document.getElementById(divName).innerHTML;
+                var popupWin = window.open('', '_blank', 'width=800,height=600');
+                popupWin.document.open();
+                popupWin.document.write('<html>' + '<head>' + '<link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" />' + '</head>' +
+                // '<body onload="window.print()>'+
+                '<body>' + '<script type="text/javascript">' + 'setTimeout(function () { window.print(); }, 500);' + 'window.onfocus = function () { setTimeout(function () { window.close(); }, 500); };' + '</script>' + printContents + '</body>' + '</html>');
+                // popupWin.document.close();
+                // popupWin.close();
+            }, wait);
+        }
+
+        function showFilters(ev) {
+            $mdDialog.show({
+                controller: DialogController,
+                controllerAs: 'dialog',
+                templateUrl: 'frontend/app/transfers/filterDialog.tmpl.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            }).then(function (answer) {
+                vm.status = 'You said the information was "' + answer + '".';
+            }, function () {
+                vm.status = 'You cancelled the dialog.';
+            });
+        };
+
+        function DialogController($mdDialog) {
+            var dialog = this;
+
+            var inLocationId = extractID(vm.inLocationFilter);
+            var toLocationId = extractID(vm.toLocationFilter);
+
+            dialog.inLocationInput = inLocationId || null;
+            dialog.toLocationInput = toLocationId || null;
+
+            // console.log(inLocationId, toLocationId)
+
+
+            function extractID(filter) {
+                if (Object.keys(filter).length > 0) {
+
+                    return filter.store.id + filter.stockClassification.id;
                 }
             }
-            vm.transfers = matchingTransfers;
-        }
 
-        // vm.transfers = filterFilter(vm.dataStore, { to_location: vm.toLocationFilter })
-        //    vm.transfers = $filter('filter')(vm.dataStore, { inv_transfer_to_location: vm.toLocationFilter });
-    }
+            function extractFilterObject(userInput, direction) {
+                var filterObj = {
+                    store: { name: null, id: null },
+                    stockClassification: { name: null, id: null }
+                };
 
-    function resetFilters() {
-        vm.transfers = vm.dataStore;
-    }
+                if (userInput) {
 
-    // function onSelect(row) {
-    //     console.log('ROW SELECTED!', row);
-    // }
+                    filterObj.store.id = userInput.substr(0, 2);
+                    if (userInput.length > 1) {
+                        filterObj.stockClassification.id = userInput.substr(2, 3);
+                    };
+                }
+                if (filterObj.store.id) {
+                    for (var i = 0; i < vm.stores.length; i++) {
+                        if (filterObj.store.id === vm.stores[i].id) {
+                            filterObj.store.name = vm.stores[i].name;
+                        }
+                    }
+                }
 
-    // function onRowClick(row) {
-    //     console.log('ROW CLICKED', row);
-    // }
+                if (filterObj.stockClassification.id) {
+                    for (var i = 0; i < vm.stockClassifications.length; i++) {
+                        if (filterObj.stockClassification.id === vm.stockClassifications[i].id) {
+                            filterObj.stockClassification.name = vm.stockClassifications[i].name;
+                        }
+                    }
+                }
 
-    function printDiv(divName) {
-        console.log("items selected: ", vm.selected.length);
-        var wait = 0;
-        if (vm.selected.length > 0) {
-            wait = 50;
-            // need to wait for angular render refresh... $timeout? some such nonsense
-            // console.log("print only selected", vm.selected.length);
-            vm.printList = [];
-            vm.printList = vm.selected;
-            // console.log("printList Length: ", vm.printList.length)
-        } else {
-            wait = 50;
-            vm.printList = vm.transfers;
-        }
-
-        $timeout(function () {
-            var printContents = document.getElementById(divName).innerHTML;
-            var popupWin = window.open('', '_blank', 'width=800,height=600');
-            popupWin.document.open();
-            popupWin.document.write('<html>' + '<head>' + '<link rel="stylesheet" type="text/css" href="frontend/app/transfers/style.css" />' + '</head>' +
-            // '<body onload="window.print()>'+
-            '<body>' + '<script type="text/javascript">' + 'setTimeout(function () { window.print(); }, 500);' + 'window.onfocus = function () { setTimeout(function () { window.close(); }, 500); };' + '</script>' + printContents + '</body>' + '</html>');
-            // popupWin.document.close();
-            // popupWin.close();
-        }, wait);
-    }
-
-    function showFilters(ev) {
-        $mdDialog.show({
-            controller: DialogController,
-            controllerAs: 'dialog',
-            templateUrl: 'frontend/app/transfers/filterDialog.tmpl.html',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: true
-        }).then(function (answer) {
-            vm.status = 'You said the information was "' + answer + '".';
-        }, function () {
-            vm.status = 'You cancelled the dialog.';
-        });
-    };
-
-    function DialogController($mdDialog) {
-        var dialog = this;
-
-        var inLocationId = extractID(vm.inLocationFilter);
-        var toLocationId = extractID(vm.toLocationFilter);
-
-        dialog.inLocationInput = inLocationId || null;
-        dialog.toLocationInput = toLocationId || null;
-
-        // console.log(inLocationId, toLocationId)
-
-
-        function extractID(filter) {
-            if (Object.keys(filter).length > 0) {
-
-                return filter.store.id + filter.stockClassification.id;
+                if (direction === 'in') {
+                    vm.inLocationFilter = filterObj;
+                } else {
+                    vm.toLocationFilter = filterObj;
+                }
+                // console.log("after extraction")
+                // console.log(vm.inLocationFilter, vm.toLocationFilter);
             }
-        }
 
-        function extractFilterObject(userInput, direction) {
-            var filterObj = {
-                store: { name: null, id: null },
-                stockClassification: { name: null, id: null }
+            dialog.cancel = function () {
+                $mdDialog.cancel();
             };
 
-            if (userInput) {
-
-                filterObj.store.id = userInput.substr(0, 2);
-                if (userInput.length > 1) {
-                    filterObj.stockClassification.id = userInput.substr(2, 3);
-                };
-            }
-            if (filterObj.store.id) {
-                for (var i = 0; i < vm.stores.length; i++) {
-                    if (filterObj.store.id === vm.stores[i].id) {
-                        filterObj.store.name = vm.stores[i].name;
-                    }
-                }
-            }
-
-            if (filterObj.stockClassification.id) {
-                for (var i = 0; i < vm.stockClassifications.length; i++) {
-                    if (filterObj.stockClassification.id === vm.stockClassifications[i].id) {
-                        filterObj.stockClassification.name = vm.stockClassifications[i].name;
-                    }
-                }
-            }
-
-            if (direction === 'in') {
-                vm.inLocationFilter = filterObj;
-            } else {
-                vm.toLocationFilter = filterObj;
-            }
-            // console.log("after extraction")
-            // console.log(vm.inLocationFilter, vm.toLocationFilter);
+            dialog.submit = function () {
+                // console.log("in filter at submit", dialog.inLocationInput);
+                // console.log("to filter at submit", dialog.toLocationInput);
+                extractFilterObject(dialog.inLocationInput, "in");
+                extractFilterObject(dialog.toLocationInput, "to");
+                vm.filterTransfers();
+                $mdDialog.hide();
+            };
         }
-
-        dialog.cancel = function () {
-            $mdDialog.cancel();
-        };
-
-        dialog.submit = function () {
-            // console.log("in filter at submit", dialog.inLocationInput);
-            // console.log("to filter at submit", dialog.toLocationInput);
-            extractFilterObject(dialog.inLocationInput, "in");
-            extractFilterObject(dialog.toLocationInput, "to");
-            vm.filterTransfers();
-            $mdDialog.hide();
-        };
     }
-}
+})();
 
 /***/ }),
 /* 30 */
@@ -1706,73 +1698,77 @@ function TransfersController(transferdataservice, $filter, filterFilter, session
 "use strict";
 
 
-angular.module('Transfers').factory('transferdataservice', transferdataservice);
+(function () {
+    'use strict';
 
-transferdataservice.$inject = ['$http'];
+    angular.module('Transfers').factory('transferdataservice', transferdataservice);
 
-function transferdataservice($http) {
-    return {
-        getTransfers: getTransfers
-    };
-    function getTransfers(location, destination, init) {
-        console.log(location, destination);
-        var params = {};
-        if (location) {
-            params.location = location;
-        }
-        if (destination) {
-            params.destination = destination;
-        }
-        if (init) {
-            params.init = init;
-        }
-        return $http({
-            url: "api/v1/transfers/",
-            method: "GET",
-            params: params
-        }).then(getTransfersComplete).catch(getTransfersFailed);
+    transferdataservice.$inject = ['$http'];
 
-        function getTransfersComplete(response) {
-            console.log("get transfers success: ", response);
-            return response;
+    function transferdataservice($http) {
+        return {
+            getTransfers: getTransfers
+        };
+        function getTransfers(location, destination, init) {
+            console.log(location, destination);
+            var params = {};
+            if (location) {
+                params.location = location;
+            }
+            if (destination) {
+                params.destination = destination;
+            }
+            if (init) {
+                params.init = init;
+            }
+            return $http({
+                url: "api/v1/transfers/",
+                method: "GET",
+                params: params
+            }).then(getTransfersComplete).catch(getTransfersFailed);
+
+            function getTransfersComplete(response) {
+                console.log("get transfers success: ", response);
+                return response;
+            }
+
+            function getTransfersFailed(response, error, status) {
+                console.log("Get Transfers Error: ", response);
+                throw response;
+                // logger.error('XHR Failed for getAvengers.' + error.data);
+            }
         }
 
-        function getTransfersFailed(response, error, status) {
-            console.log("Get Transfers Error: ", response);
-            throw response;
-            // logger.error('XHR Failed for getAvengers.' + error.data);
-        }
+        // function getGame() {
+        //     return $http.get(_urlPrefixes.API + "games/:game_id/")
+        //         .then(getGameComplete)
+        //         .catch(getGameFailed);
+
+        //     function getGameComplete(response) {
+        //         return response.data;
+        //     }
+
+        //     function getGameFailed(error) {
+        //         // logger.error('XHR Failed for getAvengers.' + error.data);
+        //     }
+        // }
+
+        // function addGame(newGameObj) {
+        //     console.log("newGameObj", newGameObj)
+        //     return $http.post(_urlPrefixes.API + "games/", newGameObj)
+        //         .then(getGameComplete)
+        //         .catch(getGameFailed);
+
+        //     function getGameComplete(response) {
+        //         return response.data;
+        //     }
+
+        //     function getGameFailed(error) {
+        //         // logger.error('XHR Failed for getAvengers.' + error.data);
+        //     }
+        // }
     }
-
-    // function getGame() {
-    //     return $http.get(_urlPrefixes.API + "games/:game_id/")
-    //         .then(getGameComplete)
-    //         .catch(getGameFailed);
-
-    //     function getGameComplete(response) {
-    //         return response.data;
-    //     }
-
-    //     function getGameFailed(error) {
-    //         // logger.error('XHR Failed for getAvengers.' + error.data);
-    //     }
-    // }
-
-    // function addGame(newGameObj) {
-    //     console.log("newGameObj", newGameObj)
-    //     return $http.post(_urlPrefixes.API + "games/", newGameObj)
-    //         .then(getGameComplete)
-    //         .catch(getGameFailed);
-
-    //     function getGameComplete(response) {
-    //         return response.data;
-    //     }
-
-    //     function getGameFailed(error) {
-    //         // logger.error('XHR Failed for getAvengers.' + error.data);
-    //     }
-    // }
-}
+})();
 
 /***/ }),
 /* 31 */
@@ -3858,14 +3854,15 @@ angular.module("taternet", ["Admin", "Layout", "Game", "People", "Transfers", "S
 //////////////////
 "satellizer", "ngMaterial", "ngResource", "ui.router", "data-table", "LocalStorageModule", "ngBarcode"]);
 
-/* Config Vars */
-var routesConfig = __webpack_require__(11);
+/* UI Router States */
+__webpack_require__(11);
 
-/* App Config */
-angular.module("taternet").config(routesConfig);
+/* Extra Config */
 __webpack_require__(10);
 
 /* Interceptors */
+
+__webpack_require__(42);
 
 angular.module("taternet").run(runBlock);
 
@@ -3944,6 +3941,363 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 //     };
 
 // })();
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+        'use strict';
+
+        angular.module("Layout").controller("ShellController", ShellController);
+
+        ShellController.$inject = ['sessionservice', '$mdSidenav', 'localStorageService', 'menuService'];
+
+        function ShellController(sessionservice, $mdSidenav, localStorageService, menuService) {
+                var vm = this;
+
+                vm.toggleSideNav = toggleSideNav;
+
+                vm.isOpen = isOpen;
+                vm.toggleOpen = toggleOpen;
+                vm.autoFocusContent = false;
+                vm.menu = menuService;
+
+                vm.status = {
+                        isFirstOpen: true,
+                        isFirstDisabled: false
+                };
+
+                function isOpen(section) {
+                        return menu.isSectionSelected(section);
+                }
+
+                function toggleOpen(section) {
+                        menu.toggleSelectSection(section);
+                }
+
+                function toggleSideNav() {
+                        console.log('toggleSidenav');
+                        $mdSidenav('left-menu').toggle();
+                };
+        }
+})();
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+    'use strict';
+
+    angular.module("Layout").controller("NavController", NavController);
+
+    NavController.$inject = ['sessionservice', 'menuService'];
+
+    function NavController(sessionservice, menuService) {
+        var vm = this;
+        vm.items = sessionservice.getNavItems();
+
+        vm.isOpen = isOpen;
+        vm.toggleOpen = toggleOpen;
+        vm.autoFocusContent = false;
+        vm.menu = menuService;
+
+        vm.status = {
+            isFirstOpen: true,
+            isFirstDisabled: false
+        };
+
+        console.log(vm.menu.sections);
+
+        function isOpen(section) {
+            // console.log("isOpen: ", ,menuService.isSectionSelected(section))
+            return menuService.isSectionSelected(section);
+        }
+
+        function toggleOpen(section) {
+            console.log("toggle open", section);
+            menuService.toggleSelectSection(section);
+        }
+    }
+})();
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+    'use strict';
+
+    angular.module("Layout").controller("TopNavController", TopNavController);
+
+    TopNavController.$inject = ['sessionservice', '$mdSidenav', '$state', '$timeout'];
+
+    function TopNavController(sessionservice, $mdSidenav, $state, $timeout) {
+        var vm = this;
+
+        vm.logout = logout;
+        vm.toggleSideNav = toggleSideNav;
+        vm.user = {};
+
+        activate();
+
+        function activate() {
+            $timeout(function () {
+                return sessionservice.getUser().then(function (user) {
+                    vm.user = user;
+                });
+                console.log("user at topnav controller", vm.user);
+            }, 300);
+        }
+
+        function logout() {
+            sessionservice.logout();
+            vm.user = {};
+            $state.go('login');
+        }
+
+        function toggleSideNav() {
+            // console.log('toggleSidenav');
+            $mdSidenav('left-menu').toggle();
+        };
+    }
+})();
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+
+  'use strict';
+
+  angular.module('Layout').run(['$templateCache', function ($templateCache) {
+    $templateCache.put('frontend/app/layout/sidenav/sidenavMenu_toggle.tmpl.html');
+  }]).directive('menuToggle', ['$timeout', function ($timeout) {
+    return {
+      scope: {
+        section: '='
+      },
+      templateUrl: 'frontend/app/layout/sidenav/menu-toggle.tmpl.html',
+      link: function link(scope, element) {
+        var controller = element.parent().controller();
+
+        scope.isOpen = function () {
+          return controller.isOpen(scope.section);
+        };
+        scope.toggle = function () {
+          controller.toggleOpen(scope.section);
+        };
+
+        var parentNode = element[0].parentNode.parentNode.parentNode;
+        if (parentNode.classList.contains('parent-list-item')) {
+          var heading = parentNode.querySelector('h2');
+          element[0].firstChild.setAttribute('aria-describedby', heading.id);
+        }
+      }
+    };
+  }]);
+})();
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+
+        'use strict';
+
+        angular.module('Layout').factory('menuService', ['$rootScope', '$state', function ($rootScope, $state) {
+
+                var sections = [];
+
+                var warehouse = {
+                        name: 'Warehouse',
+                        type: 'toggle',
+                        pages: [{
+                                name: 'Travel Sheets',
+                                type: 'link',
+                                state: 'index.travelSheets'
+                        }]
+                };
+
+                var useradmin = {
+                        name: 'Settings',
+                        type: 'toggle',
+                        pages: [{
+                                name: 'Games',
+                                type: 'link',
+                                state: 'index.games'
+                        }, {
+                                name: 'People',
+                                type: 'link',
+                                state: 'index.people'
+                        }]
+                };
+
+                sections.push(warehouse);
+                sections.push(useradmin);
+
+                // sections.push({
+                //   name: 'Getting Started',
+                //   state: 'home.gettingstarted',
+                //   type: 'link'
+                // });
+
+                // sections.push({
+                //   name: 'Beers',
+                //   type: 'toggle',
+                //   pages: [{
+                //     name: 'IPAs',
+                //     type: 'link',
+                //     state: 'home.beers.ipas',
+                //     icon: 'fa fa-group'
+                //   }, {
+                //     name: 'Porters',
+                //     state: 'home.beers.porters',
+                //     type: 'link',
+                //     icon: 'fa fa-map-marker'
+                //   },
+                //     {
+                //       name: 'Wheat',
+                //       state: 'home.beers.wheat',
+                //       type: 'link',
+                //       icon: 'fa fa-plus'
+                //     }]
+                // });
+
+                // sections.push({
+                //   name: 'Munchies',
+                //   type: 'toggle',
+                //   pages: [{
+                //     name: 'Cheetos',
+                //     type: 'link',
+                //     state: 'munchies.cheetos',
+                //     icon: 'fa fa-group'
+                //   }, {
+                //     name: 'Banana Chips',
+                //     state: 'munchies.bananachips',
+                //     type: 'link',
+                //     icon: 'fa fa-map-marker'
+                //   },
+                //     {
+                //       name: 'Donuts',
+                //       state: 'munchies.donuts',
+                //       type: 'link',
+                //       icon: 'fa fa-map-marker'
+                //     }]
+                // });
+
+                var self = {
+                        sections: sections,
+                        toggleSelectSection: toggleSelectSection,
+                        isSectionSelected: isSectionSelected
+                };
+
+                return self;
+
+                function toggleSelectSection(section) {
+                        self.openedSection = self.openedSection === section ? null : section;
+                        console.log("menuService.toggleSelectSection:", self.openedSection);
+                }
+
+                function isSectionSelected(section) {
+                        return self.openedSection === section;
+                }
+
+                // function selectPage(section, page) {
+                //     page && page.url && $state.go(page.url);
+                //     self.currentSection = section;
+                //     self.currentPage = page;
+                // }
+
+                // function sortByHumanName(a, b) {
+                //   return (a.humanName < b.humanName) ? -1 :
+                //     (a.humanName > b.humanName) ? 1 : 0;
+                // }
+        }]);
+})();
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+
+    'use strict';
+
+    angular.module('taternet')
+    // remove spaces 
+    .filter('nospace', function () {
+        return function (value) {
+            return !value ? '' : value.replace(/ /g, '');
+        };
+    })
+
+    // replace uppercase to regular case
+    .filter('humanizeDoc', function () {
+        return function (doc) {
+            if (!doc) return;
+            if (doc.type === 'directive') {
+                return doc.name.replace(/([A-Z])/g, function ($1) {
+                    return '-' + $1.toLowerCase();
+                });
+            }
+
+            return doc.label || doc.name;
+        };
+    });
+})();
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function () {
+  'use strict';
+
+  angular.module('Layout').run(['$templateCache', function ($templateCache) {
+    $templateCache.put('frontend/app/layout/sidenav/menu-link.tmpl.html');
+  }]).directive('menuLink', function () {
+    return {
+      scope: {
+        section: '='
+      },
+      templateUrl: 'frontend/app/layout/sidenav/menu-link.tmpl.html',
+      link: function link($scope, $element) {
+        var controller = $element.parent().controller();
+
+        $scope.focusSection = function () {
+          // set flag to be used later when
+          // $locationChangeSuccess calls openPage()
+          controller.autoFocusContent = true;
+        };
+      }
+    };
+  });
+})();
 
 /***/ })
 /******/ ]);

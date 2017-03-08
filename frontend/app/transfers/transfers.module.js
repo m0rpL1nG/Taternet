@@ -1,4 +1,8 @@
-angular.module("Transfers", []);
+(function(){
+    'use strict';
+    angular.module("Transfers", []);
 
-require("./transfers.controller.js");  
-require("./transfers.service");  
+    require("./transfers.controller.js");  
+    require("./transfers.service");  
+    
+})();

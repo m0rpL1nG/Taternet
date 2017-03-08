@@ -1,4 +1,8 @@
-angular.module("Admin", []);
+(function(){
+    'use strict';
+    angular.module("Admin", []);
 
-require("./session/session.controller"); 
-require("./session/session.service"); 
+    require("./session/session.controller"); 
+    require("./session/session.service"); 
+    
+})();

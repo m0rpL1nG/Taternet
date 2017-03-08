@@ -1,4 +1,7 @@
-angular.module("Game", []);
+(function(){
+    'use strict';
+    angular.module("Game", []);
 
-require("./list/gamelist.controller");  
-require("./game.service");  
+    require("./list/gamelist.controller");  
+    require("./game.service");  
+})();

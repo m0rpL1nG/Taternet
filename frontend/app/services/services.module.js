@@ -1,3 +1,8 @@
-angular.module("Services", []);
+(function(){
+    'use strict';
+    
+    angular.module("Services", []);
 
-require("./routeAuth.service");
+    require("./routeAuth.service");
+
+})();

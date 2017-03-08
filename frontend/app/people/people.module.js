@@ -1,5 +1,10 @@
-angular.module("People", []);
+(function(){
+    'use strict';
+    
+    angular.module("People", []);
 
-require("./people.service");   
-require("./people.controller");
-require("./detail/peopledetail.controller");
+    require("./people.service");   
+    require("./people.controller");
+    require("./detail/peopledetail.controller");
+    
+})();

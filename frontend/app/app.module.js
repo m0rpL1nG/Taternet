@@ -43,70 +43,71 @@ angular.module("taternet", [
     "ngBarcode",
 ]);
 
-/* Config Vars */
-var routesConfig = require("./app.routes");
+/* UI Router States */
+require("./app.routes")
 
-/* App Config */
-angular.module("taternet").config(routesConfig); 
+/* Extra Config */ 
 require("./app.config")
 
 /* Interceptors */
 
-angular.module("taternet").run(runBlock)
+require("./app.filters")
 
-runBlock.$inject = [
-    '$rootScope',
-    '$state', 
-    '$auth',
-    'sessionservice',
-    'routeAuthService']
+    angular.module("taternet").run(runBlock)
 
-function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
-    // console.log($auth.isAuthenticated());
-    if($auth.isAuthenticated()){
-        $state.go('index.dashboard');
-    } else {
-        $state.go('login')
-    }
+    runBlock.$inject = [
+        '$rootScope',
+        '$state', 
+        '$auth',
+        'sessionservice',
+        'routeAuthService']
 
-    $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
-        var payload = $auth.getPayload()
-        console.log("runBlock.stateChangeStart.payload", payload);
-        if (toState.name != 'login'){
-            $rootScope.toState = toState;
-            $rootScope.toStateParams = toStateParams;
-            routeAuthService.authorize();
+    function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
+        // console.log($auth.isAuthenticated());
+        if($auth.isAuthenticated()){
+            $state.go('index.dashboard');
+        } else {
+            $state.go('login')
         }
-        
-        // var refreshToken = store.get('refreshToken');
-        // if (token) {
-        //   if (!jwtHelper.isTokenExpired(token)) {
-        //     if (!auth.isAuthenticated) {
-        //       auth.authenticate(store.get('profile'), token);
+
+        $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+            var payload = $auth.getPayload()
+            console.log("runBlock.stateChangeStart.payload", payload);
+            if (toState.name != 'login'){
+                $rootScope.toState = toState;
+                $rootScope.toStateParams = toStateParams;
+                routeAuthService.authorize();
+            }
+            
+            // var refreshToken = store.get('refreshToken');
+            // if (token) {
+            //   if (!jwtHelper.isTokenExpired(token)) {
+            //     if (!auth.isAuthenticated) {
+            //       auth.authenticate(store.get('profile'), token);
 
 
-        //       //Store the status in the scope 
-        //       $rootScope.isAuthenticated = auth.isAuthenticated
-        //     }
-        //   } else {
-        //     if (refreshToken) {
-        //       if (refreshingToken === null) {
-        //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
-        //           store.set('token', idToken);
-        //           auth.authenticate(store.get('profile'), idToken);
-        //         }).finally(function() {
-        //           refreshingToken = null;
-        //         });
-        //       }
-        //       return refreshingToken;
-        //     } else {
-        //       $location.path('/login');
-        //     }
-        //   }
-        // }
+            //       //Store the status in the scope 
+            //       $rootScope.isAuthenticated = auth.isAuthenticated
+            //     }
+            //   } else {
+            //     if (refreshToken) {
+            //       if (refreshingToken === null) {
+            //         refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+            //           store.set('token', idToken);
+            //           auth.authenticate(store.get('profile'), idToken);
+            //         }).finally(function() {
+            //           refreshingToken = null;
+            //         });
+            //       }
+            //       return refreshingToken;
+            //     } else {
+            //       $location.path('/login');
+            //     }
+            //   }
+            // }
 
-    });
-}
+        });
+    }
 
 
 // (function () {
