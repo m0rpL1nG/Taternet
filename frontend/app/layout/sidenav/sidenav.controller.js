@@ -13,6 +13,13 @@
         vm.toggleOpen = toggleOpen;
         vm.autoFocusContent = false;
         vm.menu = menuService;
+        activate();
+        function activate(){
+            return menuService.getSections().then(function(sections){
+                vm.menu.sections = sections;
+                console.log("activate:",  vm.menu.sections)
+            })
+        }
 
         vm.status = {
             isFirstOpen: true,
@@ -22,7 +29,6 @@
         console.log(vm.menu.sections)
 
         function isOpen(section) {
-            // console.log("isOpen: ", ,menuService.isSectionSelected(section))
             return menuService.isSectionSelected(section);
         }
 

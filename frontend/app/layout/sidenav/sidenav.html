@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="frontend/app/layout/sidenav/sideNavStyle.css">
 <div layout-fill layout="column" ng-cloak>
      <md-sidenav
         flex
@@ -12,17 +13,19 @@
         </a>
     </md-toolbar>
     
-    <md-content role="navigation">
-        <div ng-repeat="section in nav.menu.sections" class="parent-list-item"
-            ng-class="{'parentActive' : isOpen(section)}">
-          <h2 class="menu-heading" ng-if="section.type === 'heading'"
-              id="heading_{{ section.name | nospace }}">
-            section
-          </h2>
-          <menu-link section="section" ng-if="section.type === 'link'"></menu-link>
-          <menu-toggle section="section" ng-if="section.type === 'toggle'"></menu-toggle>
-        </div>
-    </md-content>
+    <md-toolbar class="md-hue-2" flex layout="column" role="navigation">
+        <ul class="side-menu">
+            <li ng-repeat="section in nav.menu.sections" class="parent-list-item"
+                ng-class="{'parentActive' : isOpen(section)}">
+                <h2 class="menu-heading" ng-if="section.type === 'heading'"
+                    id="heading_{{ section.name | nospace }}">
+                    section
+                </h2>
+                <menu-link section="section" ng-if="section.type === 'link'"></menu-link>
+                <menu-toggle section="section" ng-if="section.type === 'toggle'"></menu-toggle>
+            </li>
+        </ul>
+    </md-toolbar>
   </md-sidenav>
     <!--<md-sidenav
         flex
@@ -45,6 +48,6 @@
                 </md-list-item>
             </md-list>
 
-        </md-toolbar>
-    </md-sidenav>-->
+        </md-toolbar>-->
+    </md-sidenav>
 </div>

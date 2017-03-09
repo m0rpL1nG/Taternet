@@ -26,8 +26,10 @@
         console.log("satellizerConfig ran");
         $authProvider.google({
             url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
+            hd: 'famoustate.com',
             clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
             redirectUri: window.location.origin + '/',
+            optionalUrlParams: ['display', 'hd'],
         });
         
         $authProvider.tokenType = 'JWT';
