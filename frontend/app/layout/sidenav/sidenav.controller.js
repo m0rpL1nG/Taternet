@@ -7,7 +7,6 @@
 
     function NavController(sessionservice, menuService) {
         var vm = this;
-        vm.items = sessionservice.getNavItems()
 
         vm.isOpen = isOpen;
         vm.toggleOpen = toggleOpen;

@@ -1,24 +1,31 @@
-from server.settings.base import *
 import environ
+from server.settings.base import *
 
 root = environ.Path(__file__) - 2
 projectRoot = environ.Path(__file__) - 3
 env = environ.Env(DEBUG=(bool, False),)
-
 currentEnv = 'prod'
 env.read_env('{}/{}.env'.format(root, currentEnv))
+
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env('HOSTS')
+ALLOWED_HOSTS=[u'10.10.1.75', u'35.165.62.179', u'taternet.io']
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('AUTH_DB_NAME'),
+        'USER': env('AUTH_DB_USERNAME'),
+        'PASSWORD': env('AUTH_DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
+    },
     'whirlwind': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': env('WHIRLWIND_DB_NAME'),
-        'USER': env('WHIRWIND_USERNAME'),
+        'USER': env('WHIRLWIND_USERNAME'),
         'PASSWORD': env('WHIRLWIND_PW'),
         'HOST': env('WHIRLWIND_IP'),
         'PORT': '1433',
@@ -28,6 +35,33 @@ DATABASES = {
         },
     },
 }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['{}{}'.format(projectRoot, env('FRONTEND_ROOT'))],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+##### AUTH Settings ####
+
+# Google API Settings
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('CLIENT_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
+
 
 STATIC_URL = '/frontend/'
 STATICFILES_FINDERS = [

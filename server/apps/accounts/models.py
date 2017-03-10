@@ -8,4 +8,4 @@ class CustomUser(AbstractUser):
     whirlwind_id = models.IntegerField(null=False, default=0)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']

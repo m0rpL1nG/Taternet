@@ -916,7 +916,6 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             setUserJWT: setUserJWT,
             getUser: getUser,
             logout: logout,
-            getNavItems: getNavItems,
             getUserLocation: getUserLocation,
             isInRole: isInRole,
             isInAnyRole: isInAnyRole
@@ -933,26 +932,6 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             return "0010";
         }
 
-        function getNavItems() {
-            var availableLinks = [{ title: "Games", link: "games" }, { title: "People", link: "people" }, { title: "Travel Sheets", link: "travelSheets" }, { title: "User Admin", link: "useradmin" }];
-
-            var groups = [{ id: 5, name: "warehouse", links: [2] }, { id: 8, name: "user_admins", links: [3] }];
-
-            var user = localStorageService.get("currentUser");
-            var links = [];
-            for (var i = 0; i < groups.length; i++) {
-                if (user.groups.indexOf(groups[i].id) != -1) {
-                    for (var j = 0; j < groups[i].links.length; j++) {
-                        links.push(availableLinks[groups[i].links[j]]);
-                    }
-                }
-            }
-            // console.log(links)
-
-
-            return links;
-        }
-
         function setUserJWT() {
             var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -961,13 +940,14 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             }
 
             return $http.get('api/v1/user/').then(function (response) {
+                console.log("setUserJWT response", response);
                 setUser(response);
             });
         }
 
         function setUser(response) {
 
-            var groups = [{ id: 5, name: "warehouse" }, { id: 8, name: "user_admins" }];
+            var groups = [{ name: "warehouse" }, { name: "user_admins" }];
 
             var source;
             var user = {};
@@ -989,13 +969,12 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             user.last_name = source.last_name;
             user.email = source.email;
             user.thumb = source.social_thumb;
-            user.roles = [];
+            user.roles = source.groups;
             user.groups = source.groups;
 
-            for (var i = 0; i < groups.length; i++) {
-                if (source.groups.indexOf(groups[i].id) != -1) {
-                    user.roles.push(groups[i].name);
-                }
+            if (user.groups.len === 0) {
+                user.groups = ['warehouse'];
+                user.roles = user.groups;
             }
 
             localStorageService.set('currentUser', user);
@@ -3952,40 +3931,22 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 
 
 (function () {
-        'use strict';
+    'use strict';
 
-        angular.module("Layout").controller("ShellController", ShellController);
+    angular.module("Layout").controller("ShellController", ShellController);
 
-        ShellController.$inject = ['sessionservice', '$mdSidenav', 'localStorageService', 'menuService'];
+    ShellController.$inject = ['$mdSidenav'];
 
-        function ShellController(sessionservice, $mdSidenav, localStorageService, menuService) {
-                var vm = this;
+    function ShellController($mdSidenav) {
+        var vm = this;
 
-                vm.toggleSideNav = toggleSideNav;
+        vm.toggleSideNav = toggleSideNav;
 
-                vm.isOpen = isOpen;
-                vm.toggleOpen = toggleOpen;
-                vm.autoFocusContent = false;
-                vm.menu = menuService;
-
-                vm.status = {
-                        isFirstOpen: true,
-                        isFirstDisabled: false
-                };
-
-                function isOpen(section) {
-                        return menu.isSectionSelected(section);
-                }
-
-                function toggleOpen(section) {
-                        menu.toggleSelectSection(section);
-                }
-
-                function toggleSideNav() {
-                        console.log('toggleSidenav');
-                        $mdSidenav('left-menu').toggle();
-                };
-        }
+        function toggleSideNav() {
+            console.log('toggleSidenav');
+            $mdSidenav('left-menu').toggle();
+        };
+    }
 })();
 
 /***/ }),
@@ -4004,7 +3965,6 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 
     function NavController(sessionservice, menuService) {
         var vm = this;
-        vm.items = sessionservice.getNavItems();
 
         vm.isOpen = isOpen;
         vm.toggleOpen = toggleOpen;
@@ -4164,7 +4124,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
       }]
     };
 
-    var groups = [{ id: 5, name: "warehouse", sections: warehouse }, { id: 8, name: "user_admins", sections: useradmin }];
+    var groups = [{ name: "warehouse", sections: warehouse }, { name: "user_admins", sections: useradmin }];
 
     return {
       getSections: getSections,
@@ -4176,8 +4136,8 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
       return sessionservice.getUser().then(function (user) {
         sections = [];
         for (var i = 0; i < groups.length; i++) {
-          console.log(user.groups.indexOf(groups[i].id) != -1);
-          if (user.groups.indexOf(groups[i].id) != -1) {
+          console.log(user.groups.indexOf(groups[i].name) != -1);
+          if (user.groups.indexOf(groups[i].name) != -1) {
             sections.push(groups[i].sections);
           }
         }

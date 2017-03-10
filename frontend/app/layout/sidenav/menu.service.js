@@ -41,8 +41,8 @@
       }
 
       var groups = [
-        {id: 5, name: "warehouse", sections: warehouse},
-        {id: 8, name: "user_admins", sections: useradmin}
+        {name: "warehouse", sections: warehouse},
+        {name: "user_admins", sections: useradmin}
       ];
     
 
@@ -58,8 +58,8 @@
           .then(function(user){
             sections = [];
             for (var i = 0; i < groups.length; i++){
-                  console.log(user.groups.indexOf(groups[i].id) != -1)
-                if(user.groups.indexOf(groups[i].id) != -1){
+                  console.log(user.groups.indexOf(groups[i].name) != -1)
+                if(user.groups.indexOf(groups[i].name) != -1){
                   sections.push(groups[i].sections)
                 } 
             }

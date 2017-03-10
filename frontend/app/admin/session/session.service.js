@@ -12,7 +12,6 @@
             setUserJWT: setUserJWT,
             getUser: getUser,
             logout: logout,
-            getNavItems: getNavItems,
             getUserLocation: getUserLocation,
             isInRole: isInRole,
             isInAnyRole: isInAnyRole,
@@ -29,40 +28,13 @@
             return "0010"
         }
 
-        function getNavItems(){
-            var availableLinks = [
-                {title: "Games", link: "games"},
-                {title: "People", link: "people"},
-                {title: "Travel Sheets", link: "travelSheets"},
-                {title: "User Admin", link: "useradmin"},
-            ]
-
-            var groups = [
-                {id: 5, name: "warehouse", links: [2]},
-                {id: 8, name: "user_admins", links: [3]}
-            ]
-
-            var user = localStorageService.get("currentUser");
-            var links = [];
-            for (var i = 0; i < groups.length; i++){
-                if(user.groups.indexOf(groups[i].id) != -1){
-                    for(var j = 0; j < groups[i].links.length; j++){
-                        links.push(availableLinks[groups[i].links[j]]);
-                    }
-                } 
-            }
-            // console.log(links)
-
-
-            return links
-        }
-
         function setUserJWT(token = null){
             if (!token){
                 token = $auth.getToken();
             }
 
             return $http.get('api/v1/user/').then(function(response){
+                console.log("setUserJWT response", response);
                 setUser(response);
             });
         }
@@ -70,8 +42,8 @@
         function setUser(response){
             
             var groups = [
-                {id: 5, name: "warehouse"},
-                {id: 8, name: "user_admins"}
+                {name: "warehouse"},
+                {name: "user_admins"}
             ]
 
             var source;
@@ -95,13 +67,12 @@
             user.last_name = source.last_name;
             user.email = source.email;
             user.thumb = source.social_thumb;
-            user.roles = [];
+            user.roles = source.groups;
             user.groups = source.groups;
 
-            for (var i = 0; i < groups.length; i++){
-                if(source.groups.indexOf(groups[i].id) != -1){
-                    user.roles.push(groups[i].name);
-                } 
+            if (user.groups.len === 0 ){
+                user.groups = ['warehouse'];
+                user.roles = user.groups;
             }
 
             localStorageService.set('currentUser', user);

@@ -23,11 +23,18 @@ ALLOWED_HOSTS = [
     ]
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('AUTH_DB_NAME'),
+        'USER': env('AUTH_DB_USERNAME'),
+        'PASSWORD': env('AUTH_DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
+    },
     'whirlwind': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': env('WHIRLWIND_DB_NAME'),
-        'USER': env('WHIRWIND_USERNAME'),
+        'USER': env('WHIRLWIND_USERNAME'),
         'PASSWORD': env('WHIRLWIND_PW'),
         'HOST': env('WHIRLWIND_IP'),
         'PORT': '1433',
