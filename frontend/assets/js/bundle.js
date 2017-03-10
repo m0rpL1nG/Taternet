@@ -972,11 +972,11 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             user.roles = source.groups;
             user.groups = source.groups;
 
-            if (user.groups.len === 0) {
+            console.log("user.groups", user.groups);
+            if (user.groups.length === 0) {
                 user.groups = ['warehouse'];
                 user.roles = user.groups;
             }
-
             localStorageService.set('currentUser', user);
         };
 

@@ -70,11 +70,11 @@
             user.roles = source.groups;
             user.groups = source.groups;
 
-            if (user.groups.len === 0 ){
+            console.log("user.groups", user.groups);
+            if (user.groups.length === 0 ){
                 user.groups = ['warehouse'];
                 user.roles = user.groups;
             }
-
             localStorageService.set('currentUser', user);
         };
 
