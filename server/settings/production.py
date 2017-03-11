@@ -11,7 +11,7 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS=[u'10.10.1.75', u'35.165.62.179', u'taternet.io']
+ALLOWED_HOSTS=[u'10.10.1.75.nip.io', u'10.20.1.112.nip.io', u'35.165.62.179', u'taternet.io']
 
 DATABASES = {
     'default': {
