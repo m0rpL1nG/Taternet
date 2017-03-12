@@ -1,25 +1,65 @@
-<div layout-fill layout="row" layout-align="center center">
-    <md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
-        <h2>Employee Login</h2>        
-        <md-button class="md-raised md-primary" ng-click="session.employeeLogin('google')">Login</md-button>
-        <p>Employees with valid Famous Tate email accounts can login using this link.
-        If you need a Famous Tate email account, please contact your manager.</p>
-    </md-whiteframe>
-    <md-whiteframe flex="30" class="md-whiteframe-2dp">
-        <form name="userForm" layout="column" layout-align="center center"> 
-            <h2>Contractor Login</h2>
-            <md-input-container>
-                <label>email address</label>
-                <input type="email" ng-model="session.user.email">
-            </md-input-container>
-            <md-input-container>
-                <label>password</label>
-                <input type="password" ng-model="session.user.password">
-            </md-input-container>     
-            <md-input-container>
-                <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
-                <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
-            </md-input-container>
-        </form>
+<div style="background-color:lightgray; min-height:100vh;" layout layout-align="center center">
+    <md-whiteframe style="background-color:white;" flex="90" flex-gt-xs="60" flex-gt-md="30" class="md-whiteframe-2dp">
+        </br>
+        <div layout="column" layout-align="center center" >
+            <md-card flex="80" style="box-shadow:none;">
+            <img src="frontend/assets/img/famoustate-linear.png" alt="Famous Tate">
+            </md-card>
+        
+            <h3>Portal Login</h3>
+        </div>
+
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-center-tabs md-stretch-tabs	md-swipe-content>
+            <md-tab id="employees" label="Employees">
+                <md-content class="md-padding" layout="column" layout-align="center center">        
+                    <p>Employees with valid Famous Tate email accounts can login using this link.
+                    If you need a Famous Tate email account, please contact your manager.</p>
+                    <md-button class="md-raised md-primary" ng-click="session.employeeLogin('google')">Login</md-button>
+                </md-content>
+            </md-tab>
+            <md-tab id="contractors" label="Contractors"> 
+                <md-content class="md-padding" layout="column" layout-align="center center">
+                    <form>
+                        <md-input-container class="md-block">
+                            <label>email address</label>
+                            <input type="email" ng-model="session.user.email">
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>password</label>
+                            <input type="password" ng-model="session.user.password">
+                        </md-input-container>     
+                        <md-input-container class="md-block">
+                            <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
+                            <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
+                        </md-input-container>
+                    </form>
+                </md-content>
+            </md-tab>
+            </md-tabs>
+            <!--<md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
+                <h2>Employee Login</h2>        
+                <md-button class="md-raised md-primary" ng-click="session.employeeLogin('google')">Login</md-button>
+                <p>Employees with valid Famous Tate email accounts can login using this link.
+                If you need a Famous Tate email account, please contact your manager.</p>
+            </md-whiteframe>-->
+            <!--<md-whiteframe flex="30" class="md-whiteframe-2dp">
+                <form name="userForm" layout="column" layout-align="center center"> 
+                    <h2>Contractor Login</h2>
+                    <md-input-container>
+                        <label>email address</label>
+                        <input type="email" ng-model="session.user.email">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>password</label>
+                        <input type="password" ng-model="session.user.password">
+                    </md-input-container>     
+                    <md-input-container>
+                        <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
+                        <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
+                    </md-input-container>
+                </form>
+            </md-whiteframe>-->
+        </md-content>
     </md-whiteframe>
 </div>

@@ -3,14 +3,14 @@
     angular.module("Layout")
         .controller("NavController", NavController);
 
-    NavController.$inject=['sessionservice', 'menuService']
+    NavController.$inject=['sessionservice', 'menuService', "$mdSidenav", '$mdMedia']
 
-    function NavController(sessionservice, menuService) {
+    function NavController(sessionservice, menuService, $mdSidenav, $mdMedia) {
         var vm = this;
 
         vm.isOpen = isOpen;
         vm.toggleOpen = toggleOpen;
-        vm.autoFocusContent = false;
+        vm.toggleSideNav = toggleSideNav;
         vm.menu = menuService;
         activate();
         function activate(){
@@ -26,6 +26,12 @@
         };
 
         console.log(vm.menu.sections)
+
+        function toggleSideNav(){
+            if (!$mdMedia('gt-sm')){
+                $mdSidenav('left-menu').toggle();
+            }
+        }
 
         function isOpen(section) {
             return menuService.isSectionSelected(section);

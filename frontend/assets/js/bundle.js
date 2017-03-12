@@ -633,6 +633,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
             hd: 'famoustate.com',
             clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
+            // redirectUri: window.location.origin + '/auth/google/',
             redirectUri: window.location.origin + '/',
             optionalUrlParams: ['display', 'hd']
         });
@@ -703,14 +704,14 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       name: "index.dashboard",
       url: "/dashboard",
       data: {
-        roles: []
+        roles: ['warehouse']
       },
       templateUrl: "frontend/app/dashboard/dashboard.html"
     }, {
       name: "index.games",
       url: "/games",
       data: {
-        roles: ['Admin']
+        roles: ['warehouse']
       },
       templateUrl: "frontend/app/game/game.html",
       controller: "GameListController",
@@ -719,7 +720,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       name: "index.people",
       url: "/people",
       data: {
-        roles: ['Admin']
+        roles: ['warehouse']
       },
       templateUrl: "frontend/app/people/people.html",
       controller: 'PeopleController',
@@ -728,7 +729,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       name: "index.people.detail",
       url: "/{id}",
       data: {
-        roles: ['Admin']
+        roles: ['warehouse']
       },
       templateUrl: "frontend/app/people/detail/peopleDetail.html",
       controller: 'PeopleDetailController',
@@ -3860,6 +3861,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
         var payload = $auth.getPayload();
         console.log("runBlock.stateChangeStart.payload", payload);
+        console.log("runBlock.stateChangeStart.to ");
         if (toState.name != 'login') {
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
@@ -3961,14 +3963,14 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 
     angular.module("Layout").controller("NavController", NavController);
 
-    NavController.$inject = ['sessionservice', 'menuService'];
+    NavController.$inject = ['sessionservice', 'menuService', "$mdSidenav", '$mdMedia'];
 
-    function NavController(sessionservice, menuService) {
+    function NavController(sessionservice, menuService, $mdSidenav, $mdMedia) {
         var vm = this;
 
         vm.isOpen = isOpen;
         vm.toggleOpen = toggleOpen;
-        vm.autoFocusContent = false;
+        vm.toggleSideNav = toggleSideNav;
         vm.menu = menuService;
         activate();
         function activate() {
@@ -3984,6 +3986,12 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
         };
 
         console.log(vm.menu.sections);
+
+        function toggleSideNav() {
+            if (!$mdMedia('gt-sm')) {
+                $mdSidenav('left-menu').toggle();
+            }
+        }
 
         function isOpen(section) {
             return menuService.isSectionSelected(section);
@@ -4235,7 +4243,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
         $scope.focusSection = function () {
           // set flag to be used later when
           // $locationChangeSuccess calls openPage()
-          controller.autoFocusContent = true;
+          controller.toggleSideNav();
         };
       }
     };

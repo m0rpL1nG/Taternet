@@ -73,6 +73,7 @@ require("./app.filters")
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
             var payload = $auth.getPayload()
             console.log("runBlock.stateChangeStart.payload", payload);
+            console.log("runBlock.stateChangeStart.to ")
             if (toState.name != 'login'){
                 $rootScope.toState = toState;
                 $rootScope.toStateParams = toStateParams;

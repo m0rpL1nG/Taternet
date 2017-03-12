@@ -58,7 +58,7 @@
           url: "/dashboard",
           data: 
             {
-              roles: []
+              roles: ['warehouse']
             },
           templateUrl: "frontend/app/dashboard/dashboard.html",
         },
@@ -67,7 +67,7 @@
           url: "/games",
           data: 
             {
-              roles: ['Admin']
+              roles: ['warehouse']
             },
           templateUrl: "frontend/app/game/game.html",
           controller: "GameListController",
@@ -78,7 +78,7 @@
           url: "/people",
           data: 
             {
-              roles: ['Admin']
+              roles: ['warehouse']
             },
           templateUrl: "frontend/app/people/people.html",
           controller: 'PeopleController',
@@ -89,7 +89,7 @@
           url: "/{id}",
           data: 
             {
-              roles: ['Admin']
+              roles: ['warehouse']
             },
           templateUrl: "frontend/app/people/detail/peopleDetail.html",
           controller: 'PeopleDetailController',
