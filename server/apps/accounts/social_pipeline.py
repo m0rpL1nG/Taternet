@@ -1,12 +1,16 @@
 import hashlib
 from rest_framework.response import Response
 from server.apps.whirlwind.users.models import Employees
+from django.http import JsonResponse
 
 
 def auto_logout(*args, **kwargs):
     """Do not compare current user with new one"""
     return {'user': None}
 
+def my_auth_allowed(backend, details, response, *args, **kwargs):
+    if not backend.auth_allowed(response, details):
+        return JsonResponse({'error': 'User part of forbidden domain'}, status=403)
 
 def save_avatar(strategy, details, user=None, *args, **kwargs):
     """Get user avatar from social provider."""

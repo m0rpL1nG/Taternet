@@ -78,5 +78,6 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     ]
 STATICFILES_DIRS = [
-    '{}{}'.format(projectRoot, env('FRONTEND_ROOT'))
+    '{}{}'.format(projectRoot, env('FRONTEND_ROOT')),
+    '{}'.format(projectRoot),
     ]

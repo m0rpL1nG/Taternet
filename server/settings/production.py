@@ -64,10 +64,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
 
 
 STATIC_URL = '/frontend/'
+
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     ]
+
 STATICFILES_DIRS = [
     '{}{}'.format(projectRoot, env('FRONTEND_ROOT'))
     ]

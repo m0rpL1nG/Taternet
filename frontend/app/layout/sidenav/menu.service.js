@@ -13,6 +13,19 @@
       var self = this;
       var sections = [];
 
+      var corporate_manager = {};
+
+      var buyer = {};
+
+      var accounting_manager = {};
+      
+      var accounting_ar = {};
+      var accounting_ap = {};
+
+      var sales_manager = {};
+      var sales = {};
+
+      var warehouse_manager = {};
       var warehouse = {
         name: 'Warehouse',
         type: 'toggle', 
@@ -22,7 +35,7 @@
           state: 'index.travelSheets',
           // icon: 'fa fa-group'
         }]
-      }
+      };
 
       var useradmin = {
         name: 'Settings',
@@ -37,8 +50,8 @@
           type: 'link',
           state: 'index.people',
           // icon: 'fa fa-group'
-        }]
-      }
+        }],
+      };
 
       var groups = [
         {name: "warehouse", sections: warehouse},

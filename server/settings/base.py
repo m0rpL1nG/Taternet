@@ -57,6 +57,8 @@ REST_FRAMEWORK = {
 ##### AUTH Settings ####
 AUTH_USER_MODEL =  'accounts.CustomUser'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['famoustate.com',]
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -79,7 +81,8 @@ SOCIAL_AUTH_PIPELINE = (
     # Verifies that the current auth process is valid within the current
     # project, this is where emails and domains whitelists are applied (if
     # defined).
-    'social_core.pipeline.social_auth.auth_allowed',
+    'server.apps.accounts.social_pipeline.my_auth_allowed',
+    # 'social_core.pipeline.social_auth.auth_allowed',
 
     #custom action - prevent login without email
     'server.apps.accounts.social_pipeline.check_for_email',

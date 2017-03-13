@@ -635,7 +635,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
             // redirectUri: window.location.origin + '/auth/google/',
             redirectUri: window.location.origin + '/',
-            optionalUrlParams: ['display', 'hd']
+            requiredUrlParams: ['scope', 'hd']
         });
 
         $authProvider.tokenType = 'JWT';
@@ -871,10 +871,9 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
                 sessionservice.setUserJWT(response.data.token).then(function () {
                     $state.go("index.dashboard");
                 });
-            }).catch(function (data) {
+            }).catch(function (error) {
                 console.log("error: SessionController.authenticate");
-                console.log(data);
-                alert(err_msg);
+                console.log(error);
             });
         }
 
@@ -1323,7 +1322,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
         function authorize() {
             return sessionservice.getUser().then(function () {
                 var isAuthenticated = $auth.isAuthenticated();
-
+                console.log("routeAuth.authenticated", isAuthenticated);
                 if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !sessionservice.isInAnyRole($rootScope.toState.data.roles)) {
                     console.log("entered redirect stragey");
                     if (isAuthenticated) {
@@ -4108,6 +4107,19 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
     var self = this;
     var sections = [];
 
+    var corporate_manager = {};
+
+    var buyer = {};
+
+    var accounting_manager = {};
+
+    var accounting_ar = {};
+    var accounting_ap = {};
+
+    var sales_manager = {};
+    var sales = {};
+
+    var warehouse_manager = {};
     var warehouse = {
       name: 'Warehouse',
       type: 'toggle',

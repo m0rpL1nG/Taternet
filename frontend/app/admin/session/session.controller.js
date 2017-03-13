@@ -25,10 +25,9 @@
                     .then(function(){
                         $state.go("index.dashboard");
                     });
-            }).catch(function(data) {
+            }).catch(function(error) {
                 console.log("error: SessionController.authenticate");
-                console.log(data)
-                alert(err_msg);
+                console.log(error)
             });
         }
 

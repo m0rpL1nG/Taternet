@@ -18,7 +18,7 @@
         return sessionservice.getUser()
             .then(function() {
                 var isAuthenticated = $auth.isAuthenticated();
-
+                console.log("routeAuth.authenticated", isAuthenticated)
                 if ($rootScope.toState.data.roles
                     && $rootScope.toState
                                 .data.roles.length > 0 
@@ -50,5 +50,5 @@
 
         }
     }
-    
+
 })();

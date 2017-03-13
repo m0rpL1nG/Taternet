@@ -30,7 +30,7 @@
             clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
             // redirectUri: window.location.origin + '/auth/google/',
             redirectUri: window.location.origin + '/',
-            optionalUrlParams: ['display', 'hd'],
+            requiredUrlParams: ['scope', 'hd'],
         });
         
         $authProvider.tokenType = 'JWT';
