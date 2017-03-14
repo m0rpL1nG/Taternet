@@ -1,4 +1,4 @@
-/* Javascript Framework */
+/* Angular Framework */
 require("../bower_components/angular/angular.min");  
 
 /* Layout Framework */
@@ -13,6 +13,7 @@ require("../bower_components/satellizer/dist/satellizer.min");
 require("../assets/components/angular-data-table/release/dataTable.min");
 require("../bower_components/angular-local-storage/dist/angular-local-storage.min")
 require("../../node_modules/ng-barcode/dist/ng-barcode.min")
+require("../bower_components/angular-messages/angular-messages")
 
 /* App Components */
 require("./admin/admin.module");
@@ -34,6 +35,7 @@ angular.module("taternet", [
     //////////////////
     // Outside Libs //
     //////////////////
+    "ngMessages",
     "satellizer",
     "ngMaterial",
     "ngResource",

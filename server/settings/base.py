@@ -78,15 +78,15 @@ SOCIAL_AUTH_PIPELINE = (
     # the unique identifier of the given user in the provider.
     'social_core.pipeline.social_auth.social_uid',
 
+    # custom subclass of auth_allowed
     # Verifies that the current auth process is valid within the current
     # project, this is where emails and domains whitelists are applied (if
     # defined).
     'server.apps.accounts.social_pipeline.my_auth_allowed',
     # 'social_core.pipeline.social_auth.auth_allowed',
 
-    #custom action - prevent login without email
+    # custom action - prevent login without email
     'server.apps.accounts.social_pipeline.check_for_email',
-
 
     # Checks if the current social-account is already associated in the site.
     'social_core.pipeline.social_auth.social_user',
@@ -102,6 +102,10 @@ SOCIAL_AUTH_PIPELINE = (
     # Associates the current social details with another user account with
     # a similar email address. Disabled by default.
     # 'social_core.pipeline.social_auth.associate_by_email',
+
+    # custom action
+    # Checks that email address exists in whirlwind before creating user
+    'server.apps.accounts.social_pipeline.check_whirlwind_for_email'
 
     # Create a user account if we haven't found one yet.
     'social_core.pipeline.user.create_user',

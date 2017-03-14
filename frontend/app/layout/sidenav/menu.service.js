@@ -17,10 +17,28 @@
 
       var buyer = {};
 
-      var accounting_manager = {};
+      var accounting_managers = {};
       
-      var accounting_ar = {};
-      var accounting_ap = {};
+      var accounting_ar = {
+        name: 'Accounts Receivable',
+        type: 'toggle', 
+        pages: [{
+          name: 'People',
+          type: 'link',
+          state: 'index.people',
+          // icon: 'fa fa-group'
+        }]
+      };
+      var accounting_ap = {
+        name: 'Accounts Payable',
+        type: 'toggle', 
+        pages: [{
+          name: 'People',
+          type: 'link',
+          state: 'index.people',
+          // icon: 'fa fa-group'
+        }]
+      };
 
       var sales_manager = {};
       var sales = {};
@@ -55,7 +73,8 @@
 
       var groups = [
         {name: "warehouse", sections: warehouse},
-        {name: "user_admins", sections: useradmin}
+        {name: "user_admins", sections: useradmin},
+        {name: "accounting_managers", sections: all_accounting}
       ];
     
 
@@ -71,7 +90,7 @@
           .then(function(user){
             sections = [];
             for (var i = 0; i < groups.length; i++){
-                  console.log(user.groups.indexOf(groups[i].name) != -1)
+                console.log(user.groups.indexOf(groups[i].name) != -1)
                 if(user.groups.indexOf(groups[i].name) != -1){
                   sections.push(groups[i].sections)
                 } 

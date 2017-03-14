@@ -1,3 +1,4 @@
+
 <div style="background-color:lightgray; min-height:100vh;" layout layout-align="center center">
     <md-whiteframe style="background-color:white;" flex="90" flex-gt-xs="60" flex-gt-md="30" class="md-whiteframe-2dp">
         </br>
@@ -9,8 +10,12 @@
             <h3>Portal Login</h3>
         </div>
 
+        <script type="text/ng-template" id="error-messages">
+            <div ng-message="required">This field is required</div>
+            <div ng-message="minlength">This field is too short</div>
+        </script>
         <md-content>
-            <md-tabs md-dynamic-height md-border-bottom md-center-tabs md-stretch-tabs	md-swipe-content>
+            <md-tabs md-dynamic-height md-border-bottom md-center-tabs md-swipe-content>
             <md-tab id="employees" label="Employees">
                 <md-content class="md-padding" layout="column" layout-align="center center">        
                     <p>Employees with valid Famous Tate email accounts can login using this link.
@@ -20,46 +25,30 @@
             </md-tab>
             <md-tab id="contractors" label="Contractors"> 
                 <md-content class="md-padding" layout="column" layout-align="center center">
-                    <form>
+                    <form name='contractorLoginForm' novalidate> 
                         <md-input-container class="md-block">
-                            <label>email address</label>
-                            <input type="email" ng-model="session.user.email">
+                            <label>Email address</label>
+                            <input type="email" id="email" ng-model="session.user.email" name="email" md-no-asterisk required>
+                            <div ng-messages="contractorLoginForm.email.$error" role="alert" ng-show="contractorLoginForm.email.$dirty || contractorLoginForm.$submitted">
+                                <div ng-message="email" style="opacity: 1; margin-top: 0px;">Invalid email address.</div>
+                                <div ng-message="required" style="opacity: 1; margin-top: 0px;">This is required.</div>
+                            </div>
                         </md-input-container>
                         <md-input-container class="md-block">
-                            <label>password</label>
-                            <input type="password" ng-model="session.user.password">
-                        </md-input-container>     
+                            <label>Password</label>
+                            <input type="password" ng-model="session.user.password" name="password" md-no-asterisk required>
+                            <div ng-messages="contractorLoginForm.password.$error" role="alert" ng-show="contractorLoginForm.password.$dirty || contractorLoginForm.$submitted">
+                                <div ng-message="required" style="opacity: 1; margin-top: 0px;">This is required.</div>
+                            </div>
+                        </md-input-container>    
                         <md-input-container class="md-block">
-                            <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
+                            <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin(contractorLoginForm)">Login</md-button>
                             <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
                         </md-input-container>
                     </form>
                 </md-content>
             </md-tab>
             </md-tabs>
-            <!--<md-whiteframe flex="30" class="md-whiteframe-2dp" layout="column" layout-margin layout-align="center center">
-                <h2>Employee Login</h2>        
-                <md-button class="md-raised md-primary" ng-click="session.employeeLogin('google')">Login</md-button>
-                <p>Employees with valid Famous Tate email accounts can login using this link.
-                If you need a Famous Tate email account, please contact your manager.</p>
-            </md-whiteframe>-->
-            <!--<md-whiteframe flex="30" class="md-whiteframe-2dp">
-                <form name="userForm" layout="column" layout-align="center center"> 
-                    <h2>Contractor Login</h2>
-                    <md-input-container>
-                        <label>email address</label>
-                        <input type="email" ng-model="session.user.email">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>password</label>
-                        <input type="password" ng-model="session.user.password">
-                    </md-input-container>     
-                    <md-input-container>
-                        <md-button type="submit" class="md-raised md-primary" ng-click="session.contractorLogin()">Login</md-button>
-                        <md-button class="md-raised md-primary" ng-click="session.logout()">Create an account</md-button>
-                    </md-input-container>
-                </form>
-            </md-whiteframe>-->
         </md-content>
     </md-whiteframe>
 </div>

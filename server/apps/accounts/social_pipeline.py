@@ -10,7 +10,7 @@ def auto_logout(*args, **kwargs):
 
 def my_auth_allowed(backend, details, response, *args, **kwargs):
     if not backend.auth_allowed(response, details):
-        return JsonResponse({'error': 'User part of forbidden domain'}, status=403)
+        return JsonResponse({'error': 'You must use a Famous Tate email address'}, status=403)
 
 def save_avatar(strategy, details, user=None, *args, **kwargs):
     """Get user avatar from social provider."""
@@ -42,6 +42,13 @@ def check_for_email(backend, uid, user=None, *args, **kwargs):
     if not kwargs['details'].get('email'):
         return Response({'error': "Email wasn't provided by oauth provider"}, status=400)
 
+def check_whirlwind_for_email(*args, **kwargs):
+    print "find associated email in whirlwind before creating account \n"
+    email = kwargs['details'].get('email')
+    associatedEmail = Employees.objects.filter(email=email)
+    if not associatedEmail:
+        return JsonResponse({'error' : "Your email address is not associated with a user in whirlwind"}, status=403)
+
 def associate_whirlwind_id(strategy, details, user=None, *args, **kwargs):
     print "associate_whirlwind_id starting \n\n"
     if user:
@@ -56,5 +63,5 @@ def associate_whirlwind_id(strategy, details, user=None, *args, **kwargs):
             user.whirlwind_id = whirlwind_id
             strategy.storage.user.changed(user)
         else: 
-            return Response({'error' : "Whirlwind User ID not found"}, status=400)
+            return JsonResponse({'error' : "There was a problem linking your whirlwind account"}, status=401)
         

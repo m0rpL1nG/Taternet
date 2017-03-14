@@ -3,14 +3,13 @@
     angular.module("Admin")
         .controller("SessionController", SessionController);
 
-    SessionController.$inject=['sessionservice', '$auth', '$http', '$state', '$timeout']
+    SessionController.$inject=['sessionservice', '$auth', '$http', '$state', '$timeout', '$mdDialog']
 
-    function SessionController(sessionservice, $auth, $http, $state, $timeout) {  
+    function SessionController(sessionservice, $auth, $http, $state, $timeout, $mdDialog) {  
         var vm = this;
     
-        sessionservice.setUser();
-        vm.user = {};
-        vm.user = sessionservice.getUser();
+        vm.user = {}
+        vm.serverErrors ={};
         
         vm.employeeLogin = employeeLogin;
         vm.contractorLogin = contractorLogin;
@@ -25,31 +24,50 @@
                     .then(function(){
                         $state.go("index.dashboard");
                     });
-            }).catch(function(error) {
+            }).catch(function(response) {
                 console.log("error: SessionController.authenticate");
-                console.log(error)
+                console.log(response);
+                loginError(response.data.error)
             });
         }
 
-        function contractorLogin(){
+        function contractorLogin(form){
+
             vm.user.username = vm.user.email;
-            $auth.login(vm.user)
-                .then(function(response) {
-                    console.log("contractor login success: ", response)
-                    $auth.setToken(response.data.token)
-                    sessionservice.setUserJWT(response.data.token).then(function(){
-                        $state.go("index.dashboard")
+            console.log(form)
+            if(form.$valid){
+                $auth.login(vm.user)
+                    .then(function(response) {
+                        console.log("contractor login success: ", response)
+                        $auth.setToken(response.data.token)
+                        sessionservice.setUserJWT(response.data.token).then(function(){
+                            $state.go("index.dashboard")
+                        })
                     })
-                })
-                .catch(function(response) {
-                    console.log("contractor login failure:", response)
-                });
+                    .catch(function(response) {
+                        console.log("contractor login failure:", response)
+                        var serverResponse = response.data[Object.keys(response.data)[0]][0]
+                        loginError(serverResponse)
+                    });
+            }
         }
         
         function logout (){
             sessionservice.logout();
         };
 
+        function loginError(error){
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .clickOutsideToClose(true)
+                    .title('Login Error')
+                    .textContent(error)
+                    .ariaLabel('Server Login Error')
+                    .ok('OK!')
+                    .targetEvent(angular.element(document.body))
+            );
+        }
 
     }
 })();
