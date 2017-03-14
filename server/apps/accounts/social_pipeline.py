@@ -2,6 +2,7 @@ import hashlib
 from rest_framework.response import Response
 from server.apps.whirlwind.users.models import Employees
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 
 
 def auto_logout(*args, **kwargs):
@@ -13,6 +14,7 @@ def my_auth_allowed(backend, details, response, *args, **kwargs):
         return JsonResponse({'error': 'You must use a Famous Tate email address'}, status=403)
 
 def save_avatar(strategy, details, user=None, *args, **kwargs):
+    print "get user avatar"
     """Get user avatar from social provider."""
     if user:
         backend_name = kwargs['backend'].__class__.__name__.lower()
@@ -43,11 +45,15 @@ def check_for_email(backend, uid, user=None, *args, **kwargs):
         return Response({'error': "Email wasn't provided by oauth provider"}, status=400)
 
 def check_whirlwind_for_email(*args, **kwargs):
-    print "find associated email in whirlwind before creating account \n"
+    
     email = kwargs['details'].get('email')
-    associatedEmail = Employees.objects.filter(email=email)
-    if not associatedEmail:
-        return JsonResponse({'error' : "Your email address is not associated with a user in whirlwind"}, status=403)
+    User = get_user_model()
+    user = User.objects.filter(email=email)
+    if not user:
+        print "find associated email in whirlwind before creating account \n"
+        associatedEmail = Employees.objects.filter(email=email)
+        if not associatedEmail:
+            return JsonResponse({'error' : "Your email address is not associated with a user in whirlwind"}, status=403)
 
 def associate_whirlwind_id(strategy, details, user=None, *args, **kwargs):
     print "associate_whirlwind_id starting \n\n"

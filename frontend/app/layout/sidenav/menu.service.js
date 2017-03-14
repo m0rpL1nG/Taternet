@@ -72,9 +72,9 @@
       };
 
       var groups = [
-        {name: "warehouse", sections: warehouse},
-        {name: "user_admins", sections: useradmin},
-        {name: "accounting_managers", sections: all_accounting}
+        {name: "warehouse", sections: [warehouse]},
+        {name: "user_admins", sections: [useradmin]},
+        {name: "accounting_managers", sections: [accounting_ap, accounting_ar] }
       ];
     
 
@@ -92,7 +92,9 @@
             for (var i = 0; i < groups.length; i++){
                 console.log(user.groups.indexOf(groups[i].name) != -1)
                 if(user.groups.indexOf(groups[i].name) != -1){
-                  sections.push(groups[i].sections)
+                  for (var j = 0; j < groups[i].sections.length; j++){
+                    sections.push(groups[i].sections[j])
+                  }
                 } 
             }
             return sections

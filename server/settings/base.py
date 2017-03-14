@@ -105,7 +105,7 @@ SOCIAL_AUTH_PIPELINE = (
 
     # custom action
     # Checks that email address exists in whirlwind before creating user
-    'server.apps.accounts.social_pipeline.check_whirlwind_for_email'
+    'server.apps.accounts.social_pipeline.check_whirlwind_for_email',
 
     # Create a user account if we haven't found one yet.
     'social_core.pipeline.user.create_user',
