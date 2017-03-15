@@ -1,53 +1,30 @@
 <link rel="stylesheet" href="frontend/app/layout/sidenav/sideNavStyle.css">
-<div layout-fill layout="column" ng-cloak>
      <md-sidenav
+        style="background-color:#37474F"
         flex
         class="site-sidenav md-sidenav-left"
         md-component-id="left-menu"
         md-is-locked-open="$mdMedia('gt-sm')"
         md-whiteframe="4">
     
-    <md-toolbar class="md-hue-2" layout="row" layout-align="center center">
-        <a ui-sref="index.dashboard">
-            <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
-        </a>
-    </md-toolbar>
-    
-    <md-toolbar class="md-hue-2" flex layout="column" role="navigation">
-        <ul class="side-menu">
-            <li ng-repeat="section in nav.menu.sections" class="parent-list-item"
-                ng-class="{'parentActive' : isOpen(section)}">
-                <h2 class="menu-heading" ng-if="section.type === 'heading'"
-                    id="heading_{{ section.name | nospace }}">
-                    section
-                </h2>
-                <menu-link section="section" ng-if="section.type === 'link'"></menu-link>
-                <menu-toggle section="section" ng-if="section.type === 'toggle'"></menu-toggle>
-            </li>
-        </ul>
-    </md-toolbar>
-  </md-sidenav>
-    <!--<md-sidenav
-        flex
-        class="site-sidenav md-sidenav-left"
-        md-component-id="left-menu"
-        md-is-locked-open="$mdMedia('gt-sm')"
-        md-whiteframe="4">
-
-        <md-toolbar class="md-hue-2" layout="row" layout-align="center">
+        <md-toolbar layout-align="center center" class="md-hue-2">
             <a ui-sref="index.dashboard">
                 <img src="frontend/assets/img/famoustate-login-img.png" alt="Famous Tate">
             </a>
         </md-toolbar>
-       
-        <md-toolbar flex layout="column" class="md-hue-2">
-            <md-list>
-                <md-list-item ng-repeat="item in nav.items" ui-sref="index.{{item.link }}">
-                    <span>{{ item.title }}</span>
-                    <md-divder></md-divder>
-                </md-list-item>
-            </md-list>
-
-        </md-toolbar>-->
+    
+        <md-toolbar flex class="md-hue-2" role="navigation">
+            <ul class="side-menu">
+                <li ng-repeat="section in nav.menu.sections" class="parent-list-item"
+                    ng-class="{'parentActive' : isOpen(section)}">
+                    <h2 class="menu-heading" ng-if="section.type === 'heading'"
+                        id="heading_{{ section.name | nospace }}">
+                        section
+                    </h2>
+                    <menu-link section="section" ng-if="section.type === 'link'"></menu-link>
+                    <menu-toggle section="section" ng-if="section.type === 'toggle'"></menu-toggle>
+                </li>
+            </ul>
+            <span flex></span>
+        </md-toolbar>
     </md-sidenav>
-</div>
