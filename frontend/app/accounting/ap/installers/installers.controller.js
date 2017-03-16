@@ -11,6 +11,7 @@
         vm.onRowClick = onRowClick;
         vm.clicked = null;
         vm.vendors  = {};
+        
         vm.options = {
             rowHeight: 50,
             headerHeight: 50,
@@ -33,7 +34,7 @@
 
         function activate(){
             console.log("installers activated")
-            return apinstallerservice.getVendors('Manufacturer').then(function(vendors){
+            return apinstallerservice.getVendors('Installer').then(function(vendors){
                 // console.log(vendors)
                 vm.vendors = vendors;
             })
@@ -44,7 +45,7 @@
             if(vm.clicked === row){
                 vm.clicked = null;
                 console.log(row.id)
-                $state.go('index.installers.detail', {id: row.id});
+                $state.go('index.ap.installers.installer', {id: row.id});
             } else {
                 vm.clicked = row;
                 $timeout(function(){

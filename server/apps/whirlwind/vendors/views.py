@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics
 from .models import Vendor
-from .serializers import VendorSerializer
+from .serializers import VendorSerializer, VendorDetailSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
@@ -29,4 +29,16 @@ class VendorViewset(viewsets.ModelViewSet):
         if vendor_id:
             queryset = Vendor.objects.filter(id=vendor_id)
 
+        return queryset
+
+@permission_classes((AllowAny, ))
+class VendorDetailViewset(viewsets.ModelViewSet):
+    serializer_class = VendorDetailSerializer
+    def get_queryset(self):
+        queryset = Vendor.objects.all()
+
+        queryset = queryset.filter(vendor_type='Installer')
+        vendor_id = self.request.query_params.get('vendor_id', None)
+        if vendor_id:
+            queryset = queryset.filter(id=vendor_id)
         return queryset

@@ -1505,15 +1505,13 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       templateUrl: "frontend/app/people/detail/peopleDetail.html",
       controller: 'PeopleDetailController',
       controllerAs: 'peopleDetail'
-    },
-    // {
-    //   name: "index.ap",
-    //   url: "/ap",
-    //   abstract: true,
-    //   template: '<ui-view></ui-view>'
-    // },
-    {
-      name: "index.installers",
+    }, {
+      name: "index.ap",
+      url: "/ap",
+      abstract: true,
+      template: '<ui-view></ui-view>'
+    }, {
+      name: "index.ap.installers",
       url: "/installers",
       data: {
         roles: ['warehouse', 'accounting_managers']
@@ -1522,8 +1520,8 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       controller: 'APInstallersController',
       controllerAs: 'install'
     }, {
-      name: "index.installers.detail",
-      url: "/:id",
+      name: "index.ap.installers.installer",
+      url: "/{id}",
       data: {
         roles: ['warehouse', 'accounting_managers']
       },
@@ -2469,6 +2467,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
                         // the state they wanted before you
                         // send them to the sign-in state, so
                         // you can return them when you're done
+                        console.log("else");
                         $rootScope.returnToState = $rootScope.toState;
                         $rootScope.returnToStateParams = $rootScope.toStateParams;
 
@@ -2547,7 +2546,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
                 prop: "notes",
                 cellRenderer: function cellRenderer(scope, ele) {
                     var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-                    return "<md-input-container md-no-float style=\"margin: 0px; width:100%; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
+                    return "<md-input-container layout-fill md-no-float style=\"margin: 0px; height: 36px;\"><input type=\"text\" placeholder=\"Notes\" ng-model-options=\"{ updateOn: 'blur' }\" ng-model=\"ctrl.transfers[" + rowNumber + "].notes\"></md-input-container>";
                 }
             }]
         };
@@ -5104,6 +5103,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
         vm.onRowClick = onRowClick;
         vm.clicked = null;
         vm.vendors = {};
+
         vm.options = {
             rowHeight: 50,
             headerHeight: 50,
@@ -5126,7 +5126,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 
         function activate() {
             console.log("installers activated");
-            return apinstallerservice.getVendors('Manufacturer').then(function (vendors) {
+            return apinstallerservice.getVendors('Installer').then(function (vendors) {
                 // console.log(vendors)
                 vm.vendors = vendors;
             });
@@ -5137,7 +5137,7 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
             if (vm.clicked === row) {
                 vm.clicked = null;
                 console.log(row.id);
-                $state.go('index.installers.detail', { id: row.id });
+                $state.go('index.ap.installers.installer', { id: row.id });
             } else {
                 vm.clicked = row;
                 $timeout(function () {
@@ -5198,7 +5198,8 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 
     function apinstallerservice($http) {
         return {
-            getVendors: getVendors
+            getVendors: getVendors,
+            getVendorSales: getVendorSales
         };
 
         var self = this;
@@ -5228,6 +5229,25 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
                 console.log(response);
             }
         };
+
+        function getVendorSales(vendor_id) {
+            var params = {};
+            params.vendor_id = vendor_id;
+
+            return $http({
+                url: "api/v1/vendordetail/",
+                method: "GET",
+                params: params
+            }).then(processComplete).catch(processFailure);
+
+            function processComplete(response) {
+                return response.data;
+            }
+
+            function processFailure(response) {
+                console.log("vendor Sales failed", response);
+            }
+        };
     }
 })();
 
@@ -5241,24 +5261,77 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 (function () {
     'use strict';
 
-    angular.module("Accounting").controller("ARInstallersDetailController", ARInstallersDetailController);
+    angular.module("Accounting").controller("APInstallersDetailController", APInstallersDetailController);
 
-    ARInstallersDetailController.$inject = ['$stateParams'];
+    APInstallersDetailController.$inject = ['apinstallerservice', '$stateParams', '$timeout'];
 
-    function ARInstallersDetailController($stateParams) {
+    function APInstallersDetailController(apinstallerservice, $stateParams, $timeout) {
         var vm = this;
+        // vm.onRowClick = onRowClick;
+        vm.clicked = null;
+        vm.vendor = {};
 
-        vm.person = {};
+        vm.options = {
+            rowHeight: 50,
+            headerHeight: 50,
+            footerHeight: false,
+            scrollbarV: false,
+            columnMode: 'force',
+            columns: [{
+                name: "Order Number",
+                prop: "order_number",
+                width: 160,
+                canAutoResize: false
+            }, {
+                name: "Model Number",
+                prop: "item_id",
+                width: 200
+            }, {
+                name: "Invoiced",
+                prop: "invoiced",
+                width: 110,
+                canAutoResize: false
+            }, {
+                name: "Install Complete",
+                prop: "installed",
+                width: 110,
+                canAutoResize: false
+            }, {
+                name: "Paid",
+                prop: "paid",
+                width: 110,
+                canAutoResize: false
+            }]
+        };
 
+        vm.orders = {
+            order: 'NT12021234',
+            model: 'INS-APPL INS DW',
+            invoiced: true,
+            installed: true,
+            paid: false
+        };
         activate();
 
         function activate() {
-            console.log($stateParams);
-            // return getPerson($stateParams.id).then(function(result) {
-            //     if(result){
-            //         console.log(result)
-            //     }
-            // });
+            console.log("installers Detail activated");
+            return apinstallerservice.getVendorSales($stateParams.id).then(function (vendorDetails) {
+                console.log(vendorDetails[0]);
+                vm.sales = vendorDetails[0].installs;
+            });
+        }
+
+        function onRowClick(row) {
+            // console.log(row)
+            if (vm.clicked === row) {
+                vm.clicked = null;
+                console.log(row);
+            } else {
+                vm.clicked = row;
+                $timeout(function () {
+                    vm.clicked = null;
+                }, 300);
+            }
         }
     }
 })();

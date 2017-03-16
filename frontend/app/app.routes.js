@@ -87,14 +87,14 @@
           controller: 'PeopleDetailController',
           controllerAs: 'peopleDetail',
         },
-        // {
-        //   name: "index.ap",
-        //   url: "/ap",
-        //   abstract: true,
-        //   template: '<ui-view></ui-view>'
-        // },
+        {
+          name: "index.ap",
+          url: "/ap",
+          abstract: true,
+          template: '<ui-view></ui-view>'
+        },
             {
-            name: "index.installers",
+            name: "index.ap.installers",
             url: "/installers",
             data: 
               {
@@ -105,8 +105,8 @@
             controllerAs: 'install',
             },
                 {
-                name: "index.installers.detail",
-                url: "/:id",
+                name: "index.ap.installers.installer",
+                url: "/{id}",
                 data: 
                   {
                     roles: ['warehouse', 'accounting_managers']

@@ -65,7 +65,7 @@
                 prop: "notes",
                 cellRenderer: function(scope, ele) {
                     var rowNumber = scope.$parent.ctrl.transfers.indexOf(scope.$row);
-                    return `<md-input-container md-no-float style="margin: 0px; width:100%; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
+                    return `<md-input-container layout-fill md-no-float style="margin: 0px; height: 36px;"><input type="text" placeholder="Notes" ng-model-options="{ updateOn: 'blur' }" ng-model="ctrl.transfers[${rowNumber}].notes"></md-input-container>`;
                     }
                 }
                 ]

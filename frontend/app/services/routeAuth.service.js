@@ -35,6 +35,7 @@
                     // the state they wanted before you
                     // send them to the sign-in state, so
                     // you can return them when you're done
+                    console.log("else")
                     $rootScope.returnToState
                         = $rootScope.toState;
                     $rootScope.returnToStateParams

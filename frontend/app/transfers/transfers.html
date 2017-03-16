@@ -6,8 +6,10 @@
             <md-button ng-click="ctrl.showFilters()" ng-disabled="ctrl.filterDisabled" class="md-primary md-raised">Filter Transfers</md-button>
     
       </div>
-      <div style="width:95%">
+      <div layout-fill>
         <dtable
+            flex
+            flex-gt-md="95"
             options="ctrl.options"
             rows="ctrl.transfers"
             class="material"

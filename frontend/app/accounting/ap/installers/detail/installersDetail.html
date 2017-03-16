@@ -1,16 +1,14 @@
-<div layout-fill layout="column">
-    <md-content layout-padding >
-        <p>Accounting > AP > Installers > Detail</p>
+
+        <p>Accounting > AP > <a href ui-sref="index.ap.installers"> Installers </a> > Detail</p>
+        <md-button ui-sref="index.ap.installers" class="md-raised md-primary">< Back</md-button>
         <div layout-fill>
-            <!--<dtable
+            <dtable
                 flex
-                flex-gt-md="70"
+                flex-gt-md="80"
                 style="width:98%"
                 options="installDetail.options"
-                rows="installDetail.orders"
+                rows="installDetail.sales"
                 on-row-click="installDetail.onRowClick(row)"
                 class="material">
-            </dtable>-->
+            </dtable>
         </div>
-    </md-content>
-</div>
