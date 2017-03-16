@@ -1,0 +1,16 @@
+<div layout-fill layout="column">
+    <md-content layout-padding >
+        <p>Accounting > AP > Installers</p>
+        <div layout-fill>
+            <dtable
+                flex
+                flex-gt-md="70"
+                style="width:98%"
+                options="install.options"
+                rows="install.vendors"
+                on-row-click="install.onRowClick(row)"
+                class="material">
+            </dtable>
+        </div>
+    </md-content>
+</div>

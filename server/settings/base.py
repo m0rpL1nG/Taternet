@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'server.apps.games',
     'server.apps.whirlwind.users',
     'server.apps.whirlwind.inventory',
+    'server.apps.whirlwind.vendors'
 
 ]
 

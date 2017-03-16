@@ -22,7 +22,7 @@
                 $auth.setToken(response.data.token);
                 sessionservice.setUserJWT(response.data.token)
                     .then(function(){
-                        $state.go("index.dashboard");
+                        $state.go("index.employees");
                     });
             }).catch(function(response) {
                 console.log("error: SessionController.authenticate");
@@ -41,7 +41,7 @@
                         console.log("contractor login success: ", response)
                         $auth.setToken(response.data.token)
                         sessionservice.setUserJWT(response.data.token).then(function(){
-                            $state.go("index.dashboard")
+                            $state.go("index.contractors")
                         })
                     })
                     .catch(function(response) {

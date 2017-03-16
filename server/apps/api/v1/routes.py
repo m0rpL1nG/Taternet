@@ -3,6 +3,7 @@ from rest_framework import routers
 from server.apps.games.api.views import GameApiView
 from server.apps.whirlwind.users.api.views import UserApiView
 from server.apps.whirlwind.inventory.api.views import TransferViewset, InventoryViewset
+from server.apps.whirlwind.vendors.views import VendorViewset
 from server.apps.accounts.api.views import UserDetailView
 from rest_framework_jwt.views import obtain_jwt_token
 
@@ -11,6 +12,7 @@ api_router = routers.DefaultRouter()
 api_router.register('games', GameApiView)
 api_router.register('whirlwindusers', UserApiView)
 api_router.register('transfers', TransferViewset, base_name="transfers")
+api_router.register('vendors', VendorViewset, base_name="vendors")
 api_router.register('inventory', InventoryViewset)
 # api_router.register('users', UsersViewset)
 

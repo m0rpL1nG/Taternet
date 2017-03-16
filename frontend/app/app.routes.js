@@ -16,14 +16,6 @@
           name: "index",
           url: '',
           abstract: true,
-          // resolve: {
-          //   user: ['sessionservice',
-          //     function(sessionservice) {
-                
-          //       return sessionservice.setUserJWT();
-          //     }
-          //   ]
-          // },
           views: {
             '': {
               templateUrl: "frontend/app/layout/shell/shell.html",
@@ -54,8 +46,8 @@
           controllerAs: "session",
         },
         {
-          name: "index.dashboard",
-          url: "/dashboard",
+          name: "index.employees",
+          url: "",
           data: 
             {
               roles: ['warehouse']
@@ -95,6 +87,34 @@
           controller: 'PeopleDetailController',
           controllerAs: 'peopleDetail',
         },
+        // {
+        //   name: "index.ap",
+        //   url: "/ap",
+        //   abstract: true,
+        //   template: '<ui-view></ui-view>'
+        // },
+            {
+            name: "index.installers",
+            url: "/installers",
+            data: 
+              {
+                roles: ['warehouse', 'accounting_managers']
+              },
+            templateUrl: "frontend/app/accounting/ap/installers/installers.html",
+            controller: 'APInstallersController',
+            controllerAs: 'install',
+            },
+                {
+                name: "index.installers.detail",
+                url: "/:id",
+                data: 
+                  {
+                    roles: ['warehouse', 'accounting_managers']
+                  },
+                templateUrl: "frontend/app/accounting/ap/installers/detail/installersDetail.html",
+                controller: 'APInstallersDetailController',
+                controllerAs: 'installDetail',
+                },
         {
           name: "index.travelSheets",
           url: "/travelsheets",

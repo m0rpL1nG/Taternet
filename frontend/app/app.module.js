@@ -22,6 +22,8 @@ require("./game/game.module");
 require("./people/people.module");
 require("./transfers/transfers.module");
 require("./services/services.module")
+require("./accounting/accouting.module")
+require("./installers/installers.module")
 
 
 /* App Dependencies */
@@ -32,6 +34,8 @@ angular.module("taternet", [
     "People",
     "Transfers",
     "Services",
+    "Accounting",
+    "Installers",
     //////////////////
     // Outside Libs //
     //////////////////
@@ -67,7 +71,13 @@ require("./app.filters")
     function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService){
         // console.log($auth.isAuthenticated());
         if($auth.isAuthenticated()){
-            $state.go('index.dashboard');
+            return sessionservice.getUser().then(function(user){
+                if(user.groups.indexOf("employees") !== -1){
+                    $state.go('index.employees');
+                } else {
+                    $state.go('index.installers');
+                }
+            })
         } else {
             $state.go('login')
         }

@@ -15,9 +15,7 @@
 
       var corporate_manager = {};
 
-      var buyer = {};
-
-      var accounting_managers = {};
+      var buyers = {};
       
       var accounting_ar = {
         name: 'Accounts Receivable',
@@ -33,9 +31,9 @@
         name: 'Accounts Payable',
         type: 'toggle', 
         pages: [{
-          name: 'People',
+          name: 'Installers',
           type: 'link',
-          state: 'index.people',
+          state: 'index.ap.installers',
           // icon: 'fa fa-group'
         }]
       };
@@ -90,7 +88,7 @@
           .then(function(user){
             sections = [];
             for (var i = 0; i < groups.length; i++){
-                console.log(user.groups.indexOf(groups[i].name) != -1)
+                // console.log(user.groups.indexOf(groups[i].name) != -1)
                 if(user.groups.indexOf(groups[i].name) != -1){
                   for (var j = 0; j < groups[i].sections.length; j++){
                     sections.push(groups[i].sections[j])
@@ -107,14 +105,14 @@
           .then(function(user){
             sections.push(warehouse);
             sections.push(useradmin);
-            console.log(sections)
+            // console.log(sections)
             return sections
           })
       }
       
       function toggleSelectSection(section) {
           self.openedSection = (self.openedSection === section ? null : section);
-          console.log("menuService.toggleSelectSection:", self.openedSection);
+          // console.log("menuService.toggleSelectSection:", self.openedSection);
       }
       
       function isSectionSelected(section) {
