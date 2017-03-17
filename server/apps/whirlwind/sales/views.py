@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 # Create your views here.
-@permission_classes((AllowAny, ))
+# @permission_classes((AllowAny, ))
 class OrderViewset(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 # Create your views here.
-@permission_classes((AllowAny, ))
+# @permission_classes((AllowAny, ))
 class VendorViewset(viewsets.ModelViewSet):
     serializer_class = VendorSerializer
     def get_queryset(self):
@@ -31,7 +31,7 @@ class VendorViewset(viewsets.ModelViewSet):
 
         return queryset
 
-@permission_classes((AllowAny, ))
+# @permission_classes((AllowAny, ))
 class VendorDetailViewset(viewsets.ModelViewSet):
     serializer_class = VendorDetailSerializer
     def get_queryset(self):
