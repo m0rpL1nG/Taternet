@@ -1778,7 +1778,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
 
             console.log("user.groups", user.groups);
             if (user.groups.length === 0) {
-                user.groups = ['warehouse'];
+                user.groups = ['warehouse', 'accounting_managers'];
                 user.roles = user.groups;
             }
             localStorageService.set('currentUser', user);
