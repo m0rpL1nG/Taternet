@@ -1479,6 +1479,15 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       },
       templateUrl: "frontend/app/dashboard/dashboard.html"
     }, {
+      name: "index.installers",
+      url: "/{id}",
+      data: {
+        roles: ['installer']
+      },
+      templateUrl: "frontend/app/installers/myinstalls.html",
+      controller: "MyInstallsController",
+      controllerAs: "install"
+    }, {
       name: "index.games",
       url: "/games",
       data: {
@@ -1680,7 +1689,10 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
                     console.log("contractor login success: ", response);
                     $auth.setToken(response.data.token);
                     sessionservice.setUserJWT(response.data.token).then(function () {
-                        $state.go("index.contractors");
+                        return sessionservice.getUser().then(function (user) {
+                            console.log("user", user);
+                            $state.go("index.installers", { id: user.vendor_id });
+                        });
                     });
                 }).catch(function (response) {
                     console.log("contractor login failure:", response);
@@ -1775,6 +1787,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             user.thumb = source.social_thumb;
             user.roles = source.groups;
             user.groups = source.groups;
+            user.vendor_id = source.vendor_id;
 
             console.log("user.groups", user.groups);
             if (user.groups.length === 0) {
@@ -2071,7 +2084,11 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
 
     var corporate_manager = {};
 
-    var buyers = {};
+    var installers = {
+      name: 'My Installs',
+      type: 'link',
+      state: 'index.contractors'
+    };
 
     var accounting_ar = {
       name: 'Accounts Receivable',
@@ -2120,7 +2137,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       }]
     };
 
-    var groups = [{ name: "warehouse", sections: [warehouse] }, { name: "user_admins", sections: [useradmin] }, { name: "accounting_managers", sections: [accounting_ap, accounting_ar] }];
+    var groups = [{ name: "warehouse", sections: [warehouse] }, { name: "user_admins", sections: [useradmin] }, { name: "accounting_managers", sections: [accounting_ap, accounting_ar] }, { name: "installers", sections: [installers] }];
 
     return {
       getSections: getSections,
@@ -5173,12 +5190,89 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
 (function () {
     'use strict';
 
-    angular.module("Installers").controller("InstallersController", InstallersController);
+    angular.module("Installers").controller("MyInstallsController", MyInstallsController);
 
-    InstallersController.$inject = [];
+    MyInstallsController.$inject = ['apinstallerservice', '$stateParams', '$timeout', '$mdDialog'];
 
-    function InstallersController() {
+    function MyInstallsController(apinstallerservice, $stateParams, $timeout, $mdDialog) {
         var vm = this;
+        // vm.onRowClick = onRowClick;
+        vm.clicked = null;
+        vm.vendor = {};
+        vm.selected = [];
+        vm.onSelect = onSelect;
+
+        vm.options = {
+            rowHeight: 50,
+            headerHeight: 50,
+            footerHeight: false,
+            scrollbarV: false,
+            checkboxSelection: true,
+            selectable: true,
+            multiSelect: true,
+            columnMode: 'force',
+            columns: [{
+                name: "Order Number",
+                prop: "order_number",
+                width: 260,
+                canAutoResize: false,
+                isCheckboxColumn: true,
+                headerCheckbox: true
+            }, {
+                name: "Model Number",
+                prop: "item_id",
+                width: 200
+            }, {
+                name: "Invoiced",
+                prop: "invoiced",
+                width: 110,
+                canAutoResize: false
+            }, {
+                name: "Install Complete",
+                prop: "installed",
+                width: 110,
+                canAutoResize: false
+            }, {
+                name: "Paid",
+                prop: "paid",
+                width: 110,
+                canAutoResize: false
+            }]
+        };
+
+        vm.orders = {
+            order: 'NT12021234',
+            model: 'INS-APPL INS DW',
+            invoiced: true,
+            installed: true,
+            paid: false
+        };
+        activate();
+
+        function activate() {
+            console.log("installers Detail activated");
+            return apinstallerservice.getVendorSales($stateParams.id).then(function (vendorDetails) {
+                console.log(vendorDetails[0]);
+                vm.sales = vendorDetails[0].installs;
+            });
+        }
+
+        function onRowClick(row) {
+            // console.log(row)
+            if (vm.clicked === row) {
+                vm.clicked = null;
+                console.log(row);
+            } else {
+                vm.clicked = row;
+                $timeout(function () {
+                    vm.clicked = null;
+                }, 300);
+            }
+        }
+
+        function onSelect(rows) {
+            console.log(rows);
+        }
     }
 })();
 

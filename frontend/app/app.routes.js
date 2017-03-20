@@ -55,6 +55,17 @@
           templateUrl: "frontend/app/dashboard/dashboard.html",
         },
         {
+          name: "index.installers",
+          url: "/{id}",
+          data: 
+            {
+              roles: ['installer']
+            },
+          templateUrl: "frontend/app/installers/myinstalls.html",
+          controller: "MyInstallsController",
+          controllerAs: "install",
+        },
+        {
           name: "index.games",
           url: "/games",
           data: 

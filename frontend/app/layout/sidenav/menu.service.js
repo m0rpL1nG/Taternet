@@ -15,7 +15,11 @@
 
       var corporate_manager = {};
 
-      var buyers = {};
+      var installers = {
+          name: 'My Installs',
+          type: 'link',
+          state: 'index.contractors'
+      };
       
       var accounting_ar = {
         name: 'Accounts Receivable',
@@ -72,7 +76,8 @@
       var groups = [
         {name: "warehouse", sections: [warehouse]},
         {name: "user_admins", sections: [useradmin]},
-        {name: "accounting_managers", sections: [accounting_ap, accounting_ar] }
+        {name: "accounting_managers", sections: [accounting_ap, accounting_ar] },
+        {name: "installers", sections: [installers]},
       ];
     
 

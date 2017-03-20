@@ -29,7 +29,7 @@
                         <md-input-container class="md-block">
                             <label>Email address</label>
                             <input type="email" id="email" ng-model="session.user.email" name="email" md-no-asterisk required>
-                            <div ng-messages="contractorLoginForm.email.$error" role="alert" ng-show="contractorLoginForm.email.$dirty || contractorLoginForm.$submitted">
+                            <div ng-messages="contractorLoginForm.email.$error" role="alert" ng-show="contractorLoginForm.email.$touched || contractorLoginForm.$submitted">
                                 <div ng-message="email" style="opacity: 1; margin-top: 0px;">Invalid email address.</div>
                                 <div ng-message="required" style="opacity: 1; margin-top: 0px;">This is required.</div>
                             </div>
@@ -37,7 +37,7 @@
                         <md-input-container class="md-block">
                             <label>Password</label>
                             <input type="password" ng-model="session.user.password" name="password" md-no-asterisk required>
-                            <div ng-messages="contractorLoginForm.password.$error" role="alert" ng-show="contractorLoginForm.password.$dirty || contractorLoginForm.$submitted">
+                            <div ng-messages="contractorLoginForm.password.$error" role="alert" ng-show="contractorLoginForm.password.$touched || contractorLoginForm.$submitted">
                                 <div ng-message="required" style="opacity: 1; margin-top: 0px;">This is required.</div>
                             </div>
                         </md-input-container>    

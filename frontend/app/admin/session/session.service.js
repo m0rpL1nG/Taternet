@@ -69,6 +69,7 @@
             user.thumb = source.social_thumb;
             user.roles = source.groups;
             user.groups = source.groups;
+            user.vendor_id = source.vendor_id;
 
             console.log("user.groups", user.groups);
             if (user.groups.length === 0 ){

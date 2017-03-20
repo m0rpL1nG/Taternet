@@ -5,6 +5,7 @@ from .models import Order, OrderDetail
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     order_number = serializers.PrimaryKeyRelatedField(source='order_id.order_number', read_only=True)
+    vendor_id = serializers.PrimaryKeyRelatedField(source='item_id.vendor_id', read_only=True)
     class Meta:
         model = OrderDetail
         fields = (

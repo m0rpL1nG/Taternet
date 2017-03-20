@@ -41,7 +41,10 @@
                         console.log("contractor login success: ", response)
                         $auth.setToken(response.data.token)
                         sessionservice.setUserJWT(response.data.token).then(function(){
-                            $state.go("index.contractors")
+                            return sessionservice.getUser().then(function(user){
+                                console.log("user", user);
+                                $state.go("index.installers", {id: user.vendor_id })
+                            })
                         })
                     })
                     .catch(function(response) {
