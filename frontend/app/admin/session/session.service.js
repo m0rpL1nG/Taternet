@@ -73,7 +73,7 @@
 
             console.log("user.groups", user.groups);
             if (user.groups.length === 0 ){
-                user.groups = ['warehouse', 'accounting_managers'];
+                user.groups = ['warehouse', 'employees'];
                 user.roles = user.groups;
             }
             localStorageService.set('currentUser', user);

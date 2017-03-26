@@ -47,7 +47,7 @@
         },
         {
           name: "index.employees",
-          url: "",
+          url: "welcome",
           data: 
             {
               roles: ['warehouse']
@@ -56,7 +56,7 @@
         },
         {
           name: "index.installers",
-          url: "/{id}",
+          url: "installer/{id}",
           data: 
             {
               roles: ['installer']

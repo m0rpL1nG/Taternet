@@ -40,7 +40,7 @@ def save_avatar(strategy, details, user=None, *args, **kwargs):
 
 
 def check_for_email(backend, uid, user=None, *args, **kwargs):
-    print "check for email \n\n"
+    print "check for email:"
     if not kwargs['details'].get('email'):
         return Response({'error': "Email wasn't provided by oauth provider"}, status=400)
 
@@ -56,18 +56,21 @@ def check_whirlwind_for_email(*args, **kwargs):
             return JsonResponse({'error' : "Your email address is not associated with a user in whirlwind"}, status=403)
 
 def associate_whirlwind_id(strategy, details, user=None, *args, **kwargs):
-    print "associate_whirlwind_id starting \n\n"
+    print "associate_whirlwind_id starting"
     if user:
         print user
+
+        print user.whirlwind_id
         email = user.email
         print "at associate whirlwind id"
         print email
-        whirlwind_id = Employees.objects.filter(email=email).values_list('id', flat=True)[0]
-        if whirlwind_id:
-            print "found whirlwind ID"
-            print whirlwind_id
-            user.whirlwind_id = whirlwind_id
-            strategy.storage.user.changed(user)
-        else: 
-            return JsonResponse({'error' : "There was a problem linking your whirlwind account"}, status=401)
+        if not user.whirlwind_id:
+            whirlwind_id = Employees.objects.filter(email=email).values_list('id', flat=True)[0]
+            if whirlwind_id:
+                print "found whirlwind ID"
+                print whirlwind_id
+                user.whirlwind_id = whirlwind_id
+                strategy.storage.user.changed(user)
+            else: 
+                return JsonResponse({'error' : "There was a problem linking your whirlwind account"}, status=401)
         

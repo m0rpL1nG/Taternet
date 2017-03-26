@@ -1473,14 +1473,14 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
       controllerAs: "session"
     }, {
       name: "index.employees",
-      url: "",
+      url: "welcome",
       data: {
         roles: ['warehouse']
       },
       templateUrl: "frontend/app/dashboard/dashboard.html"
     }, {
       name: "index.installers",
-      url: "/{id}",
+      url: "installer/{id}",
       data: {
         roles: ['installer']
       },
@@ -1791,7 +1791,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
 
             console.log("user.groups", user.groups);
             if (user.groups.length === 0) {
-                user.groups = ['warehouse', 'accounting_managers'];
+                user.groups = ['warehouse', 'employees'];
                 user.roles = user.groups;
             }
             localStorageService.set('currentUser', user);
@@ -5007,7 +5007,11 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
     // console.log($auth.isAuthenticated());
     if ($auth.isAuthenticated()) {
         return sessionservice.getUser().then(function (user) {
-            if (user.groups.indexOf("employees") !== -1) {
+            console.log("user: ", user);
+            console.log(user.groups.indexOf("employees"));
+            console.log(user.groups.length);
+            if (user.groups.indexOf("employees") > -1 || user.groups.length === 0) {
+                console.log("user is employee");
                 $state.go('index.employees');
             } else {
                 $state.go('index.installers');
