@@ -27,9 +27,11 @@
         $authProvider.google({
             url: '/api/v1/employeelogin/social/jwt/google-oauth2/',
             hd: 'famoustate.com',
+            prompt: 'select_account', 
             clientId: '373420519079-h24np71la11of55ccqef6ne5q9hcvo9p.apps.googleusercontent.com',
             // redirectUri: window.location.origin + '/auth/google/',
             redirectUri: window.location.origin + '/',
+            optionalUrlParams: ['prompt'],
             requiredUrlParams: ['scope', 'hd'],
         });
         
