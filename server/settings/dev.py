@@ -15,6 +15,15 @@ DEBUG = True
 #DEBUG TOOLBAR SETTING
 INTERNAL_IPS = ('10.20.1.112')
 
+def show_toolbar(request):
+    if request.is_ajax():
+        return False
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'server.settings.dev.show_toolbar',
+}
+
 ALLOWED_HOSTS = [
     u'10.20.1.112',
     u'10.20.1.112.xip.io',

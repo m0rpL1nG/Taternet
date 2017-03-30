@@ -9,7 +9,8 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+# DEBUG = env('DEBUG')
+DEBUG = False
 
 ALLOWED_HOSTS=[u'10.10.1.75.nip.io', u'10.20.1.112.nip.io', u'35.165.62.179', u'taternet.io']
 
