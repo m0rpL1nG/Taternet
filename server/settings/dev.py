@@ -9,7 +9,11 @@ env.read_env('{}/{}.env'.format(root, currentEnv))
 
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+# DEBUG = env('DEBUG')
+DEBUG = True
+
+#DEBUG TOOLBAR SETTING
+INTERNAL_IPS = ('10.20.1.112')
 
 ALLOWED_HOSTS = [
     u'10.20.1.112',

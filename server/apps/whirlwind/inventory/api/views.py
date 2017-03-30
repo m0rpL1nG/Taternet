@@ -2,15 +2,30 @@ from rest_framework import viewsets, generics
 from ..models import TransferRequest, Inventory
 from ...users.models import Employees
 from .serializers import TransferSerializer, InventorySerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
 
+# Create your views here.
+# @permission_classes((AllowAny, ))
 class TransferViewset(viewsets.ModelViewSet):
     serializer_class = TransferSerializer
     def get_queryset(self):
-        queryset = TransferRequest.objects.all()
+        # queryset = TransferRequest.objects.values(
+        #     'comments', 
+        #     'notes', 
+        #     'warehouse_notes', 
+        #     'to_location', 
+        #     'inventory_id',
+        #     'inventory_id__model_number',
+        #     'inventory_id__serial_number',
+        #     'inventory_id__unique_id',
+        #     'inventory_id__location')
+                   
+        queryset = TransferRequest.objects.all().select_related('inventory_id')
 
-        print self.request.user.whirlwind_id
-        print self.request.query_params
+        # print self.request.user.whirlwind_id
+        # print self.request.query_params
 
         # return base location from whirlwind using self.request.user.id
 

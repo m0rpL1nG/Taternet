@@ -2475,6 +2475,9 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             return sessionservice.getUser().then(function () {
                 var isAuthenticated = $auth.isAuthenticated();
                 console.log("routeAuth.authenticated", isAuthenticated);
+                console.log("rootscoop toState roles: ", $rootScope.toState.data.roles);
+                console.log("length of rootscope roles: ", $rootScope.toState.data.roles.length);
+                console.log("sessionservice.isInAnyRole: ", !sessionservice.isInAnyRole($rootScope.toState.data.roles));
                 if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !sessionservice.isInAnyRole($rootScope.toState.data.roles)) {
                     console.log("entered redirect stragey");
                     if (isAuthenticated) {
@@ -5010,13 +5013,11 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
     if ($auth.isAuthenticated()) {
         return sessionservice.getUser().then(function (user) {
             console.log("user: ", user);
-            console.log(user.groups.indexOf("employees"));
-            console.log(user.groups.length);
             if (user.groups.indexOf("employees") > -1 || user.groups.length === 0) {
                 console.log("user is employee");
                 $state.go('index.employees');
             } else {
-                $state.go('index.installers');
+                $state.go('index.installers', { id: user.vendor_id });
             }
         });
     } else {
@@ -5231,17 +5232,17 @@ function runBlock($rootScope, $state, $auth, sessionservice, routeAuthService) {
             }, {
                 name: "Invoiced",
                 prop: "invoiced",
-                width: 110,
+                width: 100,
                 canAutoResize: false
             }, {
                 name: "Install Complete",
                 prop: "installed",
-                width: 110,
+                width: 150,
                 canAutoResize: false
             }, {
                 name: "Paid",
                 prop: "paid",
-                width: 110,
+                width: 80,
                 canAutoResize: false
             }]
         };

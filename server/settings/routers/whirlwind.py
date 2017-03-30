@@ -33,6 +33,6 @@ class WhirlwindRouter(object):
         Make sure the auth app only appears in the 'auth_db'
         database.
         """
-        # if app_label == 'whirlwind':
-        #     return db == 'whirlwind'
+        if app_label == 'whirlwind':
+            return db == 'whirlwind'
         return False

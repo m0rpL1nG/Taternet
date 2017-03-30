@@ -1,14 +1,15 @@
 
-<div layout-padding layout-fill>
-    <dtable
-        flex
-        flex-gt-md="80"
-        style="width:98%"
-        options="install.options"
-        rows="install.sales"
-        on-row-click="install.onRowClick(row)"
-        selected="install.selected"
-        on-select="install.onSelect(rows)"
-        class="material">
-    </dtable>
-</div>
+   <div layout-fill>
+    <md-content style="padding:10px;">
+            <dtable
+                
+                options="install.options"
+                rows="install.sales"
+                on-row-click="install.onRowClick(row)"
+                selected="install.selected"
+                on-select="install.onSelect(rows)"
+                class="material">
+            </dtable>
+    </md-content>
+       
+   </div>

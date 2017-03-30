@@ -11,11 +11,12 @@ class VendorSerializer(serializers.ModelSerializer):
         ]
 
 class VendorDetailSerializer(serializers.ModelSerializer):
-    installs = OrderDetailSerializer(many=True)
+    # installs = OrderDetailSerializer(many=True)
     class Meta:
         model = Vendor
+        depth = 1
         fields = [
             'id',
             'name',
-            'installs'
+            'vendor_id'
         ]

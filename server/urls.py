@@ -7,6 +7,7 @@ from server.apps import api
 from server.apps.accounts.api.views import UserDetailView
 from server.apps.accounts.views import OkResponse
 
+
 urlpatterns = [
     # Admin 
     url(r'^admin/', admin.site.urls),
@@ -18,3 +19,11 @@ urlpatterns = [
     # App Entry point
     url(r'^$', TemplateView.as_view(template_name="app/index.html"), name='index'),
 ]
+
+from django.conf import settings
+
+# if settings.DEBUG:
+import debug_toolbar
+urlpatterns = [
+    url(r'^__debug__/', include(debug_toolbar.urls)),
+] + urlpatterns

@@ -84,7 +84,7 @@ class InvModelSerial(models.Model):
 class TransferRequest(models.Model):
     id = models.AutoField(primary_key=True, db_column='INV TRANSFER ID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     ar_detail_ext = models.IntegerField(db_column='INV TRANSFER AR Detail Ext', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inventory_id = models.ForeignKey(Inventory, db_column='INV TRANSFER Mdl Ser ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    inventory_id = models.OneToOneField(Inventory, db_column='INV TRANSFER Mdl Ser ID', blank=True, null=True, related_name="inventory_item")  # Field name made lowercase. Field renamed to remove unsuitable characters.
     #part_id = models.IntegerField(db_column='INV TRANSFER Part ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     #ser_parts_id = models.IntegerField(db_column='INV TRANSFER SER PARTS ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     notes = models.TextField(db_column='INV TRANSFER Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.

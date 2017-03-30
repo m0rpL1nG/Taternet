@@ -37,17 +37,17 @@
                 }, {
                 name: "Invoiced",
                 prop: "invoiced",
-                width: 110,
+                width: 100,
                 canAutoResize: false,
                 }, {
                 name: "Install Complete",
                 prop: "installed",
-                width: 110,
+                width: 150,
                 canAutoResize: false,
                 }, {
                 name: "Paid",
                 prop: "paid",
-                width: 110,
+                width: 80,
                 canAutoResize: false,
                 },] 
             };

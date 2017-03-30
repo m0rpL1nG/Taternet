@@ -12,7 +12,7 @@ class Order(models.Model):
     saved_yn = models.BooleanField(db_column='AR ORDER Saved YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     posted_yn = models.BooleanField(db_column='AR ORDER Posted YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     service_yn = models.SmallIntegerField(db_column='AR ORDER Service YN', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    date = models.DateTimeField(db_column='AR ORDER Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    date = models.DateTimeField(db_column='AR ORDER Date', blank=True, null=True, db_index=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     due_date = models.DateTimeField(db_column='AR ORDER Due Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     po_id = models.CharField(db_column='AR ORDER PO ID', max_length=50, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     tax_exempt_id = models.CharField(db_column='AR ORDER Tax Exempt ID', max_length=20, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -153,13 +153,13 @@ class Order(models.Model):
 
 class OrderDetail(models.Model):
     id = models.AutoField(db_column='AR ORDERD ID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    order_id = models.ForeignKey(Order, db_column='AR ORDERD Document #', blank=True, null=True, related_name='models')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    order_id = models.ForeignKey(Order, db_column='AR ORDERD Document #', blank=True, null=True, related_name='order_items')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     # qty = models.FloatField(db_column='AR ORDERD Qty', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # qty_to_invoice = models.FloatField(db_column='AR ORDERD Qty To Invoice', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # qty_backordered = models.FloatField(db_column='AR ORDERD Qty Backordered', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # backordered = models.BooleanField(db_column='AR ORDERD BackOrdered')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     date = models.DateTimeField(db_column='AR ORDERD Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    item_id = models.ForeignKey(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    item_id = models.OneToOneField(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # units = models.CharField(db_column='AR ORDERD Units', max_length=20, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # discount_field = models.FloatField(db_column='AR ORDERD Discount %', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     # tax = models.BooleanField(db_column='AR ORDERD Tax')  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -176,7 +176,7 @@ class OrderDetail(models.Model):
     # notes = models.TextField(db_column='AR ORDERD Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # item_location = models.CharField(db_column='AR ORDERD Item Location', max_length=5, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # qty_shipped = models.FloatField(db_column='AR ORDERD Qty Shipped', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    vendor_id = models.ForeignKey(Vendor, db_column='AR ORDERD Vendor', blank=True, null=True, related_name='installs')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    vendor_id = models.OneToOneField(Vendor, db_column='AR ORDERD Vendor', blank=True, null=True, related_name='vendor_item')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # sequence_no = models.IntegerField(db_column='AR ORDERD Sequence No', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # profit = models.DecimalField(db_column='AR ORDERD Profit', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # margin = models.FloatField(db_column='AR ORDERD Margin', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.

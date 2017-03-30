@@ -19,6 +19,9 @@
             .then(function() {
                 var isAuthenticated = $auth.isAuthenticated();
                 console.log("routeAuth.authenticated", isAuthenticated)
+                console.log("rootscoop toState roles: ", $rootScope.toState.data.roles)
+                console.log("length of rootscope roles: ", $rootScope.toState.data.roles.length)
+                console.log("sessionservice.isInAnyRole: ", !sessionservice.isInAnyRole($rootScope.toState.data.roles))
                 if ($rootScope.toState.data.roles
                     && $rootScope.toState
                                 .data.roles.length > 0 

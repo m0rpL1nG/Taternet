@@ -73,13 +73,11 @@ require("./app.filters")
         if($auth.isAuthenticated()){
             return sessionservice.getUser().then(function(user){
                 console.log("user: ", user)
-                console.log(user.groups.indexOf("employees"))
-                console.log(user.groups.length)
                 if(user.groups.indexOf("employees") > -1 || user.groups.length === 0){
                     console.log("user is employee")
                     $state.go('index.employees');
                 } else {
-                    $state.go('index.installers');
+                    $state.go('index.installers', {id: user.vendor_id});
                 }
             })
         } else {
