@@ -14,7 +14,6 @@ class VendorDetailSerializer(serializers.ModelSerializer):
     # installs = OrderDetailSerializer(many=True)
     class Meta:
         model = Vendor
-        depth = 1
         fields = [
             'id',
             'name',

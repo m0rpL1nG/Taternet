@@ -159,7 +159,7 @@ class OrderDetail(models.Model):
     # qty_backordered = models.FloatField(db_column='AR ORDERD Qty Backordered', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # backordered = models.BooleanField(db_column='AR ORDERD BackOrdered')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     date = models.DateTimeField(db_column='AR ORDERD Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    item_id = models.OneToOneField(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    inv_item_id = models.ForeignKey(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True, related_name="inv_item_details")  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # units = models.CharField(db_column='AR ORDERD Units', max_length=20, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # discount_field = models.FloatField(db_column='AR ORDERD Discount %', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     # tax = models.BooleanField(db_column='AR ORDERD Tax')  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -176,7 +176,7 @@ class OrderDetail(models.Model):
     # notes = models.TextField(db_column='AR ORDERD Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # item_location = models.CharField(db_column='AR ORDERD Item Location', max_length=5, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # qty_shipped = models.FloatField(db_column='AR ORDERD Qty Shipped', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    vendor_id = models.OneToOneField(Vendor, db_column='AR ORDERD Vendor', blank=True, null=True, related_name='vendor_item')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    vendor_id = models.CharField(db_column='AR ORDERD Vendor', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # sequence_no = models.IntegerField(db_column='AR ORDERD Sequence No', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # profit = models.DecimalField(db_column='AR ORDERD Profit', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # margin = models.FloatField(db_column='AR ORDERD Margin', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -207,3 +207,57 @@ class OrderDetail(models.Model):
         managed = False
         db_table = 'AR Order Detail'
         app_label = 'whirlwind'
+
+class OrderDetailExt(models.Model):
+    id = models.AutoField(db_column='AR ORDERDE Record ID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    order_detail_id = models.ForeignKey(OrderDetail, db_column='AR ORDERDE Line Item ID', blank=True, null=True, related_name='order_item_details')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    serial_number = models.CharField(db_column='AR ORDERDE Serial Number', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    posted_yn = models.BooleanField(db_column='AR ORDERDE Posted YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    invoice = models.CharField(db_column='AR ORDERDE Invoice', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    invoiced_yn = models.BooleanField(db_column='AR ORDERDE Invoiced YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_yn = models.BooleanField(db_column='AR ORDERDE Requested YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_date = models.DateTimeField(db_column='AR ORDERDE Requested Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_qty = models.SmallIntegerField(db_column='AR ORDERDE Requested Qty', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    salesperson_comments = models.CharField(db_column='AR ORDERDE SalesPerson Comments', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    orderdesk_action = models.CharField(db_column='AR ORDERDE OrderDesk Action', max_length=50, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_model_number = models.CharField(db_column='AR ORDERDE Requested Model Number', max_length=25, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_serial_number = models.CharField(db_column='AR ORDERDE Requested Serial Number', max_length=25, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    requested_notes = models.TextField(db_column='AR ORDERDE Requested Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    purchase_order_id = models.IntegerField(db_column='AR ORDERDE PO Line Item ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    invoice_id = models.IntegerField(db_column='AR ORDERDE Invoice Line Item ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    order_service_notes = models.TextField(db_column='AR ORDERDE Order Service Notes', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    model_serial_id = models.IntegerField(db_column='AR ORDERDE Model Serial ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    model_nonserial_id = models.IntegerField(db_column='AR ORDERDE Model NONSerial ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    part_id = models.IntegerField(db_column='AR ORDERDE Part ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    return_authorization_number = models.IntegerField(db_column='AR ORDERDE Return Authorization Number', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    return_authorization_name = models.CharField(db_column='AR ORDERDE Return Authorization Name', max_length=25, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    return_authorization_reason = models.TextField(db_column='AR ORDERDE Return Authorization Reason', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    return_authorization_date = models.DateTimeField(db_column='AR ORDERDE Return Authorization Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    e_mail_sales_when_received = models.NullBooleanField(db_column='AR ORDERDE E-Mail Sales When Received')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    picking_ticket_printed = models.DateTimeField(db_column='AR ORDERDE Picking Ticket Printed', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    order_date = models.DateTimeField(db_column='AR ORDERDE Order Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    warranty_record_id = models.BigIntegerField(db_column='AR ORDERDE Warranty AR ORDERDE Record ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    warranty_expire_date = models.DateTimeField(db_column='AR ORDERDE Warranty Expire Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    warranty_numbers = models.CharField(db_column='AR ORDERDE Warranty Numbers', max_length=50, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    auto_invoice_sold_inventory_date = models.DateTimeField(db_column='AR ORDERDE Auto Invoice Sold Inventory Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    inv_serd_record_id = models.BigIntegerField(db_column='AR ORDERDE INV SERD Record ID', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    print_customer_pickup_yn = models.NullBooleanField(db_column='AR ORDERDE Print Customer Pickup YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    assign_to_credit_tech_yn = models.NullBooleanField(db_column='AR ORDERDE Assign to Credit Tech YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    category_user_input = models.CharField(db_column='AR ORDERDE Category User Input', max_length=50, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hide_from_product_list_yn = models.NullBooleanField(db_column='AR ORDERDE Hide From Product List YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transfer_location_id = models.CharField(db_column='AR ORDERDE Transfer Location ID', max_length=10, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transfer_complete_yn = models.NullBooleanField(db_column='AR ORDERDE Transfer Complete YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    location_at_invoicing = models.CharField(db_column='AR ORDERDE Location at Invoicing', max_length=5, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    adc_cost_plus = models.CharField(db_column='AR ORDERDE ADC Cost Plus', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    adc_net2 = models.CharField(db_column='AR ORDERDE ADC Net2', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    arorderdeappartment = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'AR Order Detail Ext'
+        app_label = 'whirlwind'
+
+    
+    # class OrderDetailManager(models.Manager):
+    #     def get_queryset(self):
+    #         return super(OrderDetailManager, self).get_queryset().select_related('inv_item_id')

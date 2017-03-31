@@ -1,19 +1,31 @@
 from rest_framework import serializers
 from .models import Vendor
-from .models import Order, OrderDetail
+from .models import Order, OrderDetail, OrderDetailExt
+from ..inventory.InvItemsModel import InvItems
 from ....customMethods.mixins import EagerLoadingMixin
 from django.db.models import Prefetch
 
-class OrderDetailSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+class InvItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InvItems
+        fields = ('vendor_id',)
+
+class OrderDetailExtSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     # order_number = serializers.PrimaryKeyRelatedField(source='order_id.order_number', read_only=True)
     # vendor_id = serializers.PrimaryKeyRelatedField(source='item_id.vendor_id', read_only=True)
     class Meta:
+        model = OrderDetailExt
+        fields =  ('serial_number',)
+
+class OrderDetailSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+    # _SELECT_RELATED_FIELD = ['inv_item_id']
+    # item_vendor = serializers.PrimaryKeyRelatedField(source='inv_item_id.vendor_id', read_only=True)
+    order_item_details = OrderDetailExtSerializer(many=True)
+    class Meta:
         model = OrderDetail
         fields = (
-            # 'order_number',
-            'item_id',
             'date',
-            'vendor_id'
+            'order_item_details'
         )
 
 class OrderSerializer(serializers.ModelSerializer):

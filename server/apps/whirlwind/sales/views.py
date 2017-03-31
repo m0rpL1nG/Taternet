@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics
-from .models import Order
+from .models import Order, OrderDetail
 from .serializers import OrderSerializer
 # Create your views here.
 from rest_framework.decorators import api_view, permission_classes
@@ -19,7 +19,8 @@ class OrderViewset(viewsets.ModelViewSet):
         # queryset = queryset.prefetch_related(Prefetch(
         # "order_items",
         # to_attr="order_items"))
-        queryset = queryset.prefetch_related('order_items')
+        queryset = queryset.prefetch_related(Prefetch('order_items', queryset=OrderDetail.objects.select_related('inv_item_id')), 'order_items__order_item_details')
+        # queryset = queryset.select_related('orderdetail__inv_item_id')
         queryset = queryset.only('order_number','document_type', 'date', 'id')
         # queryset = Order.objects.filter(date__gte=datetime(2017, 03, 14, tzinfo=pytz.UTC)).prefetch_related('order_items')
         # queryset = queryset.values('order_number', 'document_type', 'date', 'id')

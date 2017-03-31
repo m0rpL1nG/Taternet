@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 
 
 # Create your views here.
-# @permission_classes((AllowAny, ))
+@permission_classes((AllowAny, ))
 class TransferViewset(viewsets.ModelViewSet):
     serializer_class = TransferSerializer
     def get_queryset(self):
