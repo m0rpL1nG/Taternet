@@ -159,7 +159,7 @@ class OrderDetail(models.Model):
     # qty_backordered = models.FloatField(db_column='AR ORDERD Qty Backordered', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # backordered = models.BooleanField(db_column='AR ORDERD BackOrdered')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     date = models.DateTimeField(db_column='AR ORDERD Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    inv_item_id = models.ForeignKey(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True, related_name="inv_item_details")  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    model_number = models.ForeignKey(InvItems, db_column='AR ORDERD Item Id', max_length=30, blank=True, null=True, related_name="inv_item_details")  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # units = models.CharField(db_column='AR ORDERD Units', max_length=20, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # discount_field = models.FloatField(db_column='AR ORDERD Discount %', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     # tax = models.BooleanField(db_column='AR ORDERD Tax')  # Field name made lowercase. Field renamed to remove unsuitable characters.

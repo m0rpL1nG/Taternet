@@ -13,18 +13,22 @@ class InvItemSerializer(serializers.ModelSerializer):
 class OrderDetailExtSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     # order_number = serializers.PrimaryKeyRelatedField(source='order_id.order_number', read_only=True)
     # vendor_id = serializers.PrimaryKeyRelatedField(source='item_id.vendor_id', read_only=True)
+    # details = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = OrderDetailExt
         fields =  ('serial_number',)
 
 class OrderDetailSerializer(serializers.ModelSerializer, EagerLoadingMixin):
-    # _SELECT_RELATED_FIELD = ['inv_item_id']
+    # _SELECT_RELATED_FIELD = ['item_id']
     # item_vendor = serializers.PrimaryKeyRelatedField(source='inv_item_id.vendor_id', read_only=True)
+    # vendor_id = serializers.PrimaryKeyRelatedField(source='item_id.vendor_id', read_only=True)
     order_item_details = OrderDetailExtSerializer(many=True)
     class Meta:
         model = OrderDetail
         fields = (
             'date',
+            'model_number',
             'order_item_details'
         )
 
@@ -50,4 +54,3 @@ class OrderSerializer(serializers.ModelSerializer):
             'order_items'
         )
         
-

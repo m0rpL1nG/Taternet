@@ -1,5 +1,8 @@
 import environ
 from server.settings.base import *
+from sql_server.pyodbc.base import DatabaseWrapper
+
+DatabaseWrapper.sql_server_version = 2008
 
 root = environ.Path(__file__) - 2
 projectRoot = environ.Path(__file__) - 3
