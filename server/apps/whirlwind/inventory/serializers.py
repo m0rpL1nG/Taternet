@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from ..models import TransferRequest, Inventory
+from .models.transfers import TransferRequest
+from .models.inventory import Inventory
 
 
 # class InventorySerializer(serializers.ModelSerializer):
