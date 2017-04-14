@@ -24,22 +24,17 @@
             multiSelect: true,
             columnMode: 'force',
             columns: [{
-                name: "Order Number",
-                prop: "order_number",
+                name: "Invoice Number",
+                prop: "invoice_number",
                 width: 260,
                 canAutoResize: false,
                 isCheckboxColumn: true,
                 headerCheckbox: true
                 }, {
                 name: "Model Number",
-                prop: "item_id",
+                prop: "model_number",
                 width: 200,
-                }, {
-                name: "Invoiced",
-                prop: "invoiced",
-                width: 100,
-                canAutoResize: false,
-                }, {
+                },{
                 name: "Install Complete",
                 prop: "installed",
                 width: 150,
@@ -64,8 +59,8 @@
         function activate(){
             console.log("installers Detail activated")
             return apinstallerservice.getVendorSales($stateParams.id).then(function(vendorDetails){
-                console.log(vendorDetails[0])
-                vm.sales = vendorDetails[0].installs;
+                console.log(vendorDetails)
+                vm.sales = vendorDetails;
             })
         }
 

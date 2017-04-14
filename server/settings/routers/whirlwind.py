@@ -35,4 +35,4 @@ class WhirlwindRouter(object):
         """
         if app_label == 'whirlwind':
             return db == 'whirlwind'
-        return False
+        return True

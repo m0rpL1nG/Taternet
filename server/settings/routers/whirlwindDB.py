@@ -18,10 +18,17 @@ class WhirlwindRouter(object):
         # Allow if neither is chinook app
         elif 'whirlwind' not in [obj1._meta.app_label, obj2._meta.app_label]:
             return True
-        return False
+        return True
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if db == 'whirlwind' or app_label == "whirlwind":
-            return False # we're not using syncdb on our legacy database
-        else: # but all other models/databases are fine
-            return True
+        # print app_label 
+        # print model_name
+
+        if app_label == 'whirlwind' and model_name == 'VendorInvoice':
+            print model_name
+            return None
+        return None
+        # if db == 'whirlwind' or app_label == "whirlwind":
+        #     return True # we're not using syncdb on our legacy database
+        # else: # but all other models/databases are fine
+        #     return True

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models.order_models import Order, OrderDetail, OrderDetailExt
+from .models.invoice_models import Invoice, InvoiceDetail
 from ..inventory.models.inv_items import InvItems
 from ....customMethods.mixins import EagerLoadingMixin
 from django.db.models import Prefetch
@@ -74,9 +75,10 @@ class OrderSerializer(serializers.ModelSerializer):
         return ret
 
 class InvoiceSerializer(serializers.ModelSerializer):
+    date = serializers.PrimaryKeyRelatedField(source='invoice_number.date', read_only=True)
     model_number = serializers.PrimaryKeyRelatedField(source='order_detail_id.model_number', read_only=True)
     document_type = serializers.PrimaryKeyRelatedField(source='invoice_number.document_type', read_only=True)
-    invoice_number = serializers.PrimaryKeyRelatedField(source='invoice_number.invoice_number', read_only=True)
+    invoice_number = serializers.PrimaryKeyRelatedField(read_only=True, source='invoice_number.invoice_number')
     class Meta:
         model = OrderDetailExt
-        fields =  ('invoice_number', 'document_type','model_number','serial_number',)
+        fields =  ('date','invoice_number', 'document_type','model_number','serial_number', 'vendor_invoice_id')

@@ -1,13 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from ...vendors.models import Vendor
+from ...vendors.models import Vendor, VendorInvoice
 from ...inventory.models.inv_items import InvItems
 from invoice_models import InvoiceDetail
-
-class OrderItemsManager(models.Manager):
-    use_for_related_fields = True
-
 
 class Order(models.Model):
     id = models.AutoField(db_column='AR ORDER Document #', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
@@ -218,7 +214,7 @@ class OrderDetailExt(models.Model):
     order_detail_id = models.ForeignKey('OrderDetail', db_column='AR ORDERDE Line Item ID', blank=True, null=True, related_name='order_item_details')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     serial_number = models.CharField(db_column='AR ORDERDE Serial Number', max_length=30, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     posted_yn = models.BooleanField(db_column='AR ORDERDE Posted YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    invoice_number = models.ForeignKey('Invoice',db_column='AR ORDERDE Invoice', to_field="invoice_number", max_length=15, blank=True, null=True)  # NULL if not invoiced
+    invoice_number = models.ForeignKey('Invoice',db_column='AR ORDERDE Invoice', to_field='invoice_number', max_length=15, blank=True, null=True)  # NULL if not invoiced
     invoiced_yn = models.BooleanField(db_column='AR ORDERDE Invoiced YN')  # 1 = invoiced, 0 = not invoiced.   
     requested_yn = models.BooleanField(db_column='AR ORDERDE Requested YN')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     requested_date = models.DateTimeField(db_column='AR ORDERDE Requested Date', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -256,7 +252,8 @@ class OrderDetailExt(models.Model):
     adc_cost_plus = models.CharField(db_column='AR ORDERDE ADC Cost Plus', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     adc_net2 = models.CharField(db_column='AR ORDERDE ADC Net2', max_length=15, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     arorderdeappartment = models.CharField(max_length=50, blank=True, null=True)
-
+    vendor_invoice_id = models.ForeignKey(VendorInvoice, db_column='AR ORDERDE Vendor Invoice ID', null=True, blank=True)
+    
     class Meta:
         managed = False
         db_table = 'AR Order Detail Ext'

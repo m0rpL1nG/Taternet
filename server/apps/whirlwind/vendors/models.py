@@ -1,6 +1,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
+from ..users.models import Employees
+
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 class Vendor(models.Model):
@@ -95,3 +99,16 @@ class Vendor(models.Model):
         managed = False
         db_table = 'AP Vendor'
         app_label = 'whirlwind'
+    
+class VendorInvoice(models.Model):
+    vendor_id = models.ForeignKey(Vendor)
+    approved = models.BooleanField(default=False)
+    approved_by = models.ForeignKey(Employees, to_field="id")
+    notes = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed =  True
+        db_table = 'AP Vendor Invoice'
+        app_label = 'whirlwind'        

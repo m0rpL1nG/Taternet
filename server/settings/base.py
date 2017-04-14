@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     # Site Apps
     'server.apps.accounts',
     'server.apps.games',
+    'server.apps.whirlwind', # used only to migrate whirlwind models 
     'server.apps.whirlwind.users',
     'server.apps.whirlwind.inventory',
     'server.apps.whirlwind.vendors'

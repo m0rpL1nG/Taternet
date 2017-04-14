@@ -1878,7 +1878,7 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             params.vendor_id = vendor_id;
 
             return $http({
-                url: "api/v1/vendordetail/",
+                url: "api/v1/invoices/",
                 method: "GET",
                 params: params
             }).then(processComplete).catch(processFailure);
@@ -2250,21 +2250,16 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
             multiSelect: true,
             columnMode: 'force',
             columns: [{
-                name: "Order Number",
-                prop: "order_number",
+                name: "Invoice Number",
+                prop: "invoice_number",
                 width: 260,
                 canAutoResize: false,
                 isCheckboxColumn: true,
                 headerCheckbox: true
             }, {
                 name: "Model Number",
-                prop: "item_id",
+                prop: "model_number",
                 width: 200
-            }, {
-                name: "Invoiced",
-                prop: "invoiced",
-                width: 100,
-                canAutoResize: false
             }, {
                 name: "Install Complete",
                 prop: "installed",
@@ -2290,8 +2285,8 @@ for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a
         function activate() {
             console.log("installers Detail activated");
             return apinstallerservice.getVendorSales($stateParams.id).then(function (vendorDetails) {
-                console.log(vendorDetails[0]);
-                vm.sales = vendorDetails[0].installs;
+                console.log(vendorDetails);
+                vm.sales = vendorDetails;
             });
         }
 

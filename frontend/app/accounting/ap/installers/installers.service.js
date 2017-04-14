@@ -47,7 +47,7 @@
             params.vendor_id = vendor_id;
 
             return $http({
-                url: "api/v1/vendordetail/",
+                url: "api/v1/invoices/",
                 method: "GET",
                 params: params
                 })
