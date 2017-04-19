@@ -167,7 +167,7 @@ class OrderDetail(models.Model):
     # tax_rate = models.FloatField(db_column='AR ORDERD Tax Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # description = models.CharField(db_column='AR ORDERD Description', max_length=150, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # row_type = models.CharField(db_column='AR ORDERD Row Type', max_length=1, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    # item_cost = models.DecimalField(db_column='AR ORDERD Item Cost', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    item_cost = models.DecimalField(db_column='AR ORDERD Item Cost', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # unit_price = models.DecimalField(db_column='AR ORDERD Unit Price', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # item_total = models.DecimalField(db_column='AR ORDERD Item Total', max_digits=19, decimal_places=4, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     # posting_account = models.CharField(db_column='AR ORDERD Posting Account', max_length=50, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.

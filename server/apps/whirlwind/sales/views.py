@@ -41,7 +41,8 @@ class InvoiceViewset(viewsets.ModelViewSet):
             'invoice_number__date',
             'invoice_number__invoice_number', 
             'invoice_number__document_type', 
-            'order_detail_id__model_number', 
+            'order_detail_id__model_number',
+            'order_detail_id__item_cost', 
             'serial_number',
             'vendor_invoice_id')
         vendor_id = self.request.query_params.get('vendor_id', None)

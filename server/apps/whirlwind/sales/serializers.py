@@ -77,8 +77,9 @@ class OrderSerializer(serializers.ModelSerializer):
 class InvoiceSerializer(serializers.ModelSerializer):
     date = serializers.PrimaryKeyRelatedField(source='invoice_number.date', read_only=True)
     model_number = serializers.PrimaryKeyRelatedField(source='order_detail_id.model_number', read_only=True)
+    item_cost = serializers.PrimaryKeyRelatedField(source='order_detail_id.item_cost', read_only=True)
     document_type = serializers.PrimaryKeyRelatedField(source='invoice_number.document_type', read_only=True)
     invoice_number = serializers.PrimaryKeyRelatedField(read_only=True, source='invoice_number.invoice_number')
     class Meta:
         model = OrderDetailExt
-        fields =  ('date','invoice_number', 'document_type','model_number','serial_number', 'vendor_invoice_id')
+        fields =  ('date','invoice_number', 'document_type','model_number','serial_number', 'item_cost', 'vendor_invoice_id')

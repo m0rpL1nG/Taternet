@@ -5,20 +5,44 @@
   angular.module('Layout')
   .factory('menuService', menuService)
  
-  menuService.$inject = ['sessionservice']
+  menuService.$inject = ['sessionservice', 'localStorageService']
 
-    function menuService(sessionservice) {
+    function menuService(sessionservice, localStorageService) {
 
 
       var self = this;
       var sections = [];
-
+      var user = localStorageService.get("currentUser")
+      console.log('user', self.user)
       var corporate_manager = {};
 
-      var installers = {
+      var installers1 ={
           name: 'My Installs',
           type: 'link',
           state: 'index.contractors'
+      };
+
+      var installers2 ={
+          name: 'My Installs',
+          type: 'link',
+          state: 'index.contractors'
+      };
+
+      var installers = {
+        name: 'My Installs',
+        type: 'toggle', 
+        pages: [{
+          name: 'Create an invoice',
+          type: 'link',
+          state: `index.installers({id: ${user.vendor_id}})`,
+          // icon: 'fa fa-group'
+        },{
+          name: 'Invoice History',
+          type: 'link',
+          state: 'index.installers',
+          // icon: 'fa fa-group'
+        }],
+
       };
       
       var accounting_ar = {
@@ -66,7 +90,7 @@
           state: 'index.games',
           // icon: 'fa fa-group'
         },{
-          name: 'People',
+          name: 'History',
           type: 'link',
           state: 'index.people',
           // icon: 'fa fa-group'

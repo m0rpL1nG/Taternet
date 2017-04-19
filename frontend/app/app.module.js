@@ -77,6 +77,7 @@ require("./app.filters")
                     console.log("user is employee")
                     $state.go('index.employees');
                 } else {
+                    // $state.go('index.employees');
                     $state.go('index.installers', {id: user.vendor_id});
                 }
             })
